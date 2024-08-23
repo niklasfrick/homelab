@@ -38,6 +38,13 @@ resource "proxmox_vm_qemu" "srv_01" {
 
     scsihw = "virtio-scsi-single"
 
+    disk {
+      slot            = 0
+      size            = "60G"
+      type            = "virtio"
+      storage         = "local-lvm"
+    }
+
     # VM Network Settings
     network {
         bridge = "vmbr0"
