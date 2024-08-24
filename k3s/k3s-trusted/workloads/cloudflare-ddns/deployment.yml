@@ -23,17 +23,12 @@ spec:
           imagePullPolicy: Always
           securityContext:
             capabilities:
-              add: ["SETUID", "SETGID"]
               drop: ["ALL"]
             readOnlyRootFilesystem: true
             runAsUser: 1000
             runAsGroup: 1000
             allowPrivilegeEscalation: false
           env:
-            - name: PUID
-              value: "1000"
-            - name: PGID
-              value: "1000"
             - name: CF_API_TOKEN
               valueFrom:
                 secretKeyRef:
