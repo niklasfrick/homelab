@@ -5,3 +5,4 @@
 - import_tasks: addRepo.yml
 - import_tasks: installDocker.yml
 - import_tasks: addUser.yml
+- import_tasks: installDockerCompose.yml

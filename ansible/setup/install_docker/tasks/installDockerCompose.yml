@@ -1,0 +1,22 @@
+- name: Install Docker Compose
+  tasks:
+    - name: Download Docker Compose binary
+      get_url:
+        url: "https://github.com/docker/compose/releases/download/v2.29.2/docker-compose-{{ ansible_os_family }}-{{ ansible_architecture }}"
+        dest: /tmp/docker-compose
+        mode: '0755'
+
+    - name: Move Docker Compose to /usr/local/bin
+      command: mv /tmp/docker-compose /usr/local/bin/docker-compose
+
+    - name: Ensure Docker Compose is executable
+      file:
+        path: /usr/local/bin/docker-compose
+        mode: '0755'
+        state: file
+
+    - name: Create symbolic link to /usr/bin
+      file:
+        src: /usr/local/bin/docker-compose
+        dest: /usr/bin/docker-compose
+        state: link
