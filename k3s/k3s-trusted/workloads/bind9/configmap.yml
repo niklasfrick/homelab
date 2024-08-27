@@ -45,6 +45,7 @@ data:
 
             ; Additional A Records
     nas-01                IN      A       10.96.10.2
+    im                    IN      A       10.96.10.3
     pve-01                IN      A       10.96.10.10
     pbs-01                IN      A       10.96.10.11
     k3s-01                IN      A       10.96.10.20

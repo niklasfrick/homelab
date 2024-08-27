@@ -1,6 +1,6 @@
 infrastructure_managers:
   hosts:
-    im.local.zazen.li
+    im.home.balzers.xyz
 
 plex:
   hosts:

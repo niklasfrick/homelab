@@ -1,0 +1,7 @@
+---
+# tasks file for install_docker
+
+- import_tasks: installPackages.yml
+- import_tasks: addRepo.yml
+- import_tasks: installDocker.yml
+- import_tasks: addUser.yml

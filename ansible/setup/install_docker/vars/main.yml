@@ -1,0 +1,4 @@
+---
+# vars file for install_docker
+
+docker_repo: "https://download.docker.com/linux/rhel/docker-ce.repo"
