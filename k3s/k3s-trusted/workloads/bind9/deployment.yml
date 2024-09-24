@@ -42,3 +42,7 @@ spec:
             items:
               - key: home.balzers.xyz.zone
                 path: home.balzers.xyz.zone
+              - key: db.10.96.10.in-addr.arpa
+                path: db.10.96.10.in-addr.arpa
+              - key: db.20.96.10.in-addr.arpa #gitleaks:allow
+                path: db.20.96.10.in-addr.arpa

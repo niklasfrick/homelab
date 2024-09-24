@@ -25,6 +25,17 @@ data:
         file "/var/lib/bind/home.balzers.xyz.zone";
     };
 
+    zone "10.96.10.in-addr.arpa" {
+        type master;
+        file "/etc/bind/zones/db.10.96.10.in-addr.arpa";
+    };
+
+    zone "20.96.10.in-addr.arpa" {
+        type master;
+        file "/etc/bind/zones/db.20.96.10.in-addr.arpa";
+    };
+
+
   home.balzers.xyz.zone: |
     $TTL 3600
     $ORIGIN home.balzers.xyz.
@@ -65,3 +76,51 @@ data:
     sonarr                IN      A       10.96.10.82
     radarr                IN      A       10.96.10.82
     bazarr                IN      A       10.96.10.82
+
+  db.10.96.10.in-addr.arpa: |
+    $TTL 3600
+    $ORIGIN 10.96.10.in-addr.arpa
+
+    @       IN      SOA     ns.home.balzers.xyz. info.home.balzers.xyz (
+                                2024062201  ; serial
+                                3600       ; refresh (1 hour)
+                                600        ; retry (10 minutes)
+                                86400      ; expire (1 day)
+                                3600       ; minimum (1 hour)
+                                )
+
+            ; NS Records
+            IN      NS      ns.home.balzers.xyz.
+
+            ; PTR Records
+      2      IN      PTR     nas-01.home.balzers.xyz.
+      3      IN      PTR     im.home.balzers.xyz.
+      10     IN      PTR     pve-01.home.balzers.xyz.
+      11     IN      PTR     pbs-01.home.balzers.xyz.
+      20     IN      PTR     k3s-01.home.balzers.xyz.
+      21     IN      PTR     k3s-02.home.balzers.xyz.
+      22     IN      PTR     k3s-03.home.balzers.xyz.
+      23     IN      PTR     k3s-04.home.balzers.xyz.
+      24     IN      PTR     k3s-05.home.balzers.xyz.
+      25     IN      PTR     k3s-06.home.balzers.xyz.
+      80     IN      PTR     ns.home.balzers.xyz.
+      82     IN      PTR     traefik.home.balzers.xyz.
+
+  db.20.96.10.in-addr.arpa: |
+    $TTL 3600
+    $ORIGIN 10.96.10.in-addr.arpa
+
+    @       IN      SOA     ns.home.balzers.xyz. info.home.balzers.xyz (
+                                2024062201  ; serial
+                                3600       ; refresh (1 hour)
+                                600        ; retry (10 minutes)
+                                86400      ; expire (1 day)
+                                3600       ; minimum (1 hour)
+                                )
+
+            ; NS Records
+            IN      NS      ns.home.balzers.xyz.
+
+            ; PTR Records
+      10    IN      PTR     plex-01.home.balzers.xyz.
+      11    IN      PTR     srv-01.home.balzers.xyz.
