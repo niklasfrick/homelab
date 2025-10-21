@@ -36,3 +36,4 @@ Temporary Items
 
 # Environment variables
 .env
+*.bak

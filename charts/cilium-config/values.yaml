@@ -1,0 +1,7 @@
+routerIpV4Address: 10.96.10.1
+
+ipV4loadbalancerIpPool:
+  start: 10.96.10.107
+  stop: 10.96.10.109
+
+gatewayName: internal-gateway
