@@ -14,7 +14,7 @@ spec:
   - chart: argo-cd
     repoURL: https://argoproj.github.io/argo-helm
     path: argo
-    targetRevision: {{ index .Values.apps "{{ $applicationName }}" "targetRevision" }}
+    targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
     helm:
       releaseName: argocd
       valueFiles:
