@@ -18,11 +18,10 @@ spec:
     helm:
       releaseName: argocd
       valueFiles:
-      - $values/global-{{ $applicationName }}-helm-values.yaml
-      - $values/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
+      - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
+      - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
-    path: apps/{{ $applicationName }}/settings
   syncPolicy:
     syncOptions:
     - CreateNamespace=true

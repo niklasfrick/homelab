@@ -178,7 +178,7 @@ Install the custom Argo CD bootstrap chart (`argocd-init`) to configure Argo CD,
 ```bash
 helm upgrade --install argocd-init apps/argocd/helm/argocd-init \
   --namespace argocd \
-  -f apps/argocd-init/omni-local/omni-local-argocd-init-helm-values.yaml
+  -f apps/argocd/settings/omni-local/omni-local-argocd-init-helm-values.yaml
 ```
 helm upgrade --install argocd-init apps/argocd/helm/argocd-init \
   --namespace argocd \

@@ -13,10 +13,9 @@ spec:
       helm:
         releaseName: {{ $applicationName }}
         valueFiles:
-          - $values/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
+          - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
     - repoURL: git@github.com:niklasfrick/homelab.git
       ref: values
-      path: apps/{{ $applicationName }}/settings
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
