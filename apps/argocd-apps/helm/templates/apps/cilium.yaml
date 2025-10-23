@@ -1,4 +1,4 @@
-{{- $applicationName := "argocd" }}
+{{- $applicationName := "cilium" }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -6,20 +6,26 @@ metadata:
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
-  project: argocd
+  project: infra
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
   sources:
-  - chart: argo-cd
-    repoURL: https://argoproj.github.io/argo-helm
-    path: argo
+  - chart: cilium
+    repoURL: https://helm.cilium.io/
+    path: cilium
     targetRevision: {{ .Values.apps.{{ $applicationName }}.targetRevision }}
     helm:
       releaseName: argocd
       valueFiles:
       - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
       - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
+    helm:
+      releaseName: {{ $applicationName }}-config
+      valueFiles:
+        - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-config-helm-values.yaml
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
   syncPolicy:

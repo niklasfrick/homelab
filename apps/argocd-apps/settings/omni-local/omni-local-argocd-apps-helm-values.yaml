@@ -3,3 +3,7 @@ instance: omni-local
 apps:
   argocd:
     targetRevision: 9.0.3
+  cilium:
+    targetRevision: 1.18.2
+  external-secrets:
+    targetRevision: 0.20.3
