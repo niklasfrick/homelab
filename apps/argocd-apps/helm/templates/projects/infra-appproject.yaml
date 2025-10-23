@@ -72,7 +72,10 @@ spec:
   - group: 'apiregistration.k8s.io'
     kind: APIService
   - group: 'cilium.io'
-    kind: CiliumLoadBalancerIPPool
+    kind: '*'
+  - group: gateway.networking.k8s.io
+    kind: '*'
+
   namespaceResourceBlacklist:
   - group: ''
     kind: ResourceQuota
