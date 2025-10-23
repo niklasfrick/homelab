@@ -1,2 +1,7 @@
 global:
   domain: argocd.apps-omni.949x.net
+
+server:
+  httproute:
+    hostnames:
+      - argocd.apps-omni.949x.net

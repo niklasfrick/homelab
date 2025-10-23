@@ -1,5 +1,7 @@
 configs:
   cm:
+    server.insecure: "true"
+
     resource.exclusions: |
       - apiGroups:
         - snapshot.storage.k8s.io
