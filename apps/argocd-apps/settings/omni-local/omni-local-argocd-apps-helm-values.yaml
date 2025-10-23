@@ -7,3 +7,5 @@ apps:
     targetRevision: 1.18.2
   external-secrets:
     targetRevision: 0.20.3
+  cert-manager:
+    targetRevision: 1.19.1
