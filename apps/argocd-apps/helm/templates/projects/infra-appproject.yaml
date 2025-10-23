@@ -24,7 +24,7 @@ spec:
       server: https://kubernetes.default.svc
     - namespace: 'cilium-secrets'
       server: https://kubernetes.default.svc
-    - namespace: 'external-secrets-operator'
+    - namespace: 'external-secrets'
       server: https://kubernetes.default.svc
     - namespace: 'grafana'
       server: https://kubernetes.default.svc
