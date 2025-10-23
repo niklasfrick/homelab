@@ -5,6 +5,8 @@ ipV4loadbalancerIpPool:
   stop: 10.96.210.105
 
 internalGatewayName: internal-gateway
+internalLbIpPoolName: omni-local-lb-ip-pool
+internalGatewayIpv4: 10.96.210.100
 
 domain: "*.apps-omni.949x.net"
 tlsSecretName: "apps-omni-949x-net-tls"

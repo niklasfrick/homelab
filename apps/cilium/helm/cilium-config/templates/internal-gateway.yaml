@@ -7,6 +7,11 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      io.cilium/lb-ipam-ips: {{ .Values.internalGatewayIpv4}}
+    labels:
+      cilium-lb-ip-pool: {{ .Values.internalLbIpPoolName }}
   listeners:
     - name: http
       protocol: HTTP
