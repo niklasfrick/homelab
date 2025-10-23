@@ -9,7 +9,7 @@ spec:
   project: infra
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: kube-system
   sources:
   - chart: cilium
     repoURL: https://helm.cilium.io/
