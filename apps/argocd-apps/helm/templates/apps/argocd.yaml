@@ -1,9 +1,8 @@
 {{- $applicationName := "argocd" }}
-{{- $applicationChartName := "argocd" }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: {{ $applicationName }}
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
@@ -19,11 +18,11 @@ spec:
     helm:
       releaseName: argocd
       valueFiles:
-      - $values/global-{{ $applicationChartName }}-helm-values.yaml
-      - $values/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationChartName }}-helm-values.yaml
+      - $values/global-{{ $applicationName }}-helm-values.yaml
+      - $values/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
-    path: apps/{{ $applicationChartName }}/settings
+    path: apps/{{ $applicationName }}/settings
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
