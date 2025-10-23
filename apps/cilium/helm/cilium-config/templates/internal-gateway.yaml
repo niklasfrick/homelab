@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.internalGatewayName }}
   namespace: {{ .Release.Namespace }}
   annotations:
-    cert-manager.io/cluster-issuer: le-cluster-issuer
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   gatewayClassName: cilium
   listeners:
