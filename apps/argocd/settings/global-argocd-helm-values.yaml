@@ -29,7 +29,7 @@ configs:
     policy.default: role:denyall
     policy.csv: |
       p, role:denyall, *, *, *, deny
-      g, niklas.frick@pm.me, role:readonly
+      g, niklas.frick@pm.me, role:admin
 
 repoServer:
   resources:
