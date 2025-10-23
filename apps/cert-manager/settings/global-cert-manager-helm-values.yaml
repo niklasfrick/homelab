@@ -1,0 +1,80 @@
+installCRDs: true
+
+securityContext:
+  seccompProfile: null
+
+webhook:
+  securityContext:
+    seccompProfile: null
+
+cainjector:
+  securityContext:
+    seccompProfile: null
+
+prometheus:
+  enabled: false
+  servicemonitor:
+    enabled: false
+
+extraObjects:
+  - |
+    apiVersion: external-secrets.io/v1
+    kind: ExternalSecret
+    metadata:
+      name: cloudflare-api-token
+      namespace: cert-manager
+    spec:
+      refreshInterval: 1h
+      secretStoreRef:
+        name: infisical-secret-store
+        kind: ClusterSecretStore
+      target:
+        name: cloudflare-api-token-secret
+      data:
+        - secretKey: cloudflare-api-token
+          remoteRef:
+            key: /cloudflare/GLOBAL_CF_DNS_TOKEN
+  - |
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: letsencrypt-stage
+    spec:
+      acme:
+        # You must replace this email address with your own.
+        # Let's Encrypt will use this to contact you about expiring
+        # certificates, and issues related to your account.
+        email: security@949x.net
+        server: https://acme-staging-v02.api.letsencrypt.org/directory
+        privateKeySecretRef:
+          # Secret resource that will be used to store the account's private key.
+          name: letsencrypt-stage-account-key
+        # Add a single challenge solver, DNS01 using Cloudflare
+        solvers:
+        - dns01:
+            cloudflare:
+              apiTokenSecretRef:
+                name: cloudflare-api-token-secret
+                key: cloudflare-api-token
+  - |
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: letsencrypt-prod
+    spec:
+      acme:
+        # You must replace this email address with your own.
+        # Let's Encrypt will use this to contact you about expiring
+        # certificates, and issues related to your account.
+        email: security@949x.net
+        server: https://acme-v02.api.letsencrypt.org/directory
+        privateKeySecretRef:
+          # Secret resource that will be used to store the account's private key.
+          name: letsencrypt-prod-account-key
+        # Add a single challenge solver, DNS01 using Cloudflare
+        solvers:
+        - dns01:
+            cloudflare:
+              apiTokenSecretRef:
+                name: cloudflare-api-token-secret
+                key: cloudflare-api-token
