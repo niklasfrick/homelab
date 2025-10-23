@@ -37,5 +37,6 @@ Temporary Items
 # Environment variables
 .env
 
-# Backup files
+# Misc files
 *.bak
+*.temp*
