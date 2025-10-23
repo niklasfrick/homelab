@@ -17,8 +17,6 @@ configs:
           baseURL: https://github.com
           clientID: $argocd-github-oauth-creds:clientID
           clientSecret: $argocd-github-oauth-creds:clientSecret
-          orgs:
-          - name: niklasfrick
 
     # Workaround for OutOfSync status (https://github.com/argoproj/argo-cd/issues/17117#issuecomment-2416198505)
     resource.customizations.ignoreDifferences.argoproj.io_Application: |
