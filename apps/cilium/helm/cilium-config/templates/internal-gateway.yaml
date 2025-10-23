@@ -5,9 +5,6 @@ metadata:
   namespace: {{ .Release.Namespace }}
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    io.cilium/lb-ipam-ips: {{ .Values.internalGatewayIpv4 }}
-  labels:
-    cilium-lb-ip-pool: omni-local-lb-ip-pool
 spec:
   gatewayClassName: cilium
   listeners:
