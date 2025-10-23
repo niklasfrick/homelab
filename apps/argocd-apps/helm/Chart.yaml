@@ -1,0 +1,5 @@
+apiVersion: v2
+name: argocd-apps
+description: The ArgoCD app of apps chart
+version: 1.0.0
+appVersion: 1.0.0

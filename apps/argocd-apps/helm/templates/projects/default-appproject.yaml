@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: default
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Default Project - nothing allowed 
+  sourceRepos:
+  - none
+  destinations:
+    - name: "local cluster, ns specific"
+      namespace: 'default'
+      server: 'https://kubernetes.default.svc'
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace

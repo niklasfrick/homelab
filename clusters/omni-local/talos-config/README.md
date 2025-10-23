@@ -50,7 +50,7 @@ Create a `.env` file in this directory with your Infisical credentials:
 INFISICAL_CLIENT_ID=your-client-id-here
 INFISICAL_CLIENT_SECRET=your-client-secret-here
 INFISICAL_PROJECT_ID=your-project-id-here
-INFISICAL_DOMAIN=https://app.infisical.com  # or your self-hosted domain
+INFISICAL_API_URL=https://app.infisical.com  # or your self-hosted domain
 ```
 Allow direnv to export these environment variables:
 
@@ -71,8 +71,6 @@ export INFISICAL_TOKEN=$(infisical login \
   --method=universal-auth \
   --client-id=$INFISICAL_CLIENT_ID \
   --client-secret=$INFISICAL_CLIENT_SECRET \
-  --projectId=$INFISICAL_PROJECT_ID \
-  --domain=$INFISICAL_DOMAIN \
   --silent \
   --plain)
 ```
@@ -83,7 +81,6 @@ export INFISICAL_TOKEN=$(infisical login \
 infisical run \
   --projectId=$INFISICAL_PROJECT_ID \
   --token=$INFISICAL_TOKEN \
-  --domain=$INFISICAL_DOMAIN \
   --env=<environment> \
   --path=</path/to/all/secrets> \
   -- talhelper genconfig
@@ -104,7 +101,6 @@ export INFISICAL_TOKEN=$(infisical login \
   --client-id=$INFISICAL_CLIENT_ID \
   --client-secret=$INFISICAL_CLIENT_SECRET \
   --projectId=$INFISICAL_PROJECT_ID \
-  --domain=$INFISICAL_DOMAIN \
   --silent \
   --plain)
 
@@ -112,7 +108,6 @@ export INFISICAL_TOKEN=$(infisical login \
 infisical run \
   --projectId=$INFISICAL_PROJECT_ID \
   --token=$INFISICAL_TOKEN \
-  --domain=$INFISICAL_DOMAIN \
   --env=prod \
   --path=/talos \
   -- talhelper genconfig

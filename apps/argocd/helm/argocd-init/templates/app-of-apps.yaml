@@ -1,0 +1,27 @@
+{{- $applicationName := "argocd-apps" }}
+{{- $applicationChartName := "argocd-apps" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $applicationName }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: argocd
+  sources:
+    - repoURL: git@github.com:niklasfrick/homelab.git
+      path: apps/{{ $applicationChartName }}/helm
+      helm:
+        releaseName: {{ $applicationName }}
+        valueFiles:
+          - $values/{{ .Values.instance }}-{{ $applicationChartName }}-helm-values.yaml
+    - repoURL: git@github.com:niklasfrick/homelab.git
+      ref: values
+      path: apps/{{ $applicationChartName }}/settings/{{ .Values.instance }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
