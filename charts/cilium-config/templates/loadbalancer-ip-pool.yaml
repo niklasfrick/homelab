@@ -1,7 +1,7 @@
-apiVersion: "cilium.io/v2alpha1"
+apiVersion: cilium.io/v2
 kind: CiliumLoadBalancerIPPool
 metadata:
-  name: dev-core-lb-ip-pool
+  name: omni-local-lb-ip-pool
 spec:
   blocks:
     - start: {{ .Values.ipV4loadbalancerIpPool.start }}
