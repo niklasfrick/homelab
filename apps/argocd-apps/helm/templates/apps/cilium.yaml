@@ -14,7 +14,7 @@ spec:
   - chart: cilium
     repoURL: https://helm.cilium.io/
     path: cilium
-    targetRevision: {{ .Values.apps.{{ $applicationName }}.targetRevision }}
+    targetRevision: {{ index .Values.apps "{{ $applicationName }}" "targetRevision" }}
     helm:
       releaseName: argocd
       valueFiles:
