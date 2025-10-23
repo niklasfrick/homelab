@@ -1,1 +1,5 @@
 instance: omni-local
+
+apps:
+  argocd:
+    targetRevision: 9.0.3

@@ -1,4 +1,29 @@
 configs:
+  cm:
+    resource.exclusions: |
+      - apiGroups:
+        - snapshot.storage.k8s.io
+        kinds:
+        - VolumeSnapshot
+        - VolumeSnapshotContent
+    dex.config: |
+      connectors:
+      - type: github
+        id: github
+        name: GitHub
+        config:
+          baseURL: https://github.com
+          clientID: $argocd-github-oauth-creds:clientID
+          clientSecret: $argocd-github-oauth-creds:clientSecret
+          orgs:
+          - name: niklasfrick
+
+    # Workaround for OutOfSync status (https://github.com/argoproj/argo-cd/issues/17117#issuecomment-2416198505)
+    resource.customizations.ignoreDifferences.argoproj.io_Application: |
+      jqPathExpressions:
+        - .metadata.finalizers[]? | select(. == "post-delete-finalizer.argocd.argoproj.io" or . == "post-delete-finalizer.argocd.argoproj.io/cleanup")
+        - if (.metadata.finalizers | length) == 0 then .metadata.finalizers else empty end
+
   ssh:
     knownHosts: |
       [ssh.github.com]:443 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=
@@ -13,19 +38,9 @@ configs:
     policy.default: role:denyall
     policy.csv: |
       p, role:denyall, *, *, *, deny
-      g, balzers-xyz:Admins, role:admin
+      g, niklas.frick@pm.me, role:admin
 
 repoServer:
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-  autoscaling:
-    enabled: false
-    minReplicas: 2
-    maxReplicas: 5
-    targetMemoryUtilizationPercentage: 150
-    targetCPUUtilizationPercentage: 400
   resources:
     limits:
       memory: 250Mi
@@ -34,10 +49,6 @@ repoServer:
       memory: 150Mi
 
 controller:
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
   replicas: 1
   resources:
     limits:
@@ -47,11 +58,6 @@ controller:
       memory: 500Mi
 
 applicationSet:
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
-  replicas: 1
   resources:
     limits:
       memory: 100Mi
@@ -63,10 +69,6 @@ notifications:
   enabled: false
 
 dex:
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
   resources:
     limits:
       memory: 150Mi
@@ -75,7 +77,6 @@ dex:
       memory: 100Mi
 
 redis-ha:
-  enabled: false
   resources:
     limits:
       memory: 30Mi
@@ -84,30 +85,15 @@ redis-ha:
       memory: 15Mi
 
 server:
-  metrics:
+  httproute:
     enabled: true
-    serviceMonitor:
-      enabled: true
-  autoscaling:
-    enabled: false
-    minReplicas: 2
-    maxReplicas: 5
-    targetMemoryUtilizationPercentage: 150
-    targetCPUUtilizationPercentage: 200
+    parentRefs:
+      - name: internal-gateway
+        namespace: kube-system
+        sectionName: https
   resources:
     limits:
       memory: 250Mi
     requests:
       cpu: 10m
       memory: 150Mi
-  ingress:
-    enabled: true
-    hostname: argocd.h6s.balzers.xyz
-    annotations:
-      cert-manager.io/cluster-issuer: hogwarts-le-production
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    extraTls:
-      - hosts:
-          - argocd.h6s.balzers.xyz
-        secretName: argocd.h6s.balzers.xyz

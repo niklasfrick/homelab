@@ -1,0 +1,48 @@
+global:
+  domain: argocd.apps.949x.net
+
+repoServer:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetMemoryUtilizationPercentage: 150
+    targetCPUUtilizationPercentage: 400
+
+controller:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+applicationSet:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  replicas: 2
+
+dex:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+redis-ha:
+  enabled: true
+
+server:
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetMemoryUtilizationPercentage: 150
+    targetCPUUtilizationPercentage: 200

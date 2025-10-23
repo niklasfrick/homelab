@@ -1,0 +1,10 @@
+routerIpV4Address: 10.96.10.1
+
+ipV4loadbalancerIpPool:
+  start: 10.96.210.100
+  stop: 10.96.210.105
+
+internalGatewayName: internal-gateway
+
+domain: "*.apps-omni.949x.net"
+tlsSecretName: "apps-omni-949x-net-tls"
