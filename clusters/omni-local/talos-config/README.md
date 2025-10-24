@@ -109,7 +109,7 @@ infisical run \
   --projectId=$INFISICAL_PROJECT_ID \
   --token=$INFISICAL_TOKEN \
   --env=prod \
-  --path=/talos \
+  --path=/omni/omni-local-cluster \
   -- talhelper genconfig
 ```
 

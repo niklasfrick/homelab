@@ -5,7 +5,7 @@ talosVersion: v1.11.3
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.34.1
 
-clusterName: omni-local-cluster
+clusterName: omni-local
 endpoint: https://omni-local.bal.949x.net:6443
 clusterPodNets:
   - 10.11.0.0/16
@@ -34,6 +34,13 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 10.96.10.1
+    volumes:
+      - name: EPHEMERAL
+        provisioning:
+          minSize: 2GiB
+          maxSize: 40GiB
+          grow: false
+
 patches:
   # Disable predictable network interface names
   - |-
@@ -41,6 +48,10 @@ patches:
       install:
         extraKernelArgs:
           - net.ifnames=0
+          - talos.platform=metal
+
+  # RawVolumeConfig for CSI
+  - "@./rawvolumeconfig.yaml"
 
   # Force nameserver
   - |-
