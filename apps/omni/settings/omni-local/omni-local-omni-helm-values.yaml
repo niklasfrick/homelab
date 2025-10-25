@@ -13,15 +13,15 @@ service:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
   siderolink:
-    enabled: true
     domainName: siderolink.omni.apps-omni.949x.net
     ingress:
+      enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
   k8sProxy:
-    enabled: true
     domainName: kubernetes.omni.apps-omni.949x.net
     ingress:
+      enabled: true
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
 
