@@ -20,6 +20,9 @@ spec:
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
   syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
     syncOptions:
     - CreateNamespace=true
     automated:
