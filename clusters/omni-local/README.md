@@ -95,7 +95,16 @@ kubectl get nodes
 
 ### 7. Installing and Configuing Cilium CNI
 
-1. Install Cilium for container networking using Helm and the values provided in `apps/cilium/global-cilium-helm-values.yaml`. For example:
+1. Install the custom Gateway API CRDs Helm chart first, which is located at `charts/gateway-api-crds`:
+   
+   ```bash
+   helm upgrade --install gateway-api-crds apps/gateway-api-crds/helm \
+     --namespace kube-system
+   ```
+
+   This step ensures the Gateway API CRDs are available before deploying other charts that depend on them.
+
+2. Install Cilium for container networking using Helm and the values provided in `apps/cilium/global-cilium-helm-values.yaml`. For example:
 
    ```bash
    helm repo add cilium https://helm.cilium.io/
@@ -106,23 +115,21 @@ kubectl get nodes
    ```
 
    (See cluster-specific documentation for customizations.)
-2. Install the custom Gateway API CRDs Helm chart first, which is located at `charts/gateway-api-crds`:
-   
+
+2. Label Nodes for BGP Advertisement
+3. 
    ```bash
-   helm upgrade --install gateway-api-crds apps/gateway-api-crds/helm \
-     --namespace kube-system
+   kubectl label nodes --all bgp=65020
    ```
 
-   This step ensures the Gateway API CRDs are available before deploying other charts that depend on them.
-
-3. Deploy the Cilium config Helm chart using the provided values file in `apps/cilium-config/omni-local/`:
+4. Deploy the Cilium config Helm chart using the provided values file in `apps/cilium-config/omni-local/`:
 
    ```bash
    helm install cilium-config apps/cilium-config/helm \
      --namespace kube-system \
      -f apps/cilium-config/settings/omni-local/omni-local-cilium-config-helm-values.yaml
    ```
-3. Verify all nodes are in "Ready" state
+5. Verify all nodes are in "Ready" state
 
 ### 8. Install External Secrets Operator & Cluster Secret Store
 
@@ -133,7 +140,8 @@ helm repo add external-secrets https://charts.external-secrets.io/
 helm repo update
 helm upgrade --install external-secrets external-secrets/external-secrets \
   --namespace external-secrets \
-  --create-namespace
+  --create-namespace \
+  --wait
 ```
 
 Then create the Infisical authentication secret for our clustersecretstore. We get the necessary secrets from infisical too. Inception complete... ;-)
@@ -150,7 +158,8 @@ Finally upgrade the External Secrets Operator Helm Chart with the values (We dep
 ```bash
 helm upgrade --install external-secrets external-secrets/external-secrets \
   --namespace external-secrets \
-  -f apps/external-secrets/settings/global-external-secrets-helm-values.yaml
+  -f apps/external-secrets/settings/global-external-secrets-helm-values.yaml \
+  --wait
 ```
 
 ### 9. Initialize GitOps with Argo CD
@@ -180,9 +189,6 @@ helm upgrade --install argocd-init apps/argocd/helm/argocd-init \
   --namespace argocd \
   -f apps/argocd/settings/omni-local/omni-local-argocd-init-helm-values.yaml
 ```
-helm upgrade --install argocd-init apps/argocd/helm/argocd-init \
-  --namespace argocd \
-  -f apps/argocd/settings/omni-local/omni-local-argocd-helm-values.yaml
 
 #### d. (Optional) Accessing the Argo CD UI
 

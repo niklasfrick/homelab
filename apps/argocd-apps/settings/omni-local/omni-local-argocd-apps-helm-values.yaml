@@ -4,7 +4,7 @@ apps:
   argocd:
     targetRevision: 9.0.3
   cilium:
-    targetRevision: 1.18.2
+    targetRevision: 1.18.3
   external-secrets:
     targetRevision: 0.20.3
   cert-manager:
