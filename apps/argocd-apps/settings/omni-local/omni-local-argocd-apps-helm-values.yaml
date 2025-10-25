@@ -9,3 +9,5 @@ apps:
     targetRevision: 0.20.3
   cert-manager:
     targetRevision: 1.19.1
+  internal-ingress-nginx:
+    targetRevision: 4.13.3

@@ -1,0 +1,6 @@
+service:
+  externalTrafficPolicy: Local
+  annotations:
+    io.cilium/lb-ipam-ips: 10.96.210.101
+  labels:
+    cilium-lb-pool: omni-local-lb-ip-pool

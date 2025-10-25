@@ -1,0 +1,10 @@
+controller:
+  metrics:
+    enabled: false
+    serviceMonitor:
+      enabled: false
+  service:
+    externalTrafficPolicy: Local
+  ingressClassResource:
+    default: true
+    name: "internal-ingress-nginx"
