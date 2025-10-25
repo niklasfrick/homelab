@@ -40,6 +40,12 @@ nodes:
           minSize: 2GiB
           maxSize: 40GiB
           grow: false
+    userVolumes:
+      - name: local-path-provisioner-data
+        provisioning:
+          diskSelector:
+            match: "system_disk"
+          minSize: 200GiB
 
 patches:
   # Disable predictable network interface names
@@ -49,9 +55,6 @@ patches:
         extraKernelArgs:
           - net.ifnames=0
           - talos.platform=metal
-
-  # RawVolumeConfig for CSI
-  - "@./rawvolumeconfig.yaml"
 
   # Force nameserver
   - |-

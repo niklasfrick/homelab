@@ -1,7 +1,0 @@
-apiVersion: v1alpha1
-kind: RawVolumeConfig
-name: local-path-provisioner-data
-provisioning:
-  diskSelector:
-    match: "system_disk"
-  maxSize: 200GiB
