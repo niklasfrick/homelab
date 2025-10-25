@@ -190,9 +190,13 @@ helm upgrade --install argocd-init apps/argocd/helm/argocd-init \
   -f apps/argocd/settings/omni-local/omni-local-argocd-init-helm-values.yaml
 ```
 
-#### d. (Optional) Accessing the Argo CD UI
+#### d. Wait and check
 
-After installation, you can access the Argo CD UI and log in. Refer to [the official Argo CD documentation](https://argo-cd.readthedocs.io/en/stable/getting_started/) for instructions on forwarding the service and obtaining the initial admin password.
+After installation, you will need to wait a bit for everything to become ready. In particular, cert-manager will need some time to issue a HTTPS certificate for Argo CD before the UI becomes accessible at the proper URL. Once the certificate has been issued, you can access the Argo CD UI.
+
+If you experience issues accessing the UI via HTTPS (e.g., due to certificate delays), you can use a port-forward as a workaround. Refer to [the official Argo CD documentation](https://argo-cd.readthedocs.io/en/stable/getting_started/) for details on forwarding the service and obtaining the initial admin password.
+
+Once you are able to access the UI, log in and check that everything is synced and healthy.
 
 
 
