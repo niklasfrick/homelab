@@ -1,0 +1,176 @@
+{{- if .Values.service.ingress.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: GRPC
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
+    nginx.ingress.kubernetes.io/service-upstream: "true"
+  {{- with .Values.service.ingress.annotations }}
+    {{- range $key, $value := . }}
+    {{ $key }}: {{ tpl (toString $value) $ | quote }}
+    {{- end }}
+  {{- end }}
+  labels:
+    app.kubernetes.io/name: omni
+  name: api-ui
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.domainName }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: internal
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
+          - backend:
+              service:
+                name: internal-grpc
+                port:
+                  number: 8080
+            path: /cosi.resource.State
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: internal-grpc
+                port:
+                  number: 8080
+            path: /management.ManagementService
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: internal-grpc
+                port:
+                  number: 8080
+            path: /machine.MachineService
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: internal-grpc
+                port:
+                  number: 8080
+            path: /cluster.ClusterService
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: internal-grpc
+                port:
+                  number: 8080
+            path: /inspect.InspectService
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: internal-grpc
+                port:
+                  number: 8080
+            path: /resource.ResourceService
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: internal-grpc
+                port:
+                  number: 8080
+            path: /storage.StorageService
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: internal-grpc
+                port:
+                  number: 8080
+            path: /time.TimeService
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: internal-grpc
+                port:
+                  number: 8080
+            path: /auth.AuthService
+            pathType: ImplementationSpecific
+          - backend:
+              service:
+                name: internal-grpc
+                port:
+                  number: 8080
+            path: /oicd.
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - {{ .Values.domainName }}
+      {{- with .Values.service.ingress.tls.secretName | default .Values.domainName }}
+      secretName: {{ . }}
+      {{- end }}
+{{- end }}
+{{- if .Values.service.k8sProxy.ingress.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubernetes-proxy
+  namespace: {{ .Release.Namespace }}
+  {{- with .Values.service.k8sProxy.ingress.annotations }}
+  annotations:
+    {{- range $key, $value := . }}
+    {{ $key }}: {{ tpl (toString $value) $ | quote }}
+    {{- end }}
+  {{- end }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.service.k8sProxy.domainName }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: internal
+                port:
+                  number: 8095
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - {{ .Values.service.k8sProxy.domainName }}
+      {{- with .Values.service.k8sProxy.ingress.tls.secretName | default .Values.service.k8sProxy.domainName }}
+      secretName: {{ . }}
+      {{- end }}
+{{- end }}
+{{- if .Values.service.siderolink.ingress.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: GRPC
+  name: siderolink
+  namespace: {{ .Release.Namespace }}
+  {{- with .Values.service.siderolink.ingress.annotations }}
+  annotations:
+    {{- range $key, $value := . }}
+    {{ $key }}: {{ tpl (toString $value) $ | quote }}
+    {{- end }}
+  {{- end }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.service.siderolink.domainName }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: internal-grpc
+                port:
+                  number: 8090
+            path: /
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - {{ .Values.service.siderolink.domainName }}
+      {{- with .Values.service.siderolink.ingress.tls.secretName | default .Values.service.siderolink.domainName }}
+      secretName: {{ . }}
+      {{- end }}
+{{- end }}

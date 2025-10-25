@@ -9,7 +9,7 @@ spec:
   project: argocd
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: {{ $applicationName }}
   sources:
   - chart: argo-cd
     repoURL: https://argoproj.github.io/argo-helm

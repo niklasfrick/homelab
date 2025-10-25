@@ -1,0 +1,122 @@
+# nameOverride: omni  # optional, if omitted the Chart name will be used
+domainName: omni.example.com
+accountUuid:
+privateKeySource: "file:///omni.asc"
+deployment:
+  image: ghcr.io/siderolabs/omni
+  tag: "v1.2.1"
+  replicaCount: 1
+  annotations: {}
+  imagePullPolicy: IfNotPresent
+auth:
+  auth0:
+    enabled: true
+    clientId: "123456"
+    domain: "https://www.auth0.example"
+  saml:
+    enabled: false
+    url: "https://www.saml.example"
+  oidc:
+    enabled: false
+    url: "https://www.oidc.example"
+    clientId: "123456"
+    existingSecret:
+      name: "oidc-secret"
+      clientSecretKey: "client-secret"
+includeGenericDevicePlugin: true #
+initialUsers: []
+name: "My Omni instance"
+service:
+  type: ClusterIP # currently only ClusterIP is supported by this Helm Chart
+  ingress:
+    enabled: false
+    annotations: {}
+    tls:
+      secretName: ""
+  siderolink:
+    domainName: omni.siderolink.example.com
+    wireguard:
+      address: "" #<ip address of the host running Omni>
+      port: 30180
+    ingress:
+      enabled: false
+      annotations: {}
+        # cert-manager.io/cluster-issuer: issuer-name
+      tls:
+        secretName: ""
+  k8sProxy:
+    domainName: omni.kubernetes.example.com
+    ingress:
+      enabled: false
+      annotations: {}
+        # cert-manager.io/cluster-issuer: issuer-name
+      tls:
+        secretName: ""
+persistence:
+  enabled: true
+  persistentVolumeClaim:
+    storageClass: ""
+    size: 5Gi
+    resourcePolicy: "keep"
+    labels: {}
+    annotations: {}
+      # pvc-annotation.example.com/test: "test"
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+    # Required for /dev/net/tun
+    # https://www.talos.dev/v1.8/kubernetes-guides/configuration/device-plugins/
+    squat.ai/tun: 1
+extraArgs:
+  # - --debug
+  # - --image-factory-address=factory.talos.dev
+  # - --auth-saml-metadata=/etc/omni/saml/metadata.xml
+volumeMounts:
+  tls:
+    mountPath: null # "/etc/omni/tls"
+    readOnly: true
+  omniAsc:
+    mountPath: "/omni.asc"
+    subPath: "omni.asc"
+    readOnly: true
+volumes:
+  etcd:
+    persistentVolumeClaimName: omni-pvc
+  tls:
+    secretName: null # tls
+  gpg:
+    secretName: gpg
+tls:
+  secretName: null
+## Add custom volumes
+customVolumes:
+#  - name: saml-metadata
+#    configMap:
+#      name: saml-metadata
+#      items:
+#        - key: metadata.xml
+#          path: metadata.xml
+
+## Add custom volumesMounts
+customVolumeMounts:
+#  - name: saml-metadata
+#    mountPath: /etc/omni/saml/metadata.xml
+#    subPath: metadata.xml
+#    readOnly: true
+
+# Create dynamic manifests via values.
+#
+# For example:
+# extraObjects:
+#   - |
+#     apiVersion: v1
+#     kind: Secret
+#     metadata:
+#       name: '{{ template "omni.fullname" . }}-extra-secret'
+#     data:
+#       key: value
+extraObjects: []

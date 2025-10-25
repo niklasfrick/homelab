@@ -9,7 +9,7 @@ spec:
   project: infra
   destination:
     server: https://kubernetes.default.svc
-    namespace: internal-ingress-nginx
+    namespace: {{ $applicationName }}
   sources:
   - chart: ingress-nginx
     repoURL: https://kubernetes.github.io/ingress-nginx

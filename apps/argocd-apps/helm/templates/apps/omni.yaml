@@ -1,4 +1,4 @@
-{{- $applicationName := "cert-manager" }}
+{{- $applicationName := "omni" }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -11,14 +11,12 @@ spec:
     server: https://kubernetes.default.svc
     namespace: {{ $applicationName }}
   sources:
-  - chart: cert-manager
-    repoURL: https://charts.jetstack.io
-    path: cert-manager
-    targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    path: apps/{{ $applicationName }}/helm/{{ $applicationName }}
     helm:
-      releaseName: cert-manager
+      releaseName: {{ $applicationName }}
       valueFiles:
-      - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
+        - - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
   syncPolicy:

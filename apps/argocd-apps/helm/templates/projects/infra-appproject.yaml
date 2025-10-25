@@ -49,6 +49,8 @@ spec:
       server: https://kubernetes.default.svc
     - namespace: 'internal-ingress-nginx'
       server: https://kubernetes.default.svc
+    - namespace: 'omni'
+      server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ''
     kind: Namespace

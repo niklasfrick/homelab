@@ -9,7 +9,7 @@ spec:
   project: infra
   destination:
     server: https://kubernetes.default.svc
-    namespace: local-path-provisioner
+    namespace: {{ $applicationName }}
   sources:
   - repoURL: git@github.com:niklasfrick/homelab.git
     path: apps/{{ $applicationName }}/helm/{{ $applicationName }}

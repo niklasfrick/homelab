@@ -1,0 +1,74 @@
+domainName: omni.apps-omni.949x.net
+accountUuid: 8b965a24-0dce-4481-840f-b5548ea1c139
+name: "Omni"
+auth:
+  auth0:
+    enabled: true
+    clientId: "2fx0Rm2WxCDy4N4QCRuGssy0o2sXpsZi"
+    domain: "https://949x.eu.auth0.com"
+
+service:
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+  siderolink:
+    enabled: true
+    domainName: siderolink.omni.apps-omni.949x.net
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+  k8sProxy:
+    enabled: true
+    domainName: kubernetes.omni.apps-omni.949x.net
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+
+persistence:
+  enabled: true
+  persistentVolumeClaim:
+    storageClass: "local-path"
+    size: 30Gi
+
+volumes:
+  gpg:
+    secretName: etcd-gpg-asc-key
+
+extraObjects:
+  - |
+    apiversion: external-secrets.io/v1
+    kind: ExternalSecret
+    metadata:
+      name: auth0-client-secret
+      namespace: omni
+    spec:
+      refreshInterval: 1h
+      secretStoreRef:
+        name: infisical-secret-store
+        kind: ClusterSecretStore
+      target:
+        name: auth0-client-secret
+        creationPolicy: Owner
+      data:
+        - secretKey: client-secret
+          remoteRef:
+            key: /omni/auth0/OMNI_CLIENT_SECRET
+  - |
+    apiversion: external-secrets.io/v1
+    kind: ExternalSecret
+    metadata:
+      name: etcd-gpg-asc-key
+      namespace: omni
+    spec:
+      refreshInterval: 1h
+      secretStoreRef:
+        name: infisical-secret-store
+        kind: ClusterSecretStore
+      target:
+        name: etcd-gpg-asc-key
+        creationPolicy: Owner
+      data:
+        - secretKey: omni.asc
+          remoteRef:
+            key: /omni/etcd/OMNI_GPG_ASC_KEY
