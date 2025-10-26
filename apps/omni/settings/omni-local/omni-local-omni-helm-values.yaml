@@ -37,7 +37,7 @@ volumes:
 
 extraObjects:
   - |
-    apiversion: external-secrets.io/v1
+    apiVersion: external-secrets.io/v1
     kind: ExternalSecret
     metadata:
       name: auth0-client-secret
@@ -55,7 +55,7 @@ extraObjects:
           remoteRef:
             key: /omni/auth0/OMNI_CLIENT_SECRET
   - |
-    apiversion: external-secrets.io/v1
+    apiVersion: external-secrets.io/v1
     kind: ExternalSecret
     metadata:
       name: etcd-gpg-asc-key
