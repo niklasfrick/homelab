@@ -52,8 +52,13 @@ spec:
           - name: wireguard
             containerPort: 50180
             protocol: UDP
-        {{- if .Values.auth.oidc.enabled }}
+        {{- if and .Values.auth.oidc.enabled .Values.auth.oidc.existingSecret.enabled }}
         env:
+          - name: AUTH_OIDC_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.auth.oidc.existingSecret.name }}
+                key: {{ .Values.auth.oidc.existingSecret.clientIdKey }}
           - name: AUTH_OIDC_CLIENT_SECRET
             valueFrom:
               secretKeyRef:
@@ -102,11 +107,17 @@ spec:
         {{- if .Values.auth.oidc.enabled }}
           - --auth-oidc-enabled
           - --auth-oidc-provider-url={{ .Values.auth.oidc.url }}
-          - --auth-oidc-client-id={{ .Values.auth.oidc.clientId | toString}}
-          - --auth-oidc-client-secret=$(AUTH_OIDC_CLIENT_SECRET)
           - --auth-oidc-scopes='openid'
           - --auth-oidc-scopes='profile'
           - --auth-oidc-scopes='email'
+        {{- end }}
+        {{- if and .Values.auth.oidc.enabled (not .Values.auth.oidc.existingSecret.enabled) }}
+          - --auth-oidc-client-id={{ .Values.auth.oidc.clientId | toString}}
+          - --auth-oidc-client-secret={{ .Values.auth.oidc.clientSecret | toString}}
+        {{- end }}
+        {{- if and .Values.auth.oidc.enabled .Values.auth.oidc.existingSecret.enabled }}
+          - --auth-oidc-client-id=$(AUTH_OIDC_CLIENT_ID)
+          - --auth-oidc-client-secret=$(AUTH_OIDC_CLIENT_SECRET)
         {{- end }}
         {{- if .Values.volumes.tls.secretName }}
           - --cert=/etc/omni/tls/tls.crt

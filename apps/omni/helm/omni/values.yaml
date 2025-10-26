@@ -20,8 +20,11 @@ auth:
     enabled: false
     url: "https://www.oidc.example"
     clientId: "123456"
+    clientSecret: "123456"
     existingSecret:
+      enabled: false
       name: "oidc-secret"
+      clientIdKey: "client-id"
       clientSecretKey: "client-secret"
 includeGenericDevicePlugin: true #
 initialUsers: []
