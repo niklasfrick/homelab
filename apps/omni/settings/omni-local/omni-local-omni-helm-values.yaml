@@ -3,15 +3,10 @@ accountUuid: 8b965a24-0dce-4481-840f-b5548ea1c139
 name: "Omni"
 auth:
   auth0:
-    enabled: false
-  oidc:
     enabled: true
-    url: https://github.com
-    existingSecret:
-      enabled: true
-      name: github-oauth-creds
-      clientIdKey: "clientID"
-      clientSecretKey: "clientSecret"
+    clientId: "2fx0Rm2WxCDy4N4QCRuGssy0o2sXpsZi"
+    domain: "https://949x.eu.auth0.com"
+
 service:
   ingress:
     enabled: true
@@ -44,27 +39,6 @@ volumes:
     secretName: etcd-gpg-asc-key
 
 extraObjects:
-  - |
-    apiVersion: external-secrets.io/v1
-    kind: ExternalSecret
-    metadata:
-      name: github-oauth-creds
-      namespace: omni
-    spec:
-      refreshInterval: 1h
-      secretStoreRef:
-        name: infisical-secret-store
-        kind: ClusterSecretStore
-      target:
-        name: github-oauth-creds
-        creationPolicy: Owner
-      data:
-        - secretKey: clientID
-          remoteRef:
-            key: /omni/github/OMNI_GITHUB_OIDC_CLIENT_ID
-        - secretKey: clientSecret
-          remoteRef:
-            key: /omni/github/OMNI_GITHUB_OIDC_CLIENT_SECRET
   - |
     apiVersion: external-secrets.io/v1
     kind: ExternalSecret
