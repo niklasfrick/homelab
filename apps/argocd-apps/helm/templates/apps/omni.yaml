@@ -1,23 +1,21 @@
-{{- $applicationName := "omni" }}
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: {{ $applicationName }}
+  name: omni
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
   project: infra
   destination:
     server: https://kubernetes.default.svc
-    namespace: {{ $applicationName }}
+    namespace: omni
   sources:
   - repoURL: git@github.com:niklasfrick/homelab.git
-    path: apps/{{ $applicationName }}/helm/{{ $applicationName }}
+    path: apps/omni/helm/omni
     helm:
-      releaseName: {{ $applicationName }}
+      releaseName: omni
       valueFiles:
-        - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
+        - $values/apps/omni/settings/{{ .Values.instance }}/{{ .Values.instance }}-omni-helm-values.yaml
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
   syncPolicy:
