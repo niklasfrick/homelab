@@ -30,6 +30,7 @@ service:
   type: ClusterIP # currently only ClusterIP is supported by this Helm Chart
   ingress:
     enabled: false
+    ingressClassName: nginx
     annotations: {}
     tls:
       secretName: ""
@@ -40,6 +41,7 @@ service:
       port: 30180
     ingress:
       enabled: false
+      ingressClassName: nginx
       annotations: {}
         # cert-manager.io/cluster-issuer: issuer-name
       tls:
@@ -48,6 +50,7 @@ service:
     domainName: omni.kubernetes.example.com
     ingress:
       enabled: false
+      ingressClassName: nginx
       annotations: {}
         # cert-manager.io/cluster-issuer: issuer-name
       tls:

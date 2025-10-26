@@ -17,7 +17,7 @@ metadata:
   name: api-ui
   namespace: {{ .Release.Namespace }}
 spec:
-  ingressClassName: nginx
+  ingressClassName: {{ .Values.service.ingress.ingressClassName }}
   rules:
     - host: {{ .Values.domainName }}
       http:
@@ -120,7 +120,7 @@ metadata:
     {{- end }}
   {{- end }}
 spec:
-  ingressClassName: nginx
+  ingressClassName: {{ .Values.service.k8sProxy.ingress.ingressClassName }}
   rules:
     - host: {{ .Values.service.k8sProxy.domainName }}
       http:
@@ -155,7 +155,7 @@ metadata:
     {{- end }}
   {{- end }}
 spec:
-  ingressClassName: nginx
+  ingressClassName: {{ .Values.service.siderolink.ingress.ingressClassName }}
   rules:
     - host: {{ .Values.service.siderolink.domainName }}
       http:

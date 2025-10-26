@@ -10,18 +10,21 @@ auth:
 service:
   ingress:
     enabled: true
+    ingressClassName: internal-ingress-nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
   siderolink:
     domainName: siderolink.omni.apps-omni.949x.net
     ingress:
       enabled: true
+      ingressClassName: internal-ingress-nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
   k8sProxy:
     domainName: kubernetes.omni.apps-omni.949x.net
     ingress:
       enabled: true
+      ingressClassName: internal-ingress-nginx
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
 
