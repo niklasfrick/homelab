@@ -31,7 +31,6 @@ initialUsers: []
 name: "My Omni instance"
 service:
   type: ClusterIP # currently only ClusterIP is supported by this Helm Chart
-  clusterIP: ""
   ingress:
     enabled: false
     ingressClassName: nginx
