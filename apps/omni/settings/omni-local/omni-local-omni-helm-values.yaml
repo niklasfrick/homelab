@@ -6,7 +6,8 @@ auth:
     enabled: true
     clientId: "2fx0Rm2WxCDy4N4QCRuGssy0o2sXpsZi"
     domain: "https://949x.eu.auth0.com"
-
+initialUsers:
+  - "niklas.frick@pm.me"
 service:
   ingress:
     enabled: true
