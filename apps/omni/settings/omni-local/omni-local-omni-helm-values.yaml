@@ -5,7 +5,7 @@ auth:
   auth0:
     enabled: true
     clientId: "2fx0Rm2WxCDy4N4QCRuGssy0o2sXpsZi"
-    domain: "https://949x.eu.auth0.com"
+    domain: "949x.eu.auth0.com"
 initialUsers:
   - "niklas.frick@pm.me"
 service:
