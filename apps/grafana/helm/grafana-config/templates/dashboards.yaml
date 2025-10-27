@@ -1,0 +1,177 @@
+## All Dashboards in helm/dashboards/specificDeployment, they will be only imported if Helm lookup is true. (because you want only import Dashboards of apps you have installed.)
+{{- if .Values.grafana.deployDashboards }}
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: standard-cluster-monitoring
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: ${datasource}
+  contentCacheDuration: 1h
+  folder: "Kubernetes"
+  url: https://raw.githubusercontent.com/onzack/grafana-dashboards/main/grafana/kubernetes/with-recording-rules/standard-cluster-monitoring.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: nginx-monitoring
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - inputName: datasource
+      datasourceName: ${datasource}
+  contentCacheDuration: 1h
+  folder: "Kubernetes"
+  url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/grafana/dashboards/nginx.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: standard-namespace-monitoring
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: ${datasource}
+  contentCacheDuration: 1h
+  folder: "Kubernetes"
+  url: https://raw.githubusercontent.com/onzack/grafana-dashboards/main/grafana/kubernetes/with-recording-rules/standard-namespace-monitoring.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: node-exporter-full
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - datasourceName: thanos
+      inputName: DS_PROMETHEUS
+  contentCacheDuration: 1h
+  folder: "Kubernetes"
+  grafanaCom:
+    id: 1860
+    revision: 32
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: cert-manager
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - datasourceName: thanos
+      inputName: DS_PROMETHEUS
+  contentCacheDuration: 1h
+  folder: "Kubernetes"
+  grafanaCom:
+    id: 20842
+    revision: 3
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: external-secrets
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - datasourceName: thanos
+      inputName: DS_METRICS
+  contentCacheDuration: 1h
+  folder: "Kubernetes"
+  grafanaCom:
+    id: 21640
+    revision: 4
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: cloudnative-pg
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - datasourceName: thanos
+      inputName: DS_PROMETHEUS
+  contentCacheDuration: 1h
+  folder: "CloudNativePG"
+  grafanaCom:
+    id: 20417
+    revision: 4
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: argo-cd
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - datasourceName: thanos
+      inputName: DS_PROMETHEUS
+  contentCacheDuration: 1h
+  folder: "Kubernetes"
+  grafanaCom:
+    id: 14584
+    revision: 1
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: core-dns
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - datasourceName: thanos
+      inputName: DS_PROMETHEUS
+  contentCacheDuration: 1h
+  folder: "Kubernetes"
+  grafanaCom:
+    id: 14981
+    revision: 1
+{{- end }}

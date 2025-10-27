@@ -1,0 +1,27 @@
+grafana:
+  version: 12.2.1 # renovate:docker depName=grafana registryUrl=registry-1.docker.io/grafana
+  datasource:
+    - prometheus:
+      name: prometheus
+      type: prometheus
+      url: http://kube-prometheus-stack-prometheus.kube-prometheus-stack.svc.cluster.local:9090
+      isDefault: true
+      jsonData:
+        prometheusType: Prometheus
+        prometheusVersion: 3.7.2
+        incrementalQuerying: true
+    - loki:
+      name: loki
+      type: loki
+      url: http://loki-gateway.loki.svc.cluster.local
+      jsonData:
+        manageAlerts: true # Disables/uncheck 'Manage alerts via Alerting UI'
+  deployDashboards: true
+  storage:
+    size: 300Mi
+  resources:
+    limits:
+      memory: 300Mi
+    requests:
+      cpu: 10m
+      memory: 90Mi

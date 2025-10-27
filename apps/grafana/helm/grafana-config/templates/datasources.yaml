@@ -1,0 +1,29 @@
+{{- range .Values.grafana.datasource }}
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: {{ .name }}
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasource:
+    name: {{ .name }}
+    uid: {{ .name }}
+    type: {{ .type }}
+    url: {{ .url }}
+    # Workaround for https://github.com/grafana-operator/grafana-operator/issues/1035
+    access: proxy
+    {{- if .isDefault }} 
+    isDefault: true 
+    {{ end }}
+    {{- if .jsonData }} 
+    # Because of a bug use 'customJsonData' instead of jsonData (https://github.com/grafana-operator/grafana-operator/issues/837)
+    jsonData: {{ toYaml .jsonData | nindent 8 }}
+    {{ end }}
+    {{- if .plugins -}}
+    plugins: {{ toYaml .plugins | nindent 8 }}
+    {{- end }}
+{{- end }}

@@ -1,0 +1,7 @@
+instance: omni-local
+grafana:
+  ingress:
+    host: grafana.omni.apps-omni.949x.net
+    tls:
+      clusterIssuer: letsencrypt-prod
+      secretName: grafana.omni.apps-omni.949x.net
