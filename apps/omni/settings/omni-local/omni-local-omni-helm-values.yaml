@@ -16,6 +16,8 @@ service:
       cert-manager.io/cluster-issuer: letsencrypt-prod
   siderolink:
     domainName: siderolink.omni.apps-omni.949x.net
+    wireguard:
+      address: "10.96.10.101"
     ingress:
       enabled: true
       ingressClassName: internal-ingress-nginx
