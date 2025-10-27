@@ -8,6 +8,8 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: 32m
     nginx.ingress.kubernetes.io/service-upstream: "true"
     nginx.ingress.kubernetes.io/server-snippet: "grpc_read_timeout 3600s; grpc_send_timeout 3600s;"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
   {{- with .Values.service.ingress.annotations }}
     {{- range $key, $value := . }}
     {{ $key }}: {{ tpl (toString $value) $ | quote }}
@@ -147,6 +149,7 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: GRPC
+    nginx.ingress.kubernetes.io/server-snippet: "grpc_read_timeout 3600s; grpc_send_timeout 3600s;"
   name: siderolink
   namespace: {{ .Release.Namespace }}
   {{- with .Values.service.siderolink.ingress.annotations }}
