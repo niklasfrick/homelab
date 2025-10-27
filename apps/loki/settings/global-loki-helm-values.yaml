@@ -78,12 +78,6 @@ write:
           name: loki-s3-keys
           key: secretkey
 
-gateway:
-  service:
-    type: LoadBalancer
-    labels:
-      cilium-lb-pool: omni-local-lb-ip-pool
-
 chunksCache:
   enabled: false
 
