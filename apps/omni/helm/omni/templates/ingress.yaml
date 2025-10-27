@@ -7,6 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: GRPC
     nginx.ingress.kubernetes.io/proxy-body-size: 32m
     nginx.ingress.kubernetes.io/service-upstream: "true"
+    nginx.ingress.kubernetes.io/server-snippet: "grpc_read_timeout 3600s; grpc_send_timeout 3600s;"
   {{- with .Values.service.ingress.annotations }}
     {{- range $key, $value := . }}
     {{ $key }}: {{ tpl (toString $value) $ | quote }}
