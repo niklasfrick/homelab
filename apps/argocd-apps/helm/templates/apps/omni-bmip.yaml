@@ -1,0 +1,33 @@
+{{- $applicationName := "omni-bmip" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $applicationName }}
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ $applicationName }}
+  sources:
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    path: apps/omni/helm/bare-metal-infra-provider
+    helm:
+      releaseName: {{ $applicationName }}
+      valueFiles:
+        - $values/apps/omni/settings/omni-local/omni-local-bare-metal-infra-provider-helm-values.yaml
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    ref: values
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/enforce-version: latest
+        pod-security.kubernetes.io/warn: privileged
+        pod-security.kubernetes.io/warn-version: latest
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
