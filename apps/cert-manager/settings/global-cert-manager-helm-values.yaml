@@ -22,9 +22,9 @@ cainjector:
     seccompProfile: null
 
 prometheus:
-  enabled: false
+  enabled: true
   servicemonitor:
-    enabled: false
+    enabled: true
 
 extraObjects:
   - |
