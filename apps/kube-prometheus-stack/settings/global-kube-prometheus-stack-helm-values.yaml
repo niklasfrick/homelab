@@ -3,22 +3,15 @@ prometheus:
     replicas: 1
     scrapeInterval: 30s
     evaluationInterval: 30s
-    retention: 2d
-    retentionSize: "1GB"
+    retention: 30d
+    retentionSize: 25GiB
     storageSpec:
       volumeClaimTemplate:
         spec:
           storageClassName: local-path
           resources:
             requests:
-              storage: 20Gi
-    thanos:
-      objectStorageConfig:
-        existingSecret:
-          name: thanos-s3-keys
-          key: thanos-object-storage-config.yaml
-      additionalArgs:
-        - name: shipper.upload-compacted
+              storage: 30Gi
     resources:
       requests:
         cpu: 200m

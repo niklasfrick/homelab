@@ -1,1 +1,3 @@
 instance: omni-local
+thanos:
+  enabled: false
