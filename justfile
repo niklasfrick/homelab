@@ -67,7 +67,65 @@ create-env:
 
 # Main generate command that runs preflight check first
 generate: preflight-check
-  @echo "🚀 Running generate command..."
-  # Add your actual generate logic here
-  @echo "✅ Generate completed"
+  #!/usr/bin/env bash
+  set -e
+  
+  echo "🚀 Running generate command..."
+  
+  # Change to the talos config directory
+  cd clusters/omni-local/talos-config
+  
+  echo "📡 Authenticating with Infisical..."
+  export INFISICAL_TOKEN=$(infisical login \
+    --method=universal-auth \
+    --client-id=$INFISICAL_CLIENT_ID \
+    --client-secret=$INFISICAL_CLIENT_SECRET \
+    --silent \
+    --plain)
+  
+  if [ -z "$INFISICAL_TOKEN" ]; then
+    echo "❌ Failed to obtain Infisical token"
+    exit 1
+  fi
+  
+  echo "✅ Authenticated successfully"
+  echo "🔧 Generating Talos configuration..."
+  
+  infisical run \
+    --projectId=$INFISICAL_PROJECT_ID \
+    --token=$INFISICAL_TOKEN \
+    --env=prod \
+    --path=/omni/omni-local-cluster \
+    -- talhelper genconfig
+  
+  echo "✅ Talos configuration generated successfully!"
+  echo "📁 Configuration files are in: clusters/omni-local/talos-config/clusterconfig/"
 
+# Apply Talos configuration to all nodes
+apply-config:
+  #!/usr/bin/env bash
+  set -e
+  
+  echo "🚀 Applying Talos configuration to all nodes..."
+  
+  # Change to the talos config directory
+  cd clusters/omni-local/talos-config
+  
+  # Extract cluster name from talconfig.yaml
+  CLUSTER_NAME=$(yq eval '.clusterName' talconfig.yaml)
+  
+  # Get the list of nodes and apply configuration to each
+  yq eval '.nodes[] | [.hostname, .ipAddress] | join(" ")' talconfig.yaml | while read -r hostname ipAddress; do
+    CONFIG_FILE="clusterconfig/${CLUSTER_NAME}-${hostname}.yaml"
+    
+    if [ ! -f "$CONFIG_FILE" ]; then
+      echo "❌ Config file not found: $CONFIG_FILE"
+      exit 1
+    fi
+    
+    echo "📡 Applying configuration to node: $hostname ($ipAddress)"
+    talosctl apply-config --nodes "$ipAddress" --file "$CONFIG_FILE"
+    echo "✅ Configuration applied to $hostname"
+  done
+  
+  echo "✅ All configurations applied successfully!"
