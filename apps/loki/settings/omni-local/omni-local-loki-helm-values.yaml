@@ -2,9 +2,9 @@ loki:
   storage:
     type: s3
     bucketNames:
-      chunks: /omni-local/loki-chunk
-      ruler: /omni-local/loki-ruler
-      admin: /omni-local/loki-admin
+      chunks: omni-local-loki-chunk
+      ruler: omni-local-loki-ruler
+      admin: omni-local-loki-admin
     s3:
       endpoint: s3.bal.949x.net:9001
       region: bal
