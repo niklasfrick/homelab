@@ -1,0 +1,88 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "bare-metal-infra-provider.name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "bare-metal-infra-provider.labels" . | nindent 4 }}
+    app.kubernetes.io/component: bare-metal-infra-provider
+    {{- with .Values.deployment.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.deployment.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  strategy:
+    type: Recreate
+  replicas: {{ .Values.deployment.replicaCount }}
+  selector:
+    matchLabels: {{- include "bare-metal-infra-provider.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.deployment.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels: 
+        {{- include "bare-metal-infra-provider.labels" . | nindent 8 }}
+        app.kubernetes.io/component: bare-metal-infra-provider
+        {{- with .Values.deployment.labels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.deployment.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.deployment.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      # Required for TFTP server to bind to port 69 and DHCP proxy
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: bare-metal-infra-provider
+        image: {{ .Values.deployment.image }}:{{ .Values.deployment.tag | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.deployment.imagePullPolicy }}
+        {{- with .Values.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        env:
+          - name: OMNI_ENDPOINT
+            value: {{ .Values.omni.endpoint | quote }}
+          - name: OMNI_SERVICE_ACCOUNT_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.omni.serviceAccountKeySecret.name }}
+                key: {{ .Values.omni.serviceAccountKeySecret.key }}
+        ports:
+          - name: api
+            containerPort: {{ .Values.service.apiPort }}
+            protocol: TCP
+          - name: tftp
+            containerPort: 69
+            protocol: UDP
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+            add:
+              # Required for binding to privileged ports (TFTP port 69)
+              - NET_BIND_SERVICE
+        args:
+          {{- if .Values.apiAdvertiseAddress }}
+          - --api-advertise-address={{ .Values.apiAdvertiseAddress }}
+          {{- end }}
+          - --api-port={{ .Values.service.apiPort }}
+          {{- if .Values.providerId }}
+          - --id={{ .Values.providerId }}
+          {{- end }}
+          {{- range $value := .Values.extraArgs }}
+          - {{ $value }}
+          {{- end }}

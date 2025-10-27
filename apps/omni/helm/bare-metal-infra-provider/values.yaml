@@ -1,0 +1,46 @@
+deployment:
+  replicaCount: 1
+  image: ghcr.io/siderolabs/omni-infra-provider-bare-metal
+  tag: "" # defaults to Chart.appVersion
+  imagePullPolicy: IfNotPresent
+  labels: {}
+  annotations: {}
+  podAnnotations: {}
+  nodeSelector: {}
+  tolerations: []
+
+# Omni configuration
+omni:
+  # The endpoint URL of your Omni instance
+  endpoint: "https://my-instance.omni.siderolabs.io"
+
+  # Secret containing the service account key
+  serviceAccountKeySecret:
+    name: service-account-key
+    key: serviceAccountKey
+
+# The provider ID (should match the service account name in Omni)
+providerId: "bare-metal"
+
+# The IP address to advertise for the API server
+# This should be the IP address where bare-metal machines can reach this provider
+apiAdvertiseAddress: ""
+
+# Service configuration
+service:
+  apiPort: 50042
+
+# Resource limits and requests
+resources: {}
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# Extra arguments to pass to the provider
+extraArgs: []
+
+# Extra objects to create (e.g., ExternalSecret)
+extraObjects: []
