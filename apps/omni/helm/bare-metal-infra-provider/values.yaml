@@ -1,7 +1,7 @@
 deployment:
   replicaCount: 1
   image: ghcr.io/siderolabs/omni-infra-provider-bare-metal
-  tag: "" # defaults to Chart.appVersion
+  tag: "v0.5.0"
   imagePullPolicy: IfNotPresent
   labels: {}
   annotations: {}

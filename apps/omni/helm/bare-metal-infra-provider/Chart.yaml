@@ -3,4 +3,4 @@ name: bare-metal-infra-provider
 description: A Helm chart for deploying the Bare Metal Infra Provider
 type: application
 version: 0.1.0
-appVersion: "0.5.0"
+appVersion: "v0.5.0"
