@@ -161,11 +161,6 @@ metadata:
   {{- end }}
   name: siderolink
   namespace: {{ .Release.Namespace }}
-  {{- with .Values.service.siderolink.ingress.annotations }}
-    {{- range $key, $value := . }}
-    {{ $key }}: {{ tpl (toString $value) $ | quote }}
-    {{- end }}
-  {{- end }}
 spec:
   ingressClassName: {{ .Values.service.siderolink.ingress.ingressClassName }}
   rules:
