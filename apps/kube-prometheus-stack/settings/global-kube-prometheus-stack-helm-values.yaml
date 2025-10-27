@@ -94,7 +94,7 @@ alertmanager:
   ingress:
     enabled: false
   alertmanagerSpec:
-    replicas: 2
+    replicas: 1
     secrets:
       - alertmanager-secrets
     resources:
