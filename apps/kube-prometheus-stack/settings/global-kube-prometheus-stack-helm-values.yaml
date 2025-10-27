@@ -1,0 +1,215 @@
+prometheus:
+  prometheusSpec:
+    replicas: 1
+    scrapeInterval: 30s
+    evaluationInterval: 30s
+    retention: 2d
+    retentionSize: "1GB"
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: local-path
+          resources:
+            requests:
+              storage: 20Gi
+    thanos:
+      objectStorageConfig:
+        existingSecret:
+          name: thanos-s3-keys
+          key: thanos-object-storage-config.yaml
+      additionalArgs:
+        - name: shipper.upload-compacted
+    resources:
+      requests:
+        cpu: 200m
+        memory: 1600Mi
+      limits:
+        cpu: 2
+        memory: 3Gi
+    serviceMonitorSelector: {}
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    scrapeConfigSelectorNilUsesHelmValues: false
+  ingress:
+    enabled: false
+
+  thanosService:
+    enabled: true
+  thanosServiceMonitor:
+    enabled: true
+
+prometheusOperator:
+  resources:
+    requests:
+      cpu: 5m
+      memory: 150Mi
+    limits:
+      cpu: 300m
+      memory: 300Mi
+  #configReloaderCpu: 10m
+
+prometheus-node-exporter:
+  resources:
+    requests:
+      cpu: 5m
+      memory: 15Mi
+    limits:
+      cpu: 800m
+      memory: 50Mi
+  prometheus:
+    monitor:
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_node_name]
+          separator: ;
+          regex: ^(.*)$
+          targetLabel: instance
+          replacement: $1
+          action: replace
+
+alertmanager:
+  enabled: true
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      group_by: ["alertname", "job", "app"]
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 24h
+      receiver: "null"
+      routes:
+        - matchers:
+            - severity =~ "warning|critical"
+          receiver: telegram
+    receivers:
+      - name: "null"
+      - name: "telegram"
+        telegram_configs:
+          - bot_token_file: /etc/alertmanager/secrets/alertmanager-secrets/telegram-bot-token
+            chat_id: 263293936
+            api_url: https://api.telegram.org
+            http_config:
+              follow_redirects: true
+            parse_mode: "HTML"
+            send_resolved: true
+            message: '{{ template "telegram.message". }}'
+    templates:
+      - "/etc/alertmanager/config/*.tmpl"
+
+  ingress:
+    enabled: false
+  alertmanagerSpec:
+    replicas: 2
+    secrets:
+      - alertmanager-secrets
+    resources:
+      requests:
+        cpu: 6m
+        memory: 60Mi
+      limits:
+        cpu: 500m
+        memory: 100Mi
+
+kube-state-metrics:
+  rbac:
+    extraRules:
+      - apiGroups: ["autoscaling.k8s.io"]
+        resources: ["verticalpodautoscalers"]
+        verbs: ["list", "watch"]
+  prometheus:
+    monitor:
+      enabled: true
+  selfMonitor:
+    enabled: true
+  resources:
+    requests:
+      cpu: 5m
+      memory: 30Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+additionalPrometheusRulesMap:
+  user-rules:
+    groups:
+      - name: user-rules
+        rules:
+          - alert: KubernetesContainerOOMKiller
+            annotations:
+              summary: Kubernetes Container OOM killer (instance {{ $labels.instance }})
+              description: |
+                Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.
+            expr: |
+              (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+            for: 0m
+            labels:
+              severity: warning
+          - alert: PodRestartingOften
+            expr: increase(kube_pod_container_status_restarts_total[10m]) > 5
+            for: 10m
+            labels:
+              severity: warning
+            annotations:
+              summary: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has restarted {{ $value }} times in the last 10 minutes."
+              description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} is restarting frequently."
+          - alert: PersistentVolumeHighUsage
+            expr: (kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes) * 100 > 90
+            for: 5m
+            labels:
+              severity: critical
+            annotations:
+              summary: 'Persistent volume {{ $labels.persistentvolume }} is at {{ $value | printf "%.2f" }}% capacity.'
+              description: "Persistent volume {{ $labels.persistentvolume }} is over 90% full."
+          - alert: HighCPUUsage
+            expr: process_cpu_seconds_total > 0.9 * count(process_cpu_seconds_total)
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: 'Process {{ $labels.instance }} is using an unusually high CPU load of {{ $value | printf "%.2f" }}%.'
+              description: "Process {{ $labels.instance }} is consuming unusually high CPU."
+          - alert: HighMemoryUsage
+            expr: (process_resident_memory_bytes / count(process_resident_memory_bytes)) > 0.9
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: 'Process {{ $labels.instance }} is consuming {{ $value | printf "%.2f" }}% of available memory.'
+              description: "Process {{ $labels.instance }} is using unusually high memory."
+
+grafana:
+  enabled: false
+
+kubeEtcd:
+  enabled: true
+  service:
+    selector:
+      k8s-app: kube-controller-manager # Fix selector for kube-etcd for Talos (set itentionally to kube-controller-manager because all master nodes has the same roles)
+  serviceMonitor:
+    relabelings:
+      - sourceLabels: [__meta_kubernetes_pod_node_name]
+        separator: ;
+        regex: ^(.*)$
+        targetLabel: nodename
+        replacement: $1
+        action: replace
+    metricRelabelings:
+      - action: labeldrop
+        regex: pod
+
+kubeScheduler:
+  service:
+    selector:
+      k8s-app: kube-scheduler # Fix selector for kube-scheduler for Talos
+
+kubeControllerManager:
+  service:
+    selector:
+      k8s-app: kube-controller-manager # Fix selector for kube-controller for Talos
+
+defaultRules:
+  rules:
+    kubeProxy: false #  We do not use kube-proxy (we use Cilium instead)
+    windows: false
