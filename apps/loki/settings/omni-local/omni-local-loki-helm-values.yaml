@@ -1,4 +1,9 @@
 loki:
+  storage_config:
+    aws:
+      region: bal
+      bucketnames: omni-local-loki-chunk
+      s3forcepathstyle: true
   storage:
     type: s3
     bucketNames:
