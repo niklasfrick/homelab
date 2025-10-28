@@ -31,6 +31,9 @@ service:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
 
+extraArgs:
+  - --event-sink-port=8091
+
 persistence:
   enabled: true
   persistentVolumeClaim:
