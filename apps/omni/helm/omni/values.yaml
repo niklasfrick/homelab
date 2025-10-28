@@ -41,7 +41,7 @@ service:
     domainName: omni.siderolink.example.com
     wireguard:
       address: "" #<ip address of the host running Omni>
-      port: 30180
+      port: 50180
     ingress:
       enabled: false
       ingressClassName: nginx

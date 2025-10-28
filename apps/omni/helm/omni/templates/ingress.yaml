@@ -4,9 +4,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: GRPC
-    nginx.ingress.kubernetes.io/proxy-body-size: 32m
-    nginx.ingress.kubernetes.io/service-upstream: "true"
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
@@ -17,7 +14,7 @@ metadata:
   {{- end }}
   labels:
     app.kubernetes.io/name: omni
-  name: api-ui
+  name: ui
   namespace: {{ .Release.Namespace }}
 spec:
   ingressClassName: {{ .Values.service.ingress.ingressClassName }}
@@ -32,6 +29,38 @@ spec:
                   number: 8080
             path: /
             pathType: Prefix
+  tls:
+    - hosts:
+        - {{ .Values.domainName }}
+      {{- with .Values.service.ingress.tls.secretName | default .Values.domainName }}
+      secretName: {{ . }}
+      {{- end }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: GRPC
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
+    nginx.ingress.kubernetes.io/service-upstream: "true"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+  {{- with .Values.service.ingress.annotations }}
+    {{- range $key, $value := . }}
+    {{ $key }}: {{ tpl (toString $value) $ | quote }}
+    {{- end }}
+  {{- end }}
+  labels:
+    app.kubernetes.io/name: omni
+  name: api
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingressClassName: {{ .Values.service.ingress.ingressClassName }}
+  rules:
+    - host: {{ .Values.domainName }}
+      http:
+        paths:
           - backend:
               service:
                 name: internal-grpc
