@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: GRPC
     nginx.ingress.kubernetes.io/proxy-body-size: 32m
     nginx.ingress.kubernetes.io/service-upstream: "true"
-    nginx.ingress.kubernetes.io/server-snippet: "grpc_read_timeout 3600s; grpc_send_timeout 3600s;"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
   {{- with .Values.service.ingress.annotations }}
@@ -117,6 +117,7 @@ metadata:
   name: kubernetes-proxy
   namespace: {{ .Release.Namespace }}
   annotations:
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
   {{- with .Values.service.k8sProxy.ingress.annotations }}
@@ -151,7 +152,7 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: GRPC
-    nginx.ingress.kubernetes.io/server-snippet: "grpc_read_timeout 3600s; grpc_send_timeout 3600s;"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
   {{- with .Values.service.siderolink.ingress.annotations }}

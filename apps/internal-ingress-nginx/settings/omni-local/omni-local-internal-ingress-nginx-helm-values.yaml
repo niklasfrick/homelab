@@ -1,7 +1,4 @@
 controller:
-  allowSnippetAnnotations: true
-  config:
-    annotations-risk-level: Critical
   service:
     externalTrafficPolicy: Local
     annotations:
