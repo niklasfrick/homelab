@@ -46,6 +46,9 @@ spec:
           - name: siderolink
             containerPort: 8090
             protocol: TCP
+          - name: event-sink
+            containerPort: 8091
+            protocol: TCP
           - name: k8s-proxy
             containerPort: 8095
             protocol: TCP
