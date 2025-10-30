@@ -2,7 +2,7 @@ instance: omni-local
 
 apps:
   argocd:
-    targetRevision: 9.0.3 # renovate:helm depName=argo-cd registryUrl=https://argoproj.github.io/argo-helm
+    targetRevision: 9.0.5 # renovate:helm depName=argo-cd registryUrl=https://argoproj.github.io/argo-helm
   cilium:
     targetRevision: 1.18.3 # renovate:helm depName=cilium registryUrl=https://helm.cilium.io
   external-secrets:
