@@ -6,7 +6,7 @@ apps:
   cilium:
     targetRevision: 1.18.3 # renovate:helm depName=cilium registryUrl=https://helm.cilium.io
   external-secrets:
-    targetRevision: 0.20.3 # renovate:helm depName=external-secrets registryUrl=https://charts.external-secrets.io
+    targetRevision: 0.20.4 # renovate:helm depName=external-secrets registryUrl=https://charts.external-secrets.io
   cert-manager:
     targetRevision: 1.19.1 # renovate:helm depName=cert-manager registryUrl=https://charts.jetstack.io
   internal-ingress-nginx:
