@@ -13,7 +13,7 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "\\.yaml$"
+        "**/*.yaml"
       ],
       "matchStrings": [
         "(?<fieldName>\\w+):\\s*\"?(?<currentValue>[\\w\\.\\-\\+]+)\"?\\s*#\\s*renovate:helm depName=(?<depName>\\S+) registryUrl=(?<registryUrl>https://\\S+)",
@@ -26,7 +26,7 @@
       "customType": "regex",
       "datasourceTemplate": "docker",
       "managerFilePatterns": [
-        "\\.yaml$"
+        "**/*.yaml"
       ],
       "matchStrings": [
         "(?<fieldName>\\w+):\\s*\"?(?<currentValue>[\\w\\.\\-\\+]+)\"?\\s*#\\s*renovate:docker depName=(?<depName>\\S+) registryUrl=(?<registryUrl>\\S+)"
@@ -38,23 +38,11 @@
       "customType": "regex",
       "datasourceTemplate": "github-releases",
       "managerFilePatterns": [
-        "clusters/**/talos-config/talconfig.yaml"
+        "**/*.yaml"
       ],
       "matchStrings": [
-        "talosVersion: +(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)"
-      ],
-      "depNameTemplate": "siderolabs/talos"
-    },
-    {
-      "customType": "regex",
-      "datasourceTemplate": "github-releases",
-      "managerFilePatterns": [
-        "clusters/**/talos-config/talconfig.yaml"
-      ],
-      "matchStrings": [
-        "kubernetesVersion: +(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)"
-      ],
-      "depNameTemplate": "kubernetes/kubernetes"
+        "(?<fieldName>\\w+):\\s*\"?(?<currentValue>v?[\\w\\.\\-\\+]+)\"?\\s*#\\s*renovate:github-releases depName=(?<depName>\\S+)"
+      ]
     }
   ]
 }
