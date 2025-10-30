@@ -1,0 +1,60 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "docker:enableMajor"
+  ],
+  "kubernetes": {
+    "managerFilePatterns": [
+      "*.yaml"
+    ]
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "*.yaml"
+      ],
+      "matchStrings": [
+        "(?<fieldName>\\w+):\\s*\"?(?<currentValue>[\\w\\.\\-\\+]+)\"?\\s*#\\s*renovate:helm depName=(?<depName>\\S+) registryUrl=(?<registryUrl>https://\\S+)",
+        "(?<fieldName>\\w+):\\s*\"?(?<currentValue>[\\w\\.\\-\\+]+)\"?\\s*#\\s*renovate:helm depName=(?<depName>\\S+) registryUrl=oci://(?<ociPath>\\S+)\\s"
+      ],
+      "datasourceTemplate": "{{#if ociPath}}docker{{else}}helm{{/if}}",
+      "packageNameTemplate": "{{#if ociPath}}{{{ociPath}}}/{{{depName}}}{{else}}{{{depName}}}{{/if}}"
+    },
+    {
+      "customType": "regex",
+      "datasourceTemplate": "docker",
+      "managerFilePatterns": [
+        "*.yaml"
+      ],
+      "matchStrings": [
+        "(?<fieldName>\\w+):\\s*\"?(?<currentValue>[\\w\\.\\-\\+]+)\"?\\s*#\\s*renovate:docker depName=(?<depName>\\S+) registryUrl=(?<registryUrl>\\S+)"
+      ],
+      "packageNameTemplate": "{{{registryUrl}}}/{{{depName}}}",
+      "registryUrlTemplate": "https://{{registryUrl}}"
+    },
+    {
+      "customType": "regex",
+      "datasourceTemplate": "github-releases",
+      "managerFilePatterns": [
+        "/clusters/**/talos-config/talconfig.yaml"
+      ],
+      "matchStrings": [
+        "talosVersion: +(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)"
+      ],
+      "depNameTemplate": "siderolabs/talos"
+    },
+    {
+      "customType": "regex",
+      "datasourceTemplate": "github-releases",
+      "managerFilePatterns": [
+        "/clusters/**/talos-config/talconfig.yaml"
+      ],
+      "matchStrings": [
+        "kubernetesVersion: +(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)"
+      ],
+      "depNameTemplate": "kubernetes/kubernetes"
+    }
+  ]
+}
