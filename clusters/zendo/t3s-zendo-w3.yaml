@@ -1,0 +1,11 @@
+machine:
+  network:
+    hostname: t3s-zendo-w3
+    interfaces:
+      - interface: eth0
+        addresses:
+          - 10.96.10.158/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.96.10.1
+        dhcp: false

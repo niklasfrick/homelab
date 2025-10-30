@@ -1,0 +1,18 @@
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: system_disk
+  minSize: 2GiB
+  maxSize: 40GiB
+  grow: false
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: storage-data
+provisioning:
+  diskSelector:
+    match: system_disk
+  minSize: 200GiB

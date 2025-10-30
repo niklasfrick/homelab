@@ -1,0 +1,13 @@
+machine:
+  network:
+    hostname: t3s-zendo-cp3
+    interfaces:
+      - interface: eth0
+        addresses:
+          - 10.96.10.153/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.96.10.1
+        dhcp: false
+        vip:
+          ip: 10.96.10.150
