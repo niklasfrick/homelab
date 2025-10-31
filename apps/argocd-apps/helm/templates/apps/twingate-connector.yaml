@@ -19,7 +19,7 @@ spec:
       releaseName: twingate-connector
       valueFiles:
       - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
-  {{- if .Values.apps.$applicationName.configHelmChart.enabled }}
+  {{- if index .Values.apps $applicationName "configHelmChart" "enabled" }}
   - repoURL: git@github.com:niklasfrick/homelab.git
     path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
     helm:
