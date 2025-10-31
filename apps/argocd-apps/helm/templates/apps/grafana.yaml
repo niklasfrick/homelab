@@ -13,11 +13,12 @@ spec:
   sources:
   - chart: grafana-operator
     repoURL: ghcr.io/grafana/helm-charts
-    targetRevision: {{ index .Values.apps "grafana-operator" "targetRevision" }}
+    targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
     helm:
       releaseName: grafana-operator
       valueFiles:
       - $values/apps/{{ $applicationName }}/settings/global-grafana-operator-helm-values.yaml
+  {{- if .Values.apps.$applicationName.configHelmChart.enabled }}
   - repoURL: git@github.com:niklasfrick/homelab.git
     path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
     helm:
@@ -25,6 +26,7 @@ spec:
       valueFiles:
         - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-config-helm-values.yaml
         - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-config-helm-values.yaml
+  {{- end }}
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
   syncPolicy:
