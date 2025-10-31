@@ -1,0 +1,4 @@
+connector:
+  network: "949x"
+  existingSecret: "twingate-tokens"
+  logAnalytics: "v2"

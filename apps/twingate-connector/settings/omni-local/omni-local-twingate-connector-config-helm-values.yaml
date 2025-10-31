@@ -1,0 +1,4 @@
+twingateSecret:
+  remoteRefKey:
+    accessToken: "OMNI_ACCESS_TOKEN"
+    refreshToken: "OMNI_REFRESH_TOKEN"
