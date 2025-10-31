@@ -8,10 +8,11 @@ metadata:
 spec:
   gatewayClassName: cilium
   infrastructure:
-    annotations:
-      io.cilium/lb-ipam-ips: {{ .Values.internalGatewayIpv4}}
     labels:
       cilium-lb-ip-pool: {{ .Values.internalLbIpPoolName }}
+  addresses:
+    - type: IPAddress
+      value: {{ .Values.internalGatewayIpv4 }}
   listeners:
     - name: http
       protocol: HTTP
