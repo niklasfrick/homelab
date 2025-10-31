@@ -2,7 +2,7 @@ instance: omni-local
 
 apps:
   argocd:
-    targetRevision: 9.0.3 # renovate:helm depName=argo-cd registryUrl=https://argoproj.github.io/argo-helm
+    targetRevision: 9.0.5 # renovate:helm depName=argo-cd registryUrl=https://argoproj.github.io/argo-helm
     configHelmChart:
       enabled: false
   cilium:
