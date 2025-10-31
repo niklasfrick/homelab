@@ -31,6 +31,14 @@ service:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
 
+resources:
+  requests:
+    cpu: 100m
+    memory: 200Mi
+  limits:
+    cpu: ""
+    memory: 500Mi
+
 persistence:
   enabled: true
   persistentVolumeClaim:
