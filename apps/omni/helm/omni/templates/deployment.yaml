@@ -36,8 +36,16 @@ spec:
         image: {{ .Values.deployment.image }}:{{ .Values.deployment.tag | default .Chart.AppVersion }}
         imagePullPolicy: {{ .Values.deployment.imagePullPolicy }}
         resources:
-          {{- with .Values.resources }}
-          {{- toYaml . | nindent 12 }}
+          {{- if .Values.resources.requests }}
+          requests:
+            {{- toYaml .Values.resources.requests | nindent 12 }}
+          {{- end }}
+          limits:
+            # Required for /dev/net/tun
+            # https://www.talos.dev/v1.8/kubernetes-guides/configuration/device-plugins/
+            squat.ai/tun: 1
+          {{- with .Values.resources.limits }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
         ports:
           - name: omni

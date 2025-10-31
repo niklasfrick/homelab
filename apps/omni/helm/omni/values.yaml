@@ -67,16 +67,13 @@ persistence:
     labels: {}
     annotations: {}
       # pvc-annotation.example.com/test: "test"
-resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 200m
-    memory: 256Mi
-    # Required for /dev/net/tun
-    # https://www.talos.dev/v1.8/kubernetes-guides/configuration/device-plugins/
-    squat.ai/tun: 1
+resources: {}
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # limits:
+  #   cpu: 200m
+  #   memory: 256Mi
 extraArgs:
   # - --debug
   # - --image-factory-address=factory.talos.dev
