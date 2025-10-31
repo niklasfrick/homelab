@@ -36,7 +36,7 @@ resources:
     cpu: 100m
     memory: 200Mi
   limits:
-    memory: 500Mi
+    memory: 400Mi
 
 persistence:
   enabled: true
