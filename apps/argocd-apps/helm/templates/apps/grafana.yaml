@@ -18,7 +18,7 @@ spec:
       releaseName: grafana-operator
       valueFiles:
       - $values/apps/{{ $applicationName }}/settings/global-grafana-operator-helm-values.yaml
-  {{- if .Values.apps.$applicationName.configHelmChart.enabled }}
+  {{- if index .Values.apps $applicationName "configHelmChart" "enabled" }}
   - repoURL: git@github.com:niklasfrick/homelab.git
     path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
     helm:
