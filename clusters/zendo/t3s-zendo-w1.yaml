@@ -2,7 +2,8 @@ machine:
   network:
     hostname: t3s-zendo-w1
     interfaces:
-      - interface: eth0
+      - deviceSelector:
+          busPath: "0*"
         addresses:
           - 10.96.10.156/24
         routes:
