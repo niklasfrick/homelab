@@ -3,7 +3,7 @@ alertmanager:
     telegram.tmpl: |-
       {{ define "telegram.message" }}
 
-      {{ if eq .Status "firing" }}🔥 {{ end }}{{ if eq .Status "resolved" }}✅ {{ end }}<b>[{{ .Status | toUpper }}] {{ .CommonLabels.alertname }} on {{ .CommonLabels.instance }}</b>
+      {{ if eq .Status "firing" }}🔥 {{ end }}{{ if eq .Status "resolved" }}✅ {{ end }}<b>[{{ .Status | toUpper }}] [omni-local] {{ .CommonLabels.alertname }} on {{ .CommonLabels.instance }}</b>
       {{ range .Alerts }}
       {{$severity := .Labels.severity -}}
       {{if eq $severity "warning" -}}
