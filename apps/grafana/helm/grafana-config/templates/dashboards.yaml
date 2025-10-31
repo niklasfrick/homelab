@@ -67,7 +67,7 @@ spec:
       grafanaInstance: main
   allowCrossNamespaceImport: true
   datasources:
-    - datasourceName: thanos
+    - datasourceName: ${datasource}
       inputName: DS_PROMETHEUS
   contentCacheDuration: 1h
   folder: "Kubernetes"
@@ -87,7 +87,7 @@ spec:
       grafanaInstance: main
   allowCrossNamespaceImport: true
   datasources:
-    - datasourceName: thanos
+    - datasourceName: ${datasource}
       inputName: DS_PROMETHEUS
   contentCacheDuration: 1h
   folder: "Kubernetes"
@@ -107,7 +107,7 @@ spec:
       grafanaInstance: main
   allowCrossNamespaceImport: true
   datasources:
-    - datasourceName: thanos
+    - datasourceName: ${datasource}
       inputName: DS_METRICS
   contentCacheDuration: 1h
   folder: "Kubernetes"
@@ -127,7 +127,7 @@ spec:
       grafanaInstance: main
   allowCrossNamespaceImport: true
   datasources:
-    - datasourceName: thanos
+    - datasourceName: ${datasource}
       inputName: DS_PROMETHEUS
   contentCacheDuration: 1h
   folder: "CloudNativePG"
@@ -147,7 +147,7 @@ spec:
       grafanaInstance: main
   allowCrossNamespaceImport: true
   datasources:
-    - datasourceName: thanos
+    - datasourceName: ${datasource}
       inputName: DS_PROMETHEUS
   contentCacheDuration: 1h
   folder: "Kubernetes"
@@ -167,7 +167,7 @@ spec:
       grafanaInstance: main
   allowCrossNamespaceImport: true
   datasources:
-    - datasourceName: thanos
+    - datasourceName: ${datasource}
       inputName: DS_PROMETHEUS
   contentCacheDuration: 1h
   folder: "Kubernetes"
