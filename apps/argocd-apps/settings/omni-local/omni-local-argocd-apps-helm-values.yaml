@@ -35,14 +35,20 @@ apps:
       enabled: true
   local-path-provisioner:
     targetRevision: HEAD
+    configHelmChart:
+      enabled: false
   loki:
     targetRevision: 6.44.0 # renovate:helm depName=loki registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:
       enabled: false
   omni-bmip:
     targetRevision: HEAD
+    configHelmChart:
+      enabled: false
   omni:
     targetRevision: HEAD
+    configHelmChart:
+      enabled: false
   twingate-connector:
     targetRevision: 0.1.31 # renovate:helm depName=connector registryUrl=https://twingate.github.io/helm-charts
     configHelmChart:
