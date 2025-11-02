@@ -36,7 +36,7 @@ apps:
   local-path-provisioner:
     targetRevision: HEAD
   loki:
-    targetRevision: 6.44.0 # renovate:helm depName=loki registryUrl=https://grafana.github.io/helm-charts
+    targetRevision: 6.45.2 # renovate:helm depName=loki registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:
       enabled: false
   omni-bmip:
