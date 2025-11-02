@@ -1,8 +1,5 @@
 instance: omni-local
 grafana:
-  hostname: grafana.omni.apps-omni.949x.net
-  ingress:
+  hostname: grafana.apps-omni.949x.net
+  route:
     enabled: true
-    tls:
-      clusterIssuer: letsencrypt-prod
-      secretName: grafana.omni.apps-omni.949x.net
