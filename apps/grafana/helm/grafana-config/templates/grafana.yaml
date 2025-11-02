@@ -18,7 +18,7 @@ spec:
     users:
       auto_assign_org_role: Admin
     server:
-      root_url: https://{{ .Values.grafana.ingress.host }}
+      root_url: https://{{ .Values.grafana.hostname }}
     database:
       wal: "true"
     plugins:
@@ -55,6 +55,7 @@ spec:
           securityContext:
             # Set fsGroup because of a bug (https://github.com/grafana-operator/grafana-operator/issues/300#issue-739175853)
             fsGroup: 472
+  {{- if .Values.grafana.ingress.enabled }}
   ingress:
     metadata:
       annotations:
@@ -64,7 +65,7 @@ spec:
     spec:
       ingressClassName: internal-ingress-nginx
       rules:
-        - host: {{ .Values.grafana.ingress.host }}
+        - host: {{ .Values.grafana.hostname }}
           http:
             paths:
               - backend:
@@ -76,8 +77,9 @@ spec:
                 pathType: ImplementationSpecific
       tls:
         - hosts:
-            - {{ .Values.grafana.ingress.host }}
-          secretName: {{ .Values.grafana.ingress.host }}
+            - {{ .Values.grafana.hostname }}
+          secretName: {{ .Values.grafana.hostname }}
+  {{- end }}
   persistentVolumeClaim:
     spec:
       accessModes:

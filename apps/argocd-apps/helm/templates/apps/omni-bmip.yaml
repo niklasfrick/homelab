@@ -1,4 +1,5 @@
 {{- $applicationName := "omni-bmip" }}
+{{- if hasKey .Values.apps $applicationName }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -17,6 +18,14 @@ spec:
       releaseName: {{ $applicationName }}
       valueFiles:
         - $values/apps/omni/settings/omni-local/omni-local-bare-metal-infra-provider-helm-values.yaml
+  {{- if index .Values.apps $applicationName "configHelmChart" "enabled" }}
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
+    helm:
+      releaseName: {{ $applicationName }}-config
+      valueFiles:
+        - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-config-helm-values.yaml
+  {{- end }}
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
   syncPolicy:
@@ -31,3 +40,4 @@ spec:
     automated:
       selfHeal: true
       prune: true
+{{- end }}

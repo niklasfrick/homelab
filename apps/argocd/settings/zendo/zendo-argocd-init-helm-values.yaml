@@ -1,0 +1,6 @@
+instance: zendo
+
+secrets:
+  githubOauthSecret:
+    clientIdKey: ZENDO_GITHUB_OIDC_CLIENT_ID
+    clientSecretKey: ZENDO_GITHUB_OIDC_CLIENT_SECRET

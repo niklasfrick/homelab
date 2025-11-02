@@ -1,0 +1,12 @@
+routerIpV4Address: 10.96.10.1
+
+ipV4loadbalancerIpPool:
+  start: 10.96.211.100
+  stop: 10.96.211.105
+
+internalGatewayName: internal-gateway
+internalLbIpPoolName: zendo-lb-ip-pool
+internalGatewayIpv4: 10.96.211.100
+
+domain: "*.apps.949x.net"
+tlsSecretName: "apps-949x-net-tls"

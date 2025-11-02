@@ -1,0 +1,5 @@
+grafana:
+  ingress:
+    enabled: false
+  route:
+    enabled: false

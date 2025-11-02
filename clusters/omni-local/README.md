@@ -93,7 +93,7 @@ kubectl get nodes
 
 > **Note**: Since this cluster uses Cilium for container networking, nodes will not be in "Ready" state immediately. They will transition to "Ready" after Cilium is installed and configured.
 
-### 7. Installing and Configuing Cilium CNI
+### 7. Installing and Configuring Cilium CNI
 
 1. Install the custom Gateway API CRDs Helm chart first, which is located at `charts/gateway-api-crds`:
    
@@ -125,7 +125,7 @@ kubectl get nodes
 4. Deploy the Cilium config Helm chart using the provided values file in `apps/cilium-config/omni-local/`:
 
    ```bash
-   helm install cilium-config apps/cilium-config/helm \
+   helm install cilium-config apps/cilium/helm/cilium-config \
      --namespace kube-system \
      -f apps/cilium-config/settings/omni-local/omni-local-cilium-config-helm-values.yaml
    ```

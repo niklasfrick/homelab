@@ -1,4 +1,4 @@
-instance: omni-local
+instance: zendo
 
 apps:
   alloy:
@@ -25,24 +25,14 @@ apps:
     targetRevision: "v5.20.0" # renovate:helm depName=grafana-operator registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:
       enabled: true
-  internal-ingress-nginx:
-    targetRevision: 4.13.3 # renovate:helm depName=ingress-nginx registryUrl=https://kubernetes.github.io/ingress-nginx
-    configHelmChart:
-      enabled: false
   kube-prometheus-stack:
     targetRevision: 78.5.0 # renovate:helm depName=kube-prometheus-stack registryUrl=https://prometheus-community.github.io/helm-charts
     configHelmChart:
       enabled: true
-  local-path-provisioner:
-    targetRevision: HEAD
   loki:
     targetRevision: 6.44.0 # renovate:helm depName=loki registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:
       enabled: false
-  omni-bmip:
-    targetRevision: HEAD
-  omni:
-    targetRevision: HEAD
   twingate-connector:
     targetRevision: 0.1.31 # renovate:helm depName=connector registryUrl=https://twingate.github.io/helm-charts
     configHelmChart:

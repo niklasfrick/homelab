@@ -10,7 +10,7 @@ provisioning:
   grow: false
 ---
 apiVersion: v1alpha1
-kind: UserVolumeConfig
+kind: RawVolumeConfig
 name: storage-data
 provisioning:
   diskSelector:

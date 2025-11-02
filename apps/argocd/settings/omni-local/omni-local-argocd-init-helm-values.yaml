@@ -1,1 +1,6 @@
 instance: omni-local
+
+secrets:
+  githubOauthSecret:
+    clientIdKey: OMNI_GITHUB_OIDC_CLIENT_ID
+    clientSecretKey: OMNI_GITHUB_OIDC_CLIENT_SECRET

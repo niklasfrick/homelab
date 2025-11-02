@@ -3,9 +3,9 @@ global:
 
 repoServer:
   metrics:
-    enabled: true
+    enabled: false
     serviceMonitor:
-      enabled: true
+      enabled: false
   autoscaling:
     enabled: true
     minReplicas: 2
@@ -15,31 +15,31 @@ repoServer:
 
 controller:
   metrics:
-    enabled: true
+    enabled: false
     serviceMonitor:
-      enabled: true
+      enabled: false
 
 applicationSet:
   metrics:
-    enabled: true
+    enabled: false
     serviceMonitor:
-      enabled: true
+      enabled: false
   replicas: 2
 
 dex:
   metrics:
-    enabled: true
+    enabled: false
     serviceMonitor:
-      enabled: true
+      enabled: false
 
 redis-ha:
   enabled: true
 
 server:
   metrics:
-    enabled: true
+    enabled: false
     serviceMonitor:
-      enabled: true
+      enabled: false
   autoscaling:
     enabled: true
     minReplicas: 2
