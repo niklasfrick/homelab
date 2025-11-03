@@ -19,6 +19,7 @@ grafana:
   deployDashboards: true
   storage:
     size: 300Mi
+    storageClassName: local-path
   resources:
     limits:
       memory: 300Mi

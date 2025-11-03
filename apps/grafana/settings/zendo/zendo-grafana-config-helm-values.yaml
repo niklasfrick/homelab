@@ -3,3 +3,5 @@ grafana:
   hostname: grafana.apps.949x.net
   route:
     enabled: true
+  storage:
+    storageClassName: ceph-block
