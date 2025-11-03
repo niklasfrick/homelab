@@ -1,0 +1,50 @@
+prometheus:
+  prometheusSpec:
+    replicas: 2
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: local-path
+          resources:
+            requests:
+              storage: 30Gi
+  thanosService:
+    enabled: true
+  thanosServiceMonitor:
+    enabled: true
+
+alertmanager:
+  templateFiles:
+    telegram.tmpl: |-
+      {{ define "telegram.message" }}
+
+      {{ if eq .Status "firing" }}🔥 {{ end }}{{ if eq .Status "resolved" }}✅ {{ end }}<b>[{{ .Status | toUpper }}] [zendo] {{ .CommonLabels.alertname }} on {{ .CommonLabels.instance }}</b>
+      {{ range .Alerts }}
+      {{$severity := .Labels.severity -}}
+      {{if eq $severity "warning" -}}
+      <b>Severity: </b> WARNING ⚠️
+      {{else if eq $severity "critical" -}}
+      <b>Severity: </b> CRITICAL 🚨
+      {{else -}}
+      <b>Severity: </b> {{$severity | toUpper }} 😱
+      {{ end -}}
+      {{$status := .Status -}}
+      {{ if eq $status "firing" -}}
+      <b>Date/Time: </b> {{ .StartsAt.Format "Mon 02 Jan 15:04:05 MST 2006" }}
+      {{else if eq $status "resolved" -}}
+      <b>Date/Time: </b> {{ .EndsAt.Format "Mon 02 Jan 15:04:05 MST 2006" }}
+      {{ end -}}
+      <b>Alert: </b> {{ .Labels.alertname }}
+      <b>Description: </b> {{ .Annotations.description }}
+      <b>Details: </b>
+        {{ range .Labels.SortedPairs }} - <i>{{ .Name | title }}</i>: <code>{{ .Value }}</code>
+        {{ end }}
+      {{ if .Annotations.runbook_url }}
+      Runbook: {{ .Annotations.runbook_url }}
+      {{ end }}
+      {{ end }}
+      <a href="https://grafana.apps.949x.net/alerting/list?view=state">Go to Grafana</a>
+      {{ end }}
+
+  alertmanagerSpec:
+    externalUrl: "https://grafana.apps.949x.net/alerting/list?view=state"

@@ -1,0 +1,4 @@
+twingateSecret:
+  remoteRefKey:
+    accessToken: "ZENDO_ACCESS_TOKEN"
+    refreshToken: "ZENDO_REFRESH_TOKEN"
