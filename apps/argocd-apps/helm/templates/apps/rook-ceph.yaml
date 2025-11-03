@@ -1,0 +1,51 @@
+{{- $applicationName := "rook-ceph" }}
+{{- if hasKey .Values.apps $applicationName }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $applicationName }}
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ $applicationName }}
+  sources:
+  - chart: rook-ceph
+    repoURL: https://charts.rook.io/release
+    path: rook
+    targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
+    helm:
+      releaseName: rook-ceph
+      valueFiles:
+      - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
+  - chart: rook-ceph-cluster
+    repoURL: https://charts.rook.io/release
+    path: rook
+    targetRevision: {{ index .Values.apps "rook-ceph-cluster" "targetRevision" }}
+    helm:
+      releaseName: rook-ceph-cluster
+      valueFiles:
+      - $values/apps/rook-ceph-cluster/settings/global-rook-ceph-cluster-helm-values.yaml
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
+    helm:
+      releaseName: {{ $applicationName }}-config
+      valueFiles:
+        - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-config-helm-values.yaml
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    ref: values
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/enforce-version: latest
+        pod-security.kubernetes.io/warn: privileged
+        pod-security.kubernetes.io/warn-version: latest
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
+{{- end }}

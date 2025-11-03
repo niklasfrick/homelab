@@ -1,0 +1,13 @@
+cephClusterSpec:
+  mon:
+    count: 1 #TODO: remove once t3s-zendo-w3 is back
+  mgr:
+    count: 1 #TODO: remove once t3s-zendo-w3 is back
+  storage:
+    useAllDevices: false
+    devices:
+      - name: "sda5"
+
+monitoring:
+  enabled: true
+  createPrometheusRules: true
