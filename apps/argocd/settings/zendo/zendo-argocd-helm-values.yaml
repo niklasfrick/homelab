@@ -3,49 +3,33 @@ global:
 
 repoServer:
   metrics:
-    enabled: false
-    serviceMonitor:
-      enabled: false
-  autoscaling:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
-    targetMemoryUtilizationPercentage: 150
-    targetCPUUtilizationPercentage: 400
+    serviceMonitor:
+      enabled: true
 
 controller:
   metrics:
-    enabled: false
+    enabled: true
     serviceMonitor:
-      enabled: false
+      enabled: true
 
 applicationSet:
   metrics:
-    enabled: false
+    enabled: true
     serviceMonitor:
-      enabled: false
-  replicas: 2
+      enabled: true
 
 dex:
   metrics:
-    enabled: false
+    enabled: true
     serviceMonitor:
-      enabled: false
-
-redis-ha:
-  enabled: true
+      enabled: true
 
 server:
   metrics:
-    enabled: false
-    serviceMonitor:
-      enabled: false
-  autoscaling:
     enabled: true
-    minReplicas: 2
-    maxReplicas: 5
-    targetMemoryUtilizationPercentage: 150
-    targetCPUUtilizationPercentage: 200
+    serviceMonitor:
+      enabled: true
   httproute:
     hostnames:
       - argocd.apps.949x.net
