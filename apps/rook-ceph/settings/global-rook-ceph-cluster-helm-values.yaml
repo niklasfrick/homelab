@@ -7,6 +7,31 @@ cephClusterSpec:
     useAllDevices: false
     devices:
       - name: "sda5"
+  resources:
+    mgr:
+      limits:
+        memory: "1Gi"
+      requests:
+        cpu: "300m"
+        memory: "512Mi"
+    mon:
+      limits:
+        memory: "2Gi"
+      requests:
+        cpu: "300m"
+        memory: "512Mi"
+    osd:
+      limits:
+        memory: "2Gi"
+      requests:
+        cpu: "500m"
+        memory: "2Gi"
+    prepareosd:
+      requests:
+        cpu: "300m"
+    cleanup:
+      requests:
+        cpu: "300m"
 
 monitoring:
   enabled: true
