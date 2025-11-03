@@ -46,3 +46,6 @@ server:
     maxReplicas: 5
     targetMemoryUtilizationPercentage: 150
     targetCPUUtilizationPercentage: 200
+  httproute:
+    hostnames:
+      - argocd.apps.949x.net
