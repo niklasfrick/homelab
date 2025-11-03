@@ -29,9 +29,9 @@ prometheus:
     enabled: false
 
   thanosService:
-    enabled: true
+    enabled: false
   thanosServiceMonitor:
-    enabled: true
+    enabled: false
 
 prometheusOperator:
   resources:
