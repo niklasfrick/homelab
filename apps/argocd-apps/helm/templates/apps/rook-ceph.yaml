@@ -27,13 +27,7 @@ spec:
     helm:
       releaseName: rook-ceph-cluster
       valueFiles:
-      - $values/apps/rook-ceph-cluster/settings/global-rook-ceph-cluster-helm-values.yaml
-  - repoURL: git@github.com:niklasfrick/homelab.git
-    path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
-    helm:
-      releaseName: {{ $applicationName }}-config
-      valueFiles:
-        - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-config-helm-values.yaml
+      - $values/apps/rook-ceph/settings/global-rook-ceph-cluster-helm-values.yaml
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
   syncPolicy:
