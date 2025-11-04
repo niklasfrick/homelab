@@ -38,6 +38,7 @@ cephClusterSpec:
     cleanup:
       requests:
         cpu: "200m"
+        memory: "50Mi"
 
 cephFileSystems:
   - name: ceph-filesystem
