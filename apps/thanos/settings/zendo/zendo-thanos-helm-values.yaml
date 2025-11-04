@@ -1,0 +1,32 @@
+extraDeploy:
+  - |
+    apiVersion: external-secrets.io/v1
+    kind: ExternalSecret
+    metadata:
+      name: thanos-s3-keys
+      namespace: {{ .Release.Namespace }}
+    spec:
+      refreshInterval: 1h
+      secretStoreRef:
+        name: infisical-secret-store
+        kind: ClusterSecretStore
+      target:
+        name: thanos-s3-keys
+        template:
+          engineVersion: v2
+          data:
+            objstore.yml: |-
+              type: s3
+              config:
+                bucket: zendo-thanos-store
+                endpoint: s3.bal.949x.net:9001
+                region: bal
+                access_key: "{{ `{{ .accesskey }}` }}"
+                secret_key: "{{ `{{ .secretkey }}` }}"
+      data:
+        - secretKey: accesskey
+          remoteRef:
+            key: /minio-s3-bal/GLOBAL_S3_RW_ACCESS_KEY
+        - secretKey: secretkey
+          remoteRef:
+            key: /minio-s3-bal/GLOBAL_S3_RW_SECRET_KEY

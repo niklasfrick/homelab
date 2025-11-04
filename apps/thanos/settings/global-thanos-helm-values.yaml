@@ -1,0 +1,47 @@
+global:
+  security:
+    allowInsecureImages: true
+
+image:
+  registry: quay.io
+  repository: thanos/thanos
+  tag: v0.40.1
+
+existingObjstoreSecret: thanos-s3-keys
+
+query:
+  enabled: true
+  dnsDiscovery:
+    sidecarsService: kube-prometheus-stack-thanos-discovery
+    sidecarsNamespace: kube-prometheus-stack
+  extraFlags:
+    - --query.replica-label=prometheus_replica
+    - --query.replica-label=rule_replica
+bucketweb:
+  enabled: true
+
+compactor:
+  enabled: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 384Mi
+
+storegateway:
+  enabled: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 384Mi
+
+receive:
+  enabled: true
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
