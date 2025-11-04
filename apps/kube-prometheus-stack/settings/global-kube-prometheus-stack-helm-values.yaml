@@ -28,11 +28,6 @@ prometheus:
   ingress:
     enabled: false
 
-  thanosService:
-    enabled: false
-  thanosServiceMonitor:
-    enabled: false
-
 prometheusOperator:
   resources:
     requests:
