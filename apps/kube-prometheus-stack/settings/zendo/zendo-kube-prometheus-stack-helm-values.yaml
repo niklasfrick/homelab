@@ -1,13 +1,22 @@
 prometheus:
   prometheusSpec:
     replicas: 2
+    retention: 2d
+    retentionSize: "1GB"
     storageSpec:
       volumeClaimTemplate:
         spec:
           storageClassName: ceph-block
           resources:
             requests:
-              storage: 30Gi
+              storage: 10Gi
+    thanos:
+      objectStorageConfig:
+        existingSecret:
+          name: thanos-s3-keys
+          key: thanos-object-storage-config.yaml
+      additionalArgs:
+        - name: shipper.upload-compacted
   thanosService:
     enabled: true
   thanosServiceMonitor:
