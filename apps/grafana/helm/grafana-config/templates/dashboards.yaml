@@ -167,7 +167,7 @@ spec:
       grafanaInstance: main
   allowCrossNamespaceImport: true
   datasources:
-    - datasourceName: ${datasource}
+    - datasourceName: prometheus
       inputName: DS_PROMETHEUS
   contentCacheDuration: 1h
   folder: "Kubernetes"
