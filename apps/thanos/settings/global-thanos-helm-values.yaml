@@ -5,7 +5,7 @@ global:
 image:
   registry: quay.io
   repository: thanos/thanos
-  tag: v0.40.1
+  tag: v0.40.1 # renovate:docker depName=thanos registryUrl=quay.io/thanos/thanos
 
 existingObjstoreSecret: thanos-s3-keys
 
