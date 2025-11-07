@@ -14,11 +14,10 @@ prometheus:
               storage: 30Gi
     resources:
       requests:
-        cpu: 200m
-        memory: 1600Mi
+        cpu: 125m
+        memory: 1100Mi
       limits:
-        cpu: 2
-        memory: 3Gi
+        memory: 1600Mi
     serviceMonitorSelector: {}
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
@@ -92,10 +91,9 @@ alertmanager:
       - alertmanager-secrets
     resources:
       requests:
-        cpu: 6m
-        memory: 60Mi
+        cpu: 10m
+        memory: 100Mi
       limits:
-        cpu: 500m
         memory: 100Mi
 
 kube-state-metrics:
