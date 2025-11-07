@@ -16,15 +16,34 @@ securityContext:
 webhook:
   securityContext:
     seccompProfile: null
+  resources:
+    limits:
+      memory: 100Mi
+    requests:
+      cpu: 10m
+      memory: 100Mi
 
 cainjector:
   securityContext:
     seccompProfile: null
+  resources:
+    limits:
+      memory: 100Mi
+    requests:
+      cpu: 10m
+      memory: 100Mi
 
 prometheus:
   enabled: true
   servicemonitor:
     enabled: true
+
+resources:
+  limits:
+    memory: 100Mi
+  requests:
+    cpu: 10m
+    memory: 100Mi
 
 extraObjects:
   - |

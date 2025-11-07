@@ -2,6 +2,12 @@ monitoring:
   enabled: true
   createPrometheusRules: true
 
+cephFileSystemVolumeSnapshotClass:
+  enabled: true
+
+cephBlockPoolsVolumeSnapshotClass:
+  enabled: true
+
 cephClusterSpec:
   crashCollector:
     disable: true
@@ -16,22 +22,22 @@ cephClusterSpec:
   resources:
     mgr:
       limits:
-        memory: "950Mi"
+        memory: "644Mi"
       requests:
-        cpu: "200m"
-        memory: "700Mi"
+        cpu: "30m"
+        memory: "644Mi"
     mon:
       limits:
-        memory: "950Mi"
+        memory: "455Mi"
       requests:
-        cpu: "200m"
-        memory: "500Mi"
+        cpu: "35m"
+        memory: "455Mi"
     osd:
       limits:
-        memory: "1.5Gi"
+        memory: "1322Mi"
       requests:
-        cpu: "300m"
-        memory: "1Gi"
+        cpu: "30m"
+        memory: "1322Mi"
     prepareosd:
       requests:
         cpu: "200m"
@@ -41,7 +47,13 @@ cephClusterSpec:
         memory: "50Mi"
     logCollector:
       requests:
-        cpu: "50m"
+        cpu: "10m"
+        memory: "100Mi"
+      limits:
+        memory: "100Mi"
+    exporter:
+      requests:
+        cpu: "10m"
         memory: "100Mi"
       limits:
         memory: "250Mi"
@@ -64,10 +76,10 @@ cephFileSystems:
         activeStandby: true
         resources:
           limits:
-            memory: "1Gi"
+            memory: "100Mi"
           requests:
-            cpu: "300m"
-            memory: "512Mi"
+            cpu: "20m"
+            memory: "100Mi"
         priorityClassName: system-cluster-critical
     storageClass:
       enabled: true

@@ -17,17 +17,38 @@ query:
   extraFlags:
     - --query.replica-label=prometheus_replica
     - --query.replica-label=rule_replica
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+    limits:
+      memory: 100Mi
+
+queryFrontend:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+    limits:
+      memory: 100Mi
+
 bucketweb:
   enabled: true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+    limits:
+      memory: 100Mi
 
 compactor:
   enabled: true
   resources:
     requests:
-      cpu: 100m
-      memory: 256Mi
+      cpu: 10m
+      memory: 285Mi
     limits:
-      memory: 384Mi
+      memory: 285Mi
 
 storegateway:
   enabled: true

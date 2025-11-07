@@ -5,7 +5,7 @@ grafana:
     storageClassName: local-path
   resources:
     limits:
-      memory: 300Mi
+      memory: 175Mi
     requests:
-      cpu: 10m
-      memory: 90Mi
+      cpu: 14m
+      memory: 175Mi

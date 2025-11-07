@@ -34,19 +34,19 @@ configs:
 repoServer:
   resources:
     limits:
-      memory: 250Mi
+      memory: 100Mi
     requests:
-      cpu: 15m
-      memory: 150Mi
+      cpu: 10m
+      memory: 100Mi
 
 controller:
   replicas: 1
   resources:
     limits:
-      memory: 2Gi
+      memory: 768Mi
     requests:
-      cpu: 160m
-      memory: 500Mi
+      cpu: 81m
+      memory: 768Mi
 
 applicationSet:
   resources:
@@ -64,16 +64,16 @@ dex:
     limits:
       memory: 150Mi
     requests:
-      cpu: 1m
+      cpu: 10m
       memory: 100Mi
 
-redis-ha:
+redis:
   resources:
     limits:
-      memory: 30Mi
+      memory: 100Mi
     requests:
-      cpu: 5m
-      memory: 15Mi
+      cpu: 10m
+      memory: 100Mi
 
 server:
   httproute:
@@ -84,7 +84,7 @@ server:
         sectionName: https
   resources:
     limits:
-      memory: 250Mi
+      memory: 100Mi
     requests:
       cpu: 10m
-      memory: 150Mi
+      memory: 100Mi

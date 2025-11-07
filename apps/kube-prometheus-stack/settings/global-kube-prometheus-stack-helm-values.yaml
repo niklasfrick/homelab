@@ -31,12 +31,10 @@ prometheus:
 prometheusOperator:
   resources:
     requests:
-      cpu: 5m
-      memory: 150Mi
+      cpu: 10m
+      memory: 100Mi
     limits:
-      cpu: 300m
-      memory: 300Mi
-  #configReloaderCpu: 10m
+      memory: 100Mi
 
 prometheus-node-exporter:
   resources:
@@ -113,11 +111,10 @@ kube-state-metrics:
     enabled: true
   resources:
     requests:
-      cpu: 5m
-      memory: 30Mi
+      cpu: 10m
+      memory: 100Mi
     limits:
-      cpu: 200m
-      memory: 256Mi
+      memory: 100Mi
 
 additionalPrometheusRulesMap:
   user-rules:

@@ -38,6 +38,14 @@ backend:
         secretKeyRef:
           name: loki-s3-keys
           key: secretkey
+gateway:
+  resources:
+    limits:
+      memory: 100Mi
+    requests:
+      cpu: 10m
+      memory: 100Mi
+
 read:
   replicas: 1
   extraArgs:
@@ -54,6 +62,13 @@ read:
         secretKeyRef:
           name: loki-s3-keys
           key: secretkey
+  resources:
+    limits:
+      memory: 173Mi
+    requests:
+      cpu: 10m
+      memory: 173Mi
+
 write:
   replicas: 1
   persistence:
