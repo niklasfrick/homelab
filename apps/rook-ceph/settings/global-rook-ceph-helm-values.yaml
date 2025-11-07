@@ -3,10 +3,10 @@ monitoring:
 
 resources:
   limits:
-    memory: 114Mi
+    memory: 150Mi
   requests:
     cpu: 177m
-    memory: 114Mi
+    memory: 150Mi
 
 csi:
   serviceMonitor:
