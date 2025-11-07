@@ -2,11 +2,11 @@ monitoring:
   enabled: true
   createPrometheusRules: true
 
-cephFileSystemVolumeSnapshotClass:
-  enabled: true
+# cephFileSystemVolumeSnapshotClass:
+#   enabled: true
 
-cephBlockPoolsVolumeSnapshotClass:
-  enabled: true
+# cephBlockPoolsVolumeSnapshotClass:
+#   enabled: true
 
 cephClusterSpec:
   crashCollector:
