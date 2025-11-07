@@ -34,10 +34,10 @@ configs:
 repoServer:
   resources:
     limits:
-      memory: 200Mi
+      memory: 250Mi
     requests:
       cpu: 10m
-      memory: 200Mi
+      memory: 150Mi
 
 controller:
   replicas: 1
