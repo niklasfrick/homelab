@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: workloads
+spec:
+  description: Workloads App Project
+  sourceRepos:
+  - 'git@github.com:niklasfrick/homelab.git'
+  destinations:
+    - namespace: 'plausible'
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
+  - group: 'rbac.authorization.k8s.io'
+  namespaceResourceBlacklist:
+  - group: ''
+    kind: ResourceQuota
+  - group: ''
+    kind: LimitRange
+  # Enables namespace orphaned resource monitoring.
+  orphanedResources:
+    warn: true
