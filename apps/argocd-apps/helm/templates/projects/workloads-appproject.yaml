@@ -13,7 +13,6 @@ spec:
   clusterResourceWhitelist:
   - group: ''
     kind: Namespace
-  - group: 'rbac.authorization.k8s.io'
   namespaceResourceBlacklist:
   - group: ''
     kind: ResourceQuota
