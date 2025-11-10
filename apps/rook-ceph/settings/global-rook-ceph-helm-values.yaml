@@ -24,10 +24,10 @@ csi:
     - name : csi-rbdplugin
       resource:
         requests:
-          memory: 130Mi
+          memory: 250Mi
           cpu: 10m
         limits:
-          memory: 150Mi
+          memory: 300Mi
     - name : liveness-prometheus
       resource:
         requests:
@@ -70,10 +70,10 @@ csi:
     - name : csi-cephfsplugin
       resource:
         requests:
-          memory: 150Mi
+          memory: 155Mi
           cpu: 10m
         limits:
-          memory: 175Mi
+          memory: 180Mi
     - name : liveness-prometheus
       resource:
         requests:
@@ -95,10 +95,10 @@ csi:
     - name : csi-cephfsplugin
       resource:
         requests:
-          memory: 100Mi
+          memory: 155Mi
           cpu: 10m
         limits:
-          memory: 100Mi
+          memory: 180Mi
     - name : liveness-prometheus
       resource:
         requests:

@@ -1,10 +1,10 @@
 alloy:
   resources:
     limits:
-      memory: 146Mi
+      memory: 220Mi
     requests:
       cpu: 13m
-      memory: 146Mi
+      memory: 190Mi
 
   mounts:
     dockercontainers: true

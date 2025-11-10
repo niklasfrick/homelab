@@ -15,7 +15,7 @@ prometheus:
     resources:
       requests:
         cpu: 125m
-        memory: 1100Mi
+        memory: 1300Mi
       limits:
         memory: 1600Mi
     serviceMonitorSelector: {}
