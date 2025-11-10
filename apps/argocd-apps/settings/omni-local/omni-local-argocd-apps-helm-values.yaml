@@ -1,5 +1,9 @@
 instance: omni-local
 
+projects:
+  workloads:
+    enabled: false
+
 apps:
   alloy:
     targetRevision: 1.4.0 # renovate:helm depName=alloy registryUrl=https://grafana.github.io/helm-charts

@@ -1,3 +1,4 @@
+{{- if .Values.projects.workloads.enabled }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -8,3 +9,4 @@ type: Opaque
 stringData:
   project: workloads
   url: git@github.com:niklasfrick/app-settings.git
+{{- end }}
