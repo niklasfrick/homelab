@@ -1,7 +1,7 @@
 deployment:
   replicaCount: 1
   image: ghcr.io/siderolabs/omni-infra-provider-bare-metal
-  tag: "v0.5.0" # renovate:docker depName=omni-infra-provider-bare-metal registryUrl=ghcr.io/siderolabs/omni-infra-provider-bare-metal
+  tag: "v0.5.0" # renovate:docker depName=omni-infra-provider-bare-metal registryUrl=ghcr.io/siderolabs
   imagePullPolicy: IfNotPresent
   labels: {}
   annotations: {}

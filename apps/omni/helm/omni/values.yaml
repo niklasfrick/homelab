@@ -4,7 +4,7 @@ accountUuid:
 privateKeySource: "file:///omni.asc"
 deployment:
   image: ghcr.io/siderolabs/omni
-  tag: "v1.2.1" # renovate:docker depName=omni registryUrl=ghcr.io/siderolabs/omni
+  tag: "v1.2.1" # renovate:docker depName=omni registryUrl=ghcr.io/siderolabs
   replicaCount: 1
   annotations: {}
   imagePullPolicy: IfNotPresent
