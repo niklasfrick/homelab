@@ -3,7 +3,7 @@ monitoring:
 
 resources:
   limits:
-    memory: 150Mi
+    memory: 250Mi
   requests:
     cpu: 177m
     memory: 150Mi
@@ -24,10 +24,10 @@ csi:
     - name : csi-rbdplugin
       resource:
         requests:
-          memory: 100Mi
+          memory: 130Mi
           cpu: 10m
         limits:
-          memory: 100Mi
+          memory: 150Mi
     - name : liveness-prometheus
       resource:
         requests:
@@ -70,10 +70,10 @@ csi:
     - name : csi-cephfsplugin
       resource:
         requests:
-          memory: 100Mi
+          memory: 150Mi
           cpu: 10m
         limits:
-          memory: 100Mi
+          memory: 175Mi
     - name : liveness-prometheus
       resource:
         requests:
