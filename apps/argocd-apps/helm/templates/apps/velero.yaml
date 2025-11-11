@@ -30,8 +30,6 @@ spec:
     path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
     helm:
       releaseName: {{ $applicationName }}-config
-      valueFiles:
-        - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-config-helm-values.yaml
   {{- end }}
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
