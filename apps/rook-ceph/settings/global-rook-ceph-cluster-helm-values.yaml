@@ -11,6 +11,8 @@ monitoring:
 cephClusterSpec:
   crashCollector:
     disable: true
+  dashboard:
+    ssl: false
   storage:
     useAllDevices: false
     devices:
