@@ -19,6 +19,7 @@ spec:
       releaseName: velero
       valueFiles:
       - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
+      - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
   - chart: snapshot-controller
     repoURL: https://piraeus.io/helm-charts
     path: snapshot-controller
