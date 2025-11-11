@@ -1,0 +1,18 @@
+configuration:
+  features: EnableCSI
+  backupStorageLocation:
+    - name: nas-bal
+      provider: aws
+      default: true
+      bucket: zendo-velero-backup
+      config:
+        s3Url: https://nas.bal.949x.net:9001
+        publicUrl: https://nas.bal.949x.net:9001
+        insecureSkipTLSVerify: false
+        region: bal
+        s3ForcePathStyle: true
+  volumeSnapshotLocation:
+    - name: rook-ceph
+      provider: csi
+      default: true
+  defaultVolumeSnapshotLocations: csi:rook-ceph

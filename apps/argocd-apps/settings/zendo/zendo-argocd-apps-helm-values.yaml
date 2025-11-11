@@ -53,3 +53,7 @@ apps:
     targetRevision: 0.1.31 # renovate:helm depName=connector registryUrl=https://twingate.github.io/helm-charts
     configHelmChart:
       enabled: true
+  velero:
+    targetRevision: 11.1.1 # renovate:helm depName=velero registryUrl=https://vmware-tanzu.github.io/helm-charts/
+    configHelmChart:
+      enabled: true

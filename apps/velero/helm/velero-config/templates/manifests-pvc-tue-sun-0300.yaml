@@ -1,0 +1,25 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: pvc-manifests-tue-sun-0300
+  namespace: velero
+spec:
+  schedule: "0 1 * * 2-6,0"  # IMPORTANT: Velero Pod has UTC time so CH-Time -2h
+  useOwnerReferencesInBackup: true
+  template:
+    includedNamespaces:
+    - "*"  # Include all namespaces
+    excludedNamespaces:
+    - "thanos"
+    - "plausible"
+    includedResources:
+    - "*"
+    excludedResources:
+    - "secrets"
+    snapshotVolumes: true
+    storageLocation: nas-bal
+    volumeSnapshotLocations:
+      - rook-ceph
+    ttl: 24h0m0s #1 Day retention
+    defaultVolumesToRestic: false
+    includeClusterResources: false
