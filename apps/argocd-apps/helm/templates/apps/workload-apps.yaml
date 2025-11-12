@@ -14,7 +14,7 @@ spec:
       helm:
         releaseName: {{ $applicationName }}
         valueFiles:
-          - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
+          - $values/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
     - repoURL: git@github.com:niklasfrick/app-settings.git
       ref: values
   destination:
