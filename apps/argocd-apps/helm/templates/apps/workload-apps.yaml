@@ -1,0 +1,27 @@
+{{- $applicationName := "workload-apps" }}
+{{- if .Values.projects.workloads.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $applicationName }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: argocd
+  sources:
+    - repoURL: git@github.com:niklasfrick/app-settings.git
+      path: {{ $applicationName }}/helm
+      helm:
+        releaseName: {{ $applicationName }}
+        valueFiles:
+          - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
+    - repoURL: git@github.com:niklasfrick/app-settings.git
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+{{- end }}

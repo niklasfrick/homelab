@@ -6,6 +6,7 @@ spec:
   description: ArgoCD App Project
   sourceRepos:
   - 'git@github.com:niklasfrick/homelab.git'
+  - 'git@github.com:niklasfrick/app-settings.git'
   - 'https://argoproj.github.io/argo-helm'
   destinations:
   - namespace: 'argocd'
