@@ -26,14 +26,6 @@ Temporary Items
 .idea
 .vscode
 
-# Terraform
-*.tfstate
-*.tfstate.*
-.terraform/
-.terraform.lock.hcl
-*.tfplan
-*.tfvars
-
 # Environment variables
 .env
 
