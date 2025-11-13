@@ -21,7 +21,7 @@ cephClusterSpec:
         memory: "644Mi"
     mon:
       limits:
-        memory: "455Mi"
+        memory: "530Mi"
       requests:
         cpu: "35m"
         memory: "455Mi"
