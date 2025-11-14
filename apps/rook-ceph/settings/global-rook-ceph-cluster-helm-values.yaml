@@ -3,6 +3,10 @@ monitoring:
   createPrometheusRules: true
 
 cephClusterSpec:
+  cephConfig:
+    global:
+      bdev_enable_discard: "true"
+      bdev_async_discard_threads: "1"
   crashCollector:
     disable: true
   dashboard:
