@@ -1,0 +1,39 @@
+{{- $applicationName := "cloudnative-pg" }}
+{{- if hasKey .Values.apps $applicationName }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $applicationName }}
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cnpg-system
+  sources:
+  - chart: cloudnative-pg
+    repoURL: https://cloudnative-pg.io/charts
+    targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
+    helm:
+      releaseName: cloudnative-pg
+      valueFiles:
+      - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
+  {{- if index .Values.apps $applicationName "configHelmChart" "enabled" }}
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
+    helm:
+      releaseName: {{ $applicationName }}-config
+      valueFiles:
+        - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-config-helm-values.yaml
+  {{- end }}
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    ref: values
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
+    automated:
+      selfHeal: true
+      prune: true
+{{- end }}
