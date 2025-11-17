@@ -34,7 +34,7 @@ configs:
 repoServer:
   resources:
     limits:
-      memory: 250Mi
+      memory: 400Mi
     requests:
       cpu: 10m
       memory: 150Mi
