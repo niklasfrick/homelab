@@ -194,4 +194,24 @@ spec:
   grafanaCom:
     id: 2842
     revision: 18
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: velero-overview
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - datasourceName: prometheus
+      inputName: DS_PROMETHEUS
+  contentCacheDuration: 1h
+  folder: "Kubernetes"
+  grafanaCom:
+    id: 23838
+    revision: 1
 {{- end }}
