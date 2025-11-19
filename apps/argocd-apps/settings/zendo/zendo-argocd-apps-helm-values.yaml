@@ -62,6 +62,6 @@ apps:
     configHelmChart:
       enabled: true
   velero:
-    targetRevision: 11.1.1 # renovate:helm depName=velero registryUrl=https://vmware-tanzu.github.io/helm-charts/
+    targetRevision: 11.2.0 # renovate:helm depName=velero registryUrl=https://vmware-tanzu.github.io/helm-charts/
     configHelmChart:
       enabled: true
