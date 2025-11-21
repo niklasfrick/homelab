@@ -26,7 +26,7 @@ apps:
     configHelmChart:
       enabled: false
   external-secrets:
-    targetRevision: 1.0.0 # renovate:helm depName=external-secrets registryUrl=https://charts.external-secrets.io
+    targetRevision: 1.1.0 # renovate:helm depName=external-secrets registryUrl=https://charts.external-secrets.io
     configHelmChart:
       enabled: false
   grafana:
