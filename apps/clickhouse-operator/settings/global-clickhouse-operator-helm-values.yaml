@@ -22,15 +22,15 @@ additionalResources:
     apiVersion: external-secrets.io/v1
     kind: ExternalSecret
     metadata:
-      name: "{{ `{{ include "altinity-clickhouse-operator.fullname" . }}` }}-es
-      namespace: "{{ `{{ .Release.Namespace }}` }}"
+      name: clickhouse-operator-es
+      namespace: clickhouse-operator
     spec:
       refreshInterval: 1h
       secretStoreRef:
         name: infisical-secret-store
         kind: ClusterSecretStore
       target:
-        name: "{{ `{{ include "altinity-clickhouse-operator.fullname" . }}` }}"
+        name: clickhouse-operator
       data:
         - secretKey: username
           remoteRef:
