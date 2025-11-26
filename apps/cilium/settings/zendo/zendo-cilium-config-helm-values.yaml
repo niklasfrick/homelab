@@ -20,8 +20,8 @@ internalGateway:
   name: internal-gateway
   namespace: kube-system
   ipV4: 10.96.211.100
-  domain: "*.apps-omni.949x.net"
-  tlsSecretName: "apps-omni-949x-net-tls"
+  domain: "*.apps.949x.net"
+  tlsSecretName: "apps-949x-net-tls"
 
 externalGateway:
   enabled: true
