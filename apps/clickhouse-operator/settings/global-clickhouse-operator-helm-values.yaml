@@ -35,6 +35,12 @@ additionalResources:
         - secretKey: username
           remoteRef:
             key: /clickhouse-operator/ZENDO_CLICKHOUSE_OPERATOR_USERNAME
+            conversionStrategy: Default # ArgoCD out of Sync Fix
+            decodingStrategy: None # ArgoCD out of Sync Fix
+            metadataPolicy: None # ArgoCD out of Sync Fix
         - secretKey: password
           remoteRef:
             key: /clickhouse-operator/ZENDO_CLICKHOUSE_OPERATOR_PASSWORD
+            conversionStrategy: Default # ArgoCD out of Sync Fix
+            decodingStrategy: None # ArgoCD out of Sync Fix
+            metadataPolicy: None # ArgoCD out of Sync Fix
