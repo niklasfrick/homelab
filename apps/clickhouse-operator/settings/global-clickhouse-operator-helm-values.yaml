@@ -31,8 +31,6 @@ additionalResources:
         kind: ClusterSecretStore
       target:
         name: "{{ `{{ include "altinity-clickhouse-operator.fullname" . }}` }}"
-        labels: "{{ `{{ include "altinity-clickhouse-operator.labels" . | nindent 6 }}` }}"
-        annotations: "{{ `{{ include "altinity-clickhouse-operator.annotations" . | nindent 6 }}` }}"
       data:
         - secretKey: username
           remoteRef:
