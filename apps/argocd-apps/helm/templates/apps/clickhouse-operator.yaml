@@ -14,6 +14,7 @@ spec:
   sources:
   - chart: altinity-clickhouse-operator
     repoURL: https://helm.altinity.com
+    path: altinity
     targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
     helm:
       releaseName: clickhouse-operator
