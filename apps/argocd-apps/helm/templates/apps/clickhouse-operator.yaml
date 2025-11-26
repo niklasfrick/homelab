@@ -29,6 +29,11 @@ spec:
   {{- end }}
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
+  ignoreDifferences:
+    - group: apps # ArgoCD out of Sync Fix: https://github.com/argoproj/argo-cd/issues/18197
+      kind: Deployment
+      jqPathExpressions:
+        - '.spec.template.spec.containers[].env[]?.valueFrom.resourceFieldRef.divisor'
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
