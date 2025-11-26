@@ -1,4 +1,5 @@
-routerIpV4Address: 10.96.10.1
+bgp:
+  routerIpV4Address: 10.96.10.1
 
 internalLbIpPool:
   enabled: true
