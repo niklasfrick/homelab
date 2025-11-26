@@ -1,5 +1,6 @@
 {{- $applicationName := "clickhouse-operator" }}
 {{- if hasKey .Values.apps $applicationName }}
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
