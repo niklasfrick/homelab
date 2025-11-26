@@ -21,6 +21,10 @@ apps:
     targetRevision: 1.18.3 # renovate:helm depName=cilium registryUrl=https://helm.cilium.io
     configHelmChart:
       enabled: true
+  clickhouse-operator:
+    targetRevision: 0.25.5 # renovate:helm depName=altinity-clickhouse-operator registryUrl=https://helm.altinity.com
+    configHelmChart:
+      enabled: false
   cloudnative-pg:
     targetRevision: 0.26.1 # renovate:helm depName=cloudnative-pg registryUrl=https://cloudnative-pg.io/charts
     configHelmChart:

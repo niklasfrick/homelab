@@ -19,6 +19,7 @@ spec:
   - 'registry-1.docker.io/bitnamicharts'
   - 'https://kubernetes.github.io/ingress-nginx'
   - 'https://charts.rook.io/release'
+  - 'https://helm.altinity.com'
   destinations:
     - namespace: 'alloy'
       server: https://kubernetes.default.svc
@@ -39,6 +40,8 @@ spec:
     - namespace: 'loki'
       server: https://kubernetes.default.svc
     - namespace: 'twingate-connector'
+      server: https://kubernetes.default.svc
+    - namespace: 'clickhouse-operator'
       server: https://kubernetes.default.svc
     - namespace: 'cnpg-system'
       server: https://kubernetes.default.svc
