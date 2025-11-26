@@ -1,12 +1,31 @@
 routerIpV4Address: 10.96.10.1
 
-ipV4loadbalancerIpPool:
-  start: 10.96.211.100
-  stop: 10.96.211.105
+internalLbIpPool:
+  enabled: true
+  name: internal-lb-ip-pool
+  ipV4Pool:
+    start: 10.96.211.100
+    stop: 10.96.211.150
 
-internalGatewayName: internal-gateway
-internalLbIpPoolName: zendo-lb-ip-pool
-internalGatewayIpv4: 10.96.211.100
+externalLbIpPool:
+  enabled: true
+  name: external-lb-ip-pool
+  ipV4Pool:
+    start: 10.96.211.200
+    stop: 10.96.211.250
 
-domain: "*.apps.949x.net"
-tlsSecretName: "apps-949x-net-tls"
+internalGateway:
+  enabled: true
+  name: internal-gateway
+  namespace: kube-system
+  ipV4: 10.96.211.100
+  domain: "*.apps-omni.949x.net"
+  tlsSecretName: "apps-omni-949x-net-tls"
+
+externalGateway:
+  enabled: true
+  name: external-gateway
+  namespace: external-gateway
+  ipV4: 10.96.211.200
+  domain: "*.949x.net"
+  tlsSecretName: "949x-net-tls"

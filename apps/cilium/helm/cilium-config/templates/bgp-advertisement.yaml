@@ -12,4 +12,13 @@ spec:
           - LoadBalancerIP
       selector:
         matchLabels:
-          cilium-lb-ip-pool: {{ .Values.internalLbIpPoolName }}
+          cilium-lb-ip-pool: {{ .Values.internalLbIpPool.name }}
+{{- if .Values.externalLbIpPool.enabled }}
+    - advertisementType: "Service"
+      service:
+        addresses:
+          - LoadBalancerIP
+      selector:
+        matchLabels:
+          cilium-lb-ip-pool: {{ .Values.externalLbIpPool.name }}
+{{- end }}

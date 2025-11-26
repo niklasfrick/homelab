@@ -1,12 +1,17 @@
-routerIpV4Address: 10.96.10.1
+bgp:
+  routerIpV4Address: 10.96.10.1
 
-ipV4loadbalancerIpPool:
-  start: 10.96.210.100
-  stop: 10.96.210.105
+internalLbIpPool:
+  enabled: true
+  name: internal-lb-ip-pool
+  ipV4Pool:
+    start: 10.96.210.100
+    stop: 10.96.210.150
 
-internalGatewayName: internal-gateway
-internalLbIpPoolName: omni-local-lb-ip-pool
-internalGatewayIpv4: 10.96.210.100
-
-domain: "*.apps-omni.949x.net"
-tlsSecretName: "apps-omni-949x-net-tls"
+internalGateway:
+  enabled: true
+  name: internal-gateway
+  namespace: kube-system
+  ipV4: 10.96.210.100
+  domain: "*.apps-omni.949x.net"
+  tlsSecretName: "apps-omni-949x-net-tls"

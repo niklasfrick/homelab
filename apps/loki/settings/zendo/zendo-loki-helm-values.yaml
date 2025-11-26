@@ -26,4 +26,4 @@ gateway:
     annotations:
       io.cilium/lb-ipam-ips: 10.96.211.102
     labels:
-      cilium-lb-ip-pool: zendo-lb-ip-pool
+      cilium-lb-ip-pool: internal-lb-ip-pool

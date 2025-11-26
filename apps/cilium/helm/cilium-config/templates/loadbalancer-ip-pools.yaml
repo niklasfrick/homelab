@@ -1,0 +1,28 @@
+{{- if .Values.internalLbIpPool.enabled }}
+---
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: {{ .Values.internalLbIpPool.name }}
+spec:
+  blocks:
+    - start: {{ .Values.internalLbIpPool.ipV4Pool.start }}
+      stop: {{ .Values.internalLbIpPool.ipV4Pool.stop }}
+  serviceSelector:
+    matchLabels:
+      cilium-lb-ip-pool: {{ .Values.internalLbIpPool.name }}
+{{- end }}
+{{- if .Values.externalLbIpPool.enabled }}
+---
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: {{ .Values.externalLbIpPool.name }}
+spec:
+  blocks:
+    - start: {{ .Values.externalLbIpPool.ipV4Pool.start }}
+      stop: {{ .Values.externalLbIpPool.ipV4Pool.stop }}
+  serviceSelector:
+    matchLabels:
+      cilium-lb-ip-pool: {{ .Values.externalLbIpPool.name }}
+{{- end }}

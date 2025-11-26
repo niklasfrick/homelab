@@ -12,6 +12,6 @@ spec:
       peers:
         - name: "udm-se-65000"
           peerASN: 65000
-          peerAddress: {{ .Values.routerIpV4Address }}
+          peerAddress: {{ .Values.bgp.routerIpV4Address }}
           peerConfigRef:
             name: "cilium-peer"

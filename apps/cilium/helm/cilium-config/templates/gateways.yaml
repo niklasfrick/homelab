@@ -1,0 +1,74 @@
+{{- if .Values.internalGateway.enabled }}
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ .Values.internalGateway.name }}
+  namespace: {{ .Values.internalGateway.namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    labels:
+      cilium-lb-ip-pool: {{ .Values.internalLbIpPool.name }}
+  addresses:
+    - type: IPAddress
+      value: {{ .Values.internalGateway.ipV4 }}
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "{{ .Values.internalGateway.domain }}"
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "{{ .Values.internalGateway.domain }}"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: {{ .Values.internalGateway.tlsSecretName }}
+{{- end }}
+{{- if .Values.externalGateway.enabled }}
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ .Values.externalGateway.name }}
+  namespace: {{ .Values.externalGateway.namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  gatewayClassName: cilium
+  infrastructure:
+    labels:
+      cilium-lb-ip-pool: {{ .Values.externalLbIpPool.name }}
+  addresses:
+    - type: IPAddress
+      value: {{ .Values.externalGateway.ipV4 }}
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      hostname: "{{ .Values.externalGateway.domain }}"
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "{{ .Values.externalGateway.domain }}"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: {{ .Values.externalGateway.tlsSecretName }}
+{{- end }}
