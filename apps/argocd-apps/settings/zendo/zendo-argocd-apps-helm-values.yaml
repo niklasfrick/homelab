@@ -62,7 +62,7 @@ apps:
     configHelmChart:
       enabled: false
   twingate-connector:
-    targetRevision: 0.1.31 # renovate:helm depName=connector registryUrl=https://twingate.github.io/helm-charts
+    targetRevision: 0.1.32 # renovate:helm depName=connector registryUrl=https://twingate.github.io/helm-charts
     configHelmChart:
       enabled: true
   velero:
