@@ -65,16 +65,15 @@ alertmanager:
       repeat_interval: 24h
       receiver: "null"
       routes:
-        - matchers:
+        - receiver: telegram
+          matchers:
             - severity =~ "warning|critical"
-          receiver: telegram
-        - match:
-            alertname: Watchdog
-            receiver: healthchecks-io-deadman
-            group_wait: 0s
-            group_interval: 1m
-            repeat_interval: 50s
-
+        - receiver: healthchecks-io-deadman
+          matchers:
+            - alertname = Watchdog
+          group_wait: 0s
+          group_interval: 1m
+          repeat_interval: 50s
     receivers:
       - name: "null"
       - name: "telegram"
