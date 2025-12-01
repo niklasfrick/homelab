@@ -29,6 +29,10 @@ apps:
     targetRevision: 0.26.1 # renovate:helm depName=cloudnative-pg registryUrl=https://cloudnative-pg.io/charts
     configHelmChart:
       enabled: false
+  external-dns:
+    targetRevision: 1.19.0 # renovate:helm depName=external-dns registryUrl=https://kubernetes-sigs.github.io/external-dns/
+    configHelmChart:
+      enabled: true
   external-secrets:
     targetRevision: 1.1.0 # renovate:helm depName=external-secrets registryUrl=https://charts.external-secrets.io
     configHelmChart:
