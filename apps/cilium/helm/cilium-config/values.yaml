@@ -30,3 +30,4 @@ externalGateway:
   ipV4: 10.96.210.200
   domain: "*.ext.949x.net"
   tlsSecretName: "ext-949x-net-tls"
+  extraAnnotations: {}

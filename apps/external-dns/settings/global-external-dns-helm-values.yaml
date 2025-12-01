@@ -1,0 +1,26 @@
+provider:
+  name: cloudflare
+
+env:
+  - name: CF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: cloudflare-api-token
+        key: api-token
+
+policy: sync
+txtOwnerId: external-dns-external-gateway
+
+gatewayNamespace: external-gateway
+
+sources:
+  - gateway-httproute
+
+serviceMonitor:
+  enabled: true
+
+extraArgs:
+  - --cloudflare-proxied
+  - --cloudflare-regional-services
+  - --cloudflare-region-key="eu"
+  - --cloudflare-record-comment="provisioned by external-dns"

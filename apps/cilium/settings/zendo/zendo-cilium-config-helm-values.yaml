@@ -30,3 +30,5 @@ externalGateway:
   ipV4: 10.96.211.200
   domain: "*.949x.net"
   tlsSecretName: "949x-net-tls"
+  extraAnnotations:
+    external-dns.alpha.kubernetes.io/target: "external-gateway.949x.net"

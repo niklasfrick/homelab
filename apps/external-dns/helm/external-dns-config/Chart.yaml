@@ -1,0 +1,5 @@
+apiVersion: v2
+name: external-dns-config
+description: A Helm chart for deployment of external-dns via external-dns-operator resources
+version: 1.0.0
+appVersion: latest

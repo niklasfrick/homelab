@@ -20,6 +20,7 @@ spec:
   - 'https://kubernetes.github.io/ingress-nginx'
   - 'https://charts.rook.io/release'
   - 'https://helm.altinity.com'
+  - 'https://kubernetes-sigs.github.io/external-dns/'
   destinations:
     - namespace: 'alloy'
       server: https://kubernetes.default.svc
@@ -28,6 +29,8 @@ spec:
     - namespace: 'cilium-secrets'
       server: https://kubernetes.default.svc
     - namespace: 'external-secrets'
+      server: https://kubernetes.default.svc
+    - namespace: 'external-dns'
       server: https://kubernetes.default.svc
     - namespace: 'grafana'
       server: https://kubernetes.default.svc

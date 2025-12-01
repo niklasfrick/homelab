@@ -44,6 +44,9 @@ metadata:
   namespace: {{ .Values.externalGateway.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    {{- if .Values.externalGateway.extraAnnotations -}}
+    {{ toYaml .Values.externalGateway.extraAnnotations | nindent 4 }}
+    {{- end }}
 spec:
   gatewayClassName: cilium
   infrastructure:
