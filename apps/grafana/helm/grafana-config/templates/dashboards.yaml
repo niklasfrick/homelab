@@ -127,7 +127,7 @@ spec:
       grafanaInstance: main
   allowCrossNamespaceImport: true
   datasources:
-    - datasourceName: ${datasource}
+    - datasourceName: prometheus
       inputName: DS_PROMETHEUS
   contentCacheDuration: 1h
   folder: "CloudNativePG"
@@ -214,4 +214,24 @@ spec:
   grafanaCom:
     id: 23838
     revision: 1
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: external-dns
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - datasourceName: prometheus
+      inputName: DS_PROMETHEUS
+  contentCacheDuration: 1h
+  folder: "Kubernetes"
+  grafanaCom:
+    id: 15038
+    revision: 3
 {{- end }}
