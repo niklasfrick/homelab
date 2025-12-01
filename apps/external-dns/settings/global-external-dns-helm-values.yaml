@@ -21,6 +21,4 @@ serviceMonitor:
 
 extraArgs:
   - --cloudflare-proxied
-  - --cloudflare-regional-services
-  - --cloudflare-region-key="eu"
   - --cloudflare-record-comment="provisioned by external-dns"
