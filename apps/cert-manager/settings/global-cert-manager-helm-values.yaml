@@ -28,7 +28,7 @@ cainjector:
     seccompProfile: null
   resources:
     limits:
-      memory: 100Mi
+      memory: 150Mi
     requests:
       cpu: 10m
       memory: 100Mi
