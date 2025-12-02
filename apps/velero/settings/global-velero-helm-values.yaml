@@ -52,7 +52,7 @@ nodeAgent:
 
 credentials:
   useSecret: true
-  name: velero-s3-keys
+  existingSecret: velero-s3-keys
 
 deployNodeAgent: true
 
