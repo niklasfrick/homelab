@@ -234,4 +234,40 @@ spec:
   grafanaCom:
     id: 15038
     revision: 3
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: media-servarr-radarr
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: prometheus
+  contentCacheDuration: 1h
+  folder: "Media Servarr"
+  url: https://raw.githubusercontent.com/onedr0p/exportarr/refs/heads/master/examples/grafana/dashboard.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard 
+metadata:
+  name: media-servarr-all
+  labels:
+    app: grafana
+spec:
+  instanceSelector:
+    matchLabels:
+      grafanaInstance: main
+  allowCrossNamespaceImport: true
+  datasources:
+    - inputName: DS_PROMETHEUS
+      datasourceName: prometheus
+  contentCacheDuration: 1h
+  folder: "Media Servarr"
+  url: https://raw.githubusercontent.com/onedr0p/exportarr/refs/heads/master/examples/grafana/dashboard2.json
 {{- end }}
