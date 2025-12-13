@@ -58,6 +58,7 @@ service:
         # cert-manager.io/cluster-issuer: issuer-name
       tls:
         secretName: ""
+workloadProxyingSubdomain: "omni"
 persistence:
   enabled: true
   persistentVolumeClaim:
