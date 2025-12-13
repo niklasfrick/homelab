@@ -22,19 +22,17 @@ spec:
     - host: {{ .Values.domainName }}
       http:
         paths:
-          - backend:
+          - path: /
+            pathType: Prefix
+            backend:
               service:
                 name: internal
                 port:
                   number: 8080
-            path: /
-            pathType: Prefix
   tls:
     - hosts:
         - {{ .Values.domainName }}
-      {{- with .Values.service.ingress.tls.secretName | default .Values.domainName }}
-      secretName: {{ . }}
-      {{- end }}
+      secretName: {{ .Values.service.ingress.tls.secretName | default .Values.domainName }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -134,9 +132,7 @@ spec:
   tls:
     - hosts:
         - {{ .Values.domainName }}
-      {{- with .Values.service.ingress.tls.secretName | default .Values.domainName }}
-      secretName: {{ . }}
-      {{- end }}
+      secretName: {{ .Values.service.ingress.tls.secretName | default .Values.domainName }}
 {{- end }}
 {{- if .Values.service.k8sProxy.ingress.enabled }}
 ---
@@ -170,9 +166,7 @@ spec:
   tls:
     - hosts:
         - {{ .Values.service.k8sProxy.domainName }}
-      {{- with .Values.service.k8sProxy.ingress.tls.secretName | default .Values.service.k8sProxy.domainName }}
-      secretName: {{ . }}
-      {{- end }}
+      secretName: {{ .Values.service.k8sProxy.ingress.tls.secretName | default .Values.service.k8sProxy.domainName }}
 {{- end }}
 {{- if .Values.service.siderolink.ingress.enabled }}
 ---
@@ -207,9 +201,7 @@ spec:
   tls:
     - hosts:
         - {{ .Values.service.siderolink.domainName }}
-      {{- with .Values.service.siderolink.ingress.tls.secretName | default .Values.service.siderolink.domainName }}
-      secretName: {{ . }}
-      {{- end }}
+      secretName: {{ .Values.service.siderolink.ingress.tls.secretName | default .Values.service.siderolink.domainName }}
 {{- end }}
 {{- if .Values.workloadServiceProxying.ingress.enabled }}
 ---
@@ -230,20 +222,22 @@ metadata:
 spec:
   ingressClassName: {{ .Values.workloadServiceProxying.ingress.ingressClassName }}
   rules:
-    - host: *.{{ .Values.workloadServiceProxying.subdomain }}.{{ .Values.workloadServiceProxying.domainName }}
+    - host: "{{ printf "*.%s.%s" .Values.workloadServiceProxying.subdomain .Values.workloadServiceProxying.domainName }}"
       http:
         paths:
-          - backend:
+          - path: /
+            pathType: Prefix
+            backend:
               service:
                 name: internal
                 port:
                   number: 8080
-            path: /
-            pathType: Prefix
   tls:
     - hosts:
-        - *.{{ .Values.workloadServiceProxying.subdomain }}.{{ .Values.workloadServiceProxying.domainName }}
-      {{- with .Values.workloadServiceProxying.ingress.tls.secretName | default .Values.workloadServiceProxying.subdomain }}
-      secretName: {{ . }}
+        - "{{ printf "*.%s.%s" .Values.workloadServiceProxying.subdomain .Values.workloadServiceProxying.domainName }}"
+      {{- if .Values.workloadServiceProxying.ingress.tls.secretName }}
+      secretName: {{ .Values.workloadServiceProxying.ingress.tls.secretName }}
+      {{- else }}
+      secretName: {{ .Values.workloadServiceProxying.subdomain }}.{{ .Values.workloadServiceProxying.domainName }}
       {{- end }}
 {{- end }}

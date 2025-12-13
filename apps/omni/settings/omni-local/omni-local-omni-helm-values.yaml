@@ -34,7 +34,7 @@ service:
 workloadServiceProxying:
   enabled: true
   subdomain: "proxy"
-  domainName: "apps-omni.949x.net"
+  domainName: apps-omni.949x.net
   ingress:
     enabled: true
     ingressClassName: internal-ingress-nginx
