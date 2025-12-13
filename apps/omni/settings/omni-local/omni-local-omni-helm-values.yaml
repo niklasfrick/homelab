@@ -31,6 +31,16 @@ service:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
 
+workloadServiceProxying:
+  enabled: true
+  subdomain: "proxy"
+  domainName: "apps-omni.949x.net"
+  ingress:
+    enabled: true
+    ingressClassName: internal-ingress-nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+
 resources:
   requests:
     cpu: 100m

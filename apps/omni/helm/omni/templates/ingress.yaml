@@ -211,3 +211,39 @@ spec:
       secretName: {{ . }}
       {{- end }}
 {{- end }}
+{{- if .Values.workloadServiceProxying.ingress.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+  {{- with .Values.workloadServiceProxying.ingress.annotations }}
+    {{- range $key, $value := . }}
+    {{ $key }}: {{ tpl (toString $value) $ | quote }}
+    {{- end }}
+  {{- end }}
+  name: workload-service-proxy
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingressClassName: {{ .Values.workloadServiceProxying.ingress.ingressClassName }}
+  rules:
+    - host: *.{{ .Values.workloadServiceProxying.subdomain }}.{{ .Values.workloadServiceProxying.domainName }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: internal
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *.{{ .Values.workloadServiceProxying.subdomain }}.{{ .Values.workloadServiceProxying.domainName }}
+      {{- with .Values.workloadServiceProxying.ingress.tls.secretName | default .Values.workloadServiceProxying.subdomain }}
+      secretName: {{ . }}
+      {{- end }}
+{{- end }}

@@ -135,11 +135,13 @@ spec:
         {{- if and .Values.initialUsers (gt (len .Values.initialUsers) 0) }}
           - --initial-users={{ join "," .Values.initialUsers }}
         {{- end }}
+        {{- if .Values.workloadServiceProxying.enabled }}
+          - --workload-proxying-subdomain={{ .Values.workloadServiceProxying.subdomain }}
+        {{- end }}
           - --name={{ .Values.name}}
           - --private-key-source={{ .Values.privateKeySource }}
           - --siderolink-api-advertised-url={{ printf "https://%s" .Values.service.siderolink.domainName }}
           - --siderolink-wireguard-advertised-addr={{ .Values.service.siderolink.wireguard.address }}:{{ .Values.service.siderolink.wireguard.port }}
-          - --workload-proxying-subdomain={{ .Values.workloadProxyingSubdomain }}
         {{- range $value := .Values.extraArgs }}
           - {{ $value }}
         {{- end }}

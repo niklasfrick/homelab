@@ -58,7 +58,17 @@ service:
         # cert-manager.io/cluster-issuer: issuer-name
       tls:
         secretName: ""
-workloadProxyingSubdomain: "omni"
+workloadServiceProxying:
+  enabled: false
+  subdomain: "proxy-us"
+  domainName: "example.com"
+  ingress:
+    enabled: false
+    ingressClassName: nginx
+    annotations: {}
+      # cert-manager.io/cluster-issuer: issuer-name
+    tls:
+      secretName: ""
 persistence:
   enabled: true
   persistentVolumeClaim:
