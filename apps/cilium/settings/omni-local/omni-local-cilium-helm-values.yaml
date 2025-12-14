@@ -1,3 +1,6 @@
 hubble:
   ui:
     enabled: true
+
+operator:
+  replicas: 1
