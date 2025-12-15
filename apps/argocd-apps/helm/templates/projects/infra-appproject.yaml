@@ -21,6 +21,7 @@ spec:
   - 'https://charts.rook.io/release'
   - 'https://helm.altinity.com'
   - 'https://kubernetes-sigs.github.io/external-dns/'
+  - 'https://pkgs.tailscale.com/helmcharts'
   destinations:
     - namespace: 'alloy'
       server: https://kubernetes.default.svc
@@ -63,6 +64,8 @@ spec:
     - namespace: 'rook-ceph'
       server: https://kubernetes.default.svc
     - namespace: 'external-gateway'
+      server: https://kubernetes.default.svc
+    - namespace: 'tailscale'
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ''

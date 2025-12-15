@@ -1,0 +1,10 @@
+ingressClass:
+  enabled: false
+
+operatorConfig:
+  resources:
+    limits:
+      memory: 100Mi
+    requests:
+      cpu: 10m
+      memory: 100Mi

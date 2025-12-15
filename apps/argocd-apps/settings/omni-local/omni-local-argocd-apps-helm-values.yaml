@@ -53,7 +53,7 @@ apps:
     targetRevision: HEAD
     configHelmChart:
       enabled: false
-  twingate-connector:
-    targetRevision: 0.1.32 # renovate:helm depName=connector registryUrl=https://twingate.github.io/helm-charts
+  tailscale-operator:
+    targetRevision: 1.90.9 # renovate:helm depName=tailscale-operator registryUrl=https://pkgs.tailscale.com/helmcharts
     configHelmChart:
       enabled: true

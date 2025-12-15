@@ -1,0 +1,5 @@
+apiVersion: v2
+name: twingate-connector-config
+description: A Helm chart for extra resources for the twingate connector
+version: 1.0.0
+appVersion: 1.0.0

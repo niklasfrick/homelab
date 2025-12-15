@@ -1,0 +1,4 @@
+tailscaleOperatorSecret:
+  remoteRefKey:
+    clientId: "OMNI_LOCAL_TS_OPERATOR_CLIENT_ID"
+    clientSecret: "OMNI_LOCAL_TS_OPERATOR_CLIENT_SECRET"
