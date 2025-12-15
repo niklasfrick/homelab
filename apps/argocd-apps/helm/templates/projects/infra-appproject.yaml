@@ -65,7 +65,7 @@ spec:
       server: https://kubernetes.default.svc
     - namespace: 'external-gateway'
       server: https://kubernetes.default.svc
-    - namespace: 'tailscale'
+    - namespace: 'tailscale-operator'
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ''
