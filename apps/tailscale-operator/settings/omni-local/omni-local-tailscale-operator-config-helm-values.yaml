@@ -1,3 +1,5 @@
+instance: omni-local
+
 tailscaleOperatorSecret:
   remoteRefKey:
     clientId: "OMNI_LOCAL_TS_OPERATOR_CLIENT_ID"
