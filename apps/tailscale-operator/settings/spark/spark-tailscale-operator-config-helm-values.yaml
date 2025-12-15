@@ -1,0 +1,11 @@
+instance: spark
+
+tailscaleOperatorSecret:
+  remoteRefKey:
+    clientId: "SPARK_TS_OPERATOR_CLIENT_ID"
+    clientSecret: "SPARK_TS_OPERATOR_CLIENT_SECRET"
+
+subnetRouter:
+  enabled: true
+  advertiseRoutes:
+    - "192.168.1.0/24"
