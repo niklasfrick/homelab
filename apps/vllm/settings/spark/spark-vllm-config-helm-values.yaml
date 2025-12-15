@@ -1,0 +1,4 @@
+instance: spark
+
+hfTokenSecret:
+  remoteRefKey: SPARK_HF_TOKEN
