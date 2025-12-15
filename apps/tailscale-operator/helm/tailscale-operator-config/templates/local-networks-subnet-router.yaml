@@ -1,0 +1,13 @@
+{{- if .Values.subnetRouter.enabled }}
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: local-networks-subnet-router
+spec:
+  hostname: local-networks-subnet-router
+  subnetRouter:
+    advertiseRoutes:
+{{- range .Values.subnetRouter.advertiseRoutes }}
+      - {{ . | quote }}
+{{- end }}
+{{- end }}
