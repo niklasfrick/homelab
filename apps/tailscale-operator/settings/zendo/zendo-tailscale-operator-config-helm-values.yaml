@@ -1,0 +1,13 @@
+instance: zendo
+
+tailscaleOperatorSecret:
+  remoteRefKey:
+    clientId: "ZENDO_TS_OPERATOR_CLIENT_ID"
+    clientSecret: "ZENDO_TS_OPERATOR_CLIENT_SECRET"
+
+subnetRouter:
+  enabled: true
+  advertiseRoutes:
+    - "10.96.10.0/24"
+    - "10.96.210.0/24"
+    - "10.96.211.0/24"
