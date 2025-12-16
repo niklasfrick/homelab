@@ -18,6 +18,7 @@ spec:
       releaseName: {{ $applicationName }}
       valueFiles:
         - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
+        - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
   {{- if index .Values.apps $applicationName "configHelmChart" "enabled" }}
   - repoURL: git@github.com:niklasfrick/homelab.git
     path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
