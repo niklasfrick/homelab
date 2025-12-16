@@ -1,0 +1,4 @@
+nodePathMap:
+  - node: DEFAULT_PATH_FOR_NON_LISTED_NODES
+    paths:
+      - /opt/csi/local-path-provisioner-data

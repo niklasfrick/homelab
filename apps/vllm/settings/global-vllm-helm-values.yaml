@@ -5,5 +5,3 @@ routerSpec:
       memory: 900Mi
     limits:
       memory: 1100Mi
-  ingress:
-    enabled: false
