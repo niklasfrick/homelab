@@ -1,7 +1,2 @@
 routerSpec:
-  resources:
-    requests:
-      cpu: 400m
-      memory: 900Mi
-    limits:
-      memory: 1100Mi
+  enableRouter: false

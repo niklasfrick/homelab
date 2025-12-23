@@ -5,6 +5,10 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
+    gatewayAPI:
+      enabled: true
+      enableAppProtocol: true
+      enableAlpn: true
     operator:
       replicas: 1
     kubeProxyReplacement: true

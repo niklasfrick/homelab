@@ -1,4 +1,7 @@
 instance: spark
 
-hfTokenSecret:
-  remoteRefKey: SPARK_HF_TOKEN
+vllmSecrets:
+  hfToken:
+    remoteRefKey: SPARK_HF_TOKEN
+  vllmApiKey:
+    remoteRefKey: SPARK_VLLM_API_KEY

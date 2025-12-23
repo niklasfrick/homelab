@@ -3,70 +3,99 @@ servingEngineSpec:
     environment: "spark"
     release: "v1"
 
-  envFromSecret:
-    - hf-token
-
   modelSpec:
     # ============================================================================
     # Mistral Large 3 - Multimodal MoE Model (41B active / 675B total params)
     # Optimized for NVIDIA DGX Spark with 128GB unified memory
     # ============================================================================
-    - name: "mistral-large-3"
+    # - name: "mistral-large-3"
+    #   repository: "nvcr.io/nvidia/vllm"
+    #   tag: "25.11-py3"
+    #   modelURL: "mistralai/Mistral-Large-3-675B-Instruct-2512-NVFP4"
+    #   replicaCount: 1
+
+    #   vllmApiKey:
+    #     secretName: "vllm-apikey"
+    #     secretKEy: "VLLM_API_KEY"
+
+    #   # DGX Spark: 10x ARM Cortex-X925 cores, 128GB unified memory, GB10 Blackwell GPU
+    #   requestCPU: 8
+    #   requestMemory: "100Gi"
+    #   requestGPU: 1
+
+    #   # Shared memory for MoE expert routing and tensor operations
+    #   shmSize: "16Gi"
+
+    #   # Persistent storage for model weights cache
+    #   pvcStorage: "450Gi"
+    #   pvcAccessMode:
+    #     - ReadWriteOnce
+
+    #   vllmConfig:
+    #     # Context length - MoE model supports up to 256k but we use conservative value
+    #     # for DGX Spark unified memory to leave room for KV cache
+    #     maxModelLen: 65536
+
+    #     gpuMemoryUtilization: 0.9
+
+    #     # Auto dtype - will use optimal precision on Blackwell
+    #     dtype: "auto"
+
+    #     # Single GB10 GPU on DGX Spark
+    #     tensorParallelSize: 1
+
+    #     # Chunked prefill improves TTFT for long prompts
+    #     enableChunkedPrefill: true
+
+    #     # Prefix caching improves throughput for repeated prefixes
+    #     enablePrefixCaching: true
+
+    #     # Extra args optimized for DGX Spark unified memory + MoE architecture
+    #     extraArgs:
+    #       - "--max-num-batched-tokens=32768"
+    #       - "--tokenizer-mode=mistral"
+    #       - "--config-format=mistral"
+    #       - "--load-format=mistral"
+    #       - "--enable-auto-tool-choice"
+    #       - "--tool-call-parser=mistral"
+
+    #   nodeSelectorTerms:
+    #     - matchExpressions:
+    #         - key: nvidia.com/gpu.product
+    #           operator: "In"
+    #           values:
+    #             - "NVIDIA-GB10"
+
+    #   envFromSecret:
+    #     name: hf-token
+
+    - name: "gpt-oss-120b"
       repository: "nvcr.io/nvidia/vllm"
       tag: "25.11-py3"
-      modelURL: "mistralai/Mistral-Large-3-675B-Instruct-2512-NVFP4"
+      modelURL: "openai/gpt-oss-120b"
       replicaCount: 1
+
+      vllmApiKey:
+        secretName: "vllm-apikey"
+        secretKey: "VLLM_API_KEY"
 
       # DGX Spark: 10x ARM Cortex-X925 cores, 128GB unified memory, GB10 Blackwell GPU
       requestCPU: 8
-      requestMemory: "100Gi"
+      requestMemory: "70Gi"
       requestGPU: 1
 
-      # Shared memory for MoE expert routing and tensor operations
-      shmSize: "16Gi"
-
       # Persistent storage for model weights cache
-      pvcStorage: "500Gi"
+      pvcStorage: "210Gi"
       pvcAccessMode:
         - ReadWriteOnce
 
-      vllmConfig:
-        # Context length - MoE model supports up to 256k but we use conservative value
-        # for DGX Spark unified memory to leave room for KV cache
-        maxModelLen: 65536
-
-        # Auto dtype - will use optimal precision on Blackwell
-        dtype: "auto"
-
-        # Single GB10 GPU on DGX Spark
-        tensorParallelSize: 1
-
-        # Chunked prefill improves TTFT for long prompts
-        enableChunkedPrefill: true
-
-        # Prefix caching improves throughput for repeated prefixes
-        enablePrefixCaching: true
-
-        # Extra args optimized for DGX Spark unified memory + MoE architecture
-        extraArgs:
-          # GPU memory utilization - leave headroom for unified memory architecture
-          - "--gpu-memory-utilization=0.9"
-          # NVFP4 quantization (4-bit) - matches the model variant
-          - "--quantization=nvfp4"
-          # Enforce eager mode for stability on unified memory systems
-          - "--enforce-eager"
-          # Disable custom all-reduce for single GPU
-          - "--disable-custom-all-reduce"
-          # V2 block manager for better memory efficiency
-          - "--enable-v2-block-manager"
-          # Disable request logging for performance
-          - "--disable-log-requests"
-          # Trust remote code for Mistral tokenizer
-          - "--trust-remote-code"
-          # Max concurrent sequences - tuned for MoE efficiency
-          - "--max-num-seqs=128"
-          # Max batched tokens for good throughput
-          - "--max-num-batched-tokens=32768"
+      extraArgs:
+        - "--extra-index-url"
+        - "https://wheels.vllm.ai/gpt-oss/"
+        - "--extra-index-url"
+        - "https://download.pytorch.org/whl/nightly/cu128"
+        - "--index-strategy"
+        - "unsafe-best-match"
 
       nodeSelectorTerms:
         - matchExpressions:
@@ -75,27 +104,30 @@ servingEngineSpec:
               values:
                 - "NVIDIA-GB10"
 
+      envFromSecret:
+        name: hf-token
+
   tolerations:
     - key: nvidia.com/gpu
       operator: Exists
       effect: NoSchedule
 
   # Startup probe for large model loading
-  startupProbe:
-    # Model download and loading takes time
-    initialDelaySeconds: 300
-    # Generous failure threshold for model initialization
-    failureThreshold: 360
-    periodSeconds: 10
+  # NOTE: 400+ GB model @ 200 Mbit/s ≈ 4.5 hours download + loading time
+  # Comment out these values once model is cached on PVC
+  # startupProbe:
+  #   initialDelaySeconds: 1800 # 30 min before first probe
+  #   failureThreshold: 1800 # 1800 × 10s = 5 hours of retries
+  #   periodSeconds: 10 # Total: ~5.5 hours
 
-  # Liveness probe to detect hung processes
-  livenessProbe:
-    initialDelaySeconds: 600
-    periodSeconds: 30
-    failureThreshold: 3
+  # # Liveness probe to detect hung processes
+  # livenessProbe:
+  #   initialDelaySeconds: 21600 # 6 hours - wait for startup to complete
+  #   periodSeconds: 60
+  #   failureThreshold: 5
 
-  # Readiness probe for traffic routing
-  readinessProbe:
-    initialDelaySeconds: 300
-    periodSeconds: 10
-    failureThreshold: 3
+  # # Readiness probe for traffic routing
+  # readinessProbe:
+  #   initialDelaySeconds: 21600 # 6 hours - wait for startup to complete
+  #   periodSeconds: 30
+  #   failureThreshold: 3

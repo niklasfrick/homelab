@@ -1,0 +1,68 @@
+toolkit:
+  env:
+    - name: CONTAINERD_SOCKET
+      value: /run/k3s/containerd/containerd.sock
+
+driver:
+  enabled: false
+
+dcgmExporter:
+  serviceMonitor:
+    enabled: false
+  resources:
+    limits:
+      memory: 800Mi
+    requests:
+      cpu: 30m
+      memory: 400Mi
+
+operator:
+  resources:
+    limits:
+      cpu: ~
+      memory: 300Mi
+    requests:
+      cpu: 200m
+      memory: 70Mi
+
+validator:
+  resources:
+    limits:
+      memory: 10Mi
+    requests:
+      cpu: 1m
+      memory: 5Mi
+
+devicePlugin:
+  resources:
+    limits:
+      memory: 100Mi
+    requests:
+      cpu: 1m
+      memory: 50Mi
+  # config:
+  #   name: "device-plugin-config"
+  #   default: "time-sliced"
+
+node-feature-discovery:
+  worker:
+    resources:
+      limits:
+        memory: 50Mi
+      requests:
+        cpu: 5m
+        memory: 25Mi
+  gc:
+    resources:
+      limits:
+        memory: 40Mi
+      requests:
+        cpu: 1m
+        memory: 20Mi
+  master:
+    resources:
+      limits:
+        memory: 100Mi
+      requests:
+        cpu: 5m
+        memory: 50Mi
