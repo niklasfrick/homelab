@@ -1,0 +1,3 @@
+driver:
+  usePrecompiled: true
+  version: "570.195"
