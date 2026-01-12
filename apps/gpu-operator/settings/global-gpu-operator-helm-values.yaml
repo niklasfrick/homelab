@@ -1,7 +1,5 @@
 toolkit:
-  env:
-    - name: CONTAINERD_SOCKET
-      value: /run/k3s/containerd/containerd.sock
+  enabled: false
 
 driver:
   enabled: false

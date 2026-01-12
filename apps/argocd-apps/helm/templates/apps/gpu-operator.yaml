@@ -1,0 +1,42 @@
+{{- $applicationName := "gpu-operator" }}
+{{- if hasKey .Values.apps $applicationName }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $applicationName }}
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ $applicationName }}
+  sources:
+  - chart: gpu-operator
+    repoURL: https://helm.ngc.nvidia.com/nvidia
+    targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
+    helm:
+      releaseName: gpu-operator
+      valueFiles:
+      - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
+  {{- if index .Values.apps $applicationName "configHelmChart" "enabled" }}
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
+    helm:
+      releaseName: {{ $applicationName }}-config
+  {{- end }}
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    ref: values
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/enforce-version: latest
+        pod-security.kubernetes.io/warn: privileged
+        pod-security.kubernetes.io/warn-version: latest
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
+{{- end }}
