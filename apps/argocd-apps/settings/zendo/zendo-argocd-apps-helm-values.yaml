@@ -30,7 +30,7 @@ apps:
     configHelmChart:
       enabled: false
   external-dns:
-    targetRevision: 1.19.0 # renovate:helm depName=external-dns registryUrl=https://kubernetes-sigs.github.io/external-dns/
+    targetRevision: 1.20.0 # renovate:helm depName=external-dns registryUrl=https://kubernetes-sigs.github.io/external-dns/
     configHelmChart:
       enabled: true
   external-secrets:
