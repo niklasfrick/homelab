@@ -1,0 +1,12 @@
+machine:
+  network:
+    hostname: t3s-zendo-w4
+    interfaces:
+      - deviceSelector:
+          busPath: "0*"
+        addresses:
+          - 10.96.10.159/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.96.10.1
+        dhcp: false
