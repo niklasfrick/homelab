@@ -6,7 +6,7 @@ projects:
 
 apps:
   alloy:
-    targetRevision: 1.5.1 # renovate:helm depName=alloy registryUrl=https://grafana.github.io/helm-charts
+    targetRevision: 1.5.2 # renovate:helm depName=alloy registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:
       enabled: false
   argocd:
