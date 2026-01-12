@@ -105,6 +105,8 @@ spec:
     kind: '*'
   - group: 'tailscale.com'
     kind: Connector
+  - group: 'nvidia.com'
+    kind: ClusterPolicy
   namespaceResourceBlacklist:
   - group: ''
     kind: ResourceQuota
