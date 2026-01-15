@@ -48,7 +48,7 @@ compactor:
       cpu: 10m
       memory: 350Mi
     limits:
-      memory: 420Mi
+      memory: 700Mi
 
 storegateway:
   enabled: true
