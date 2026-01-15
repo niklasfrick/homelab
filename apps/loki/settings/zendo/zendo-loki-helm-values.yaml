@@ -20,7 +20,17 @@ loki:
       s3ForcePathStyle: true
       insecure: false
 
+backend:
+  replicas: 3
+
+write:
+  replicas: 3
+
+read:
+  replicas: 3
+
 gateway:
+  replicas: 2
   service:
     type: LoadBalancer
     annotations:
