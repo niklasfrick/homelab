@@ -2,12 +2,6 @@ configs:
   params:
     server.insecure: "true"
   cm:
-    resource.exclusions: |
-      - apiGroups:
-        - snapshot.storage.k8s.io
-        kinds:
-        - VolumeSnapshot
-        - VolumeSnapshotContent
     dex.config: |
       connectors:
       - type: github
