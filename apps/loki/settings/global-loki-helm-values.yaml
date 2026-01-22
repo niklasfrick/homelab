@@ -64,7 +64,7 @@ read:
           key: secretkey
   resources:
     limits:
-      memory: 173Mi
+      memory: 1200Mi
     requests:
       cpu: 10m
       memory: 173Mi
