@@ -2,14 +2,14 @@ prometheus:
   prometheusSpec:
     replicas: 2
     retention: 2d
-    retentionSize: "1GB"
+    retentionSize: "1GiB"
     storageSpec:
       volumeClaimTemplate:
         spec:
           storageClassName: ceph-block
           resources:
             requests:
-              storage: 2Gi
+              storage: 1.5Gi
     thanos:
       objectStorageConfig:
         existingSecret:
