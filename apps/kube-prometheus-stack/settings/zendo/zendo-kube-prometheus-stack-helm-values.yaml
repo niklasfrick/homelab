@@ -9,7 +9,7 @@ prometheus:
           storageClassName: ceph-block
           resources:
             requests:
-              storage: 1.5Gi
+              storage: 2Gi
     thanos:
       objectStorageConfig:
         existingSecret:
