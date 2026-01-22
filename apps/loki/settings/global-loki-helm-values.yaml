@@ -23,7 +23,7 @@ deploymentMode: SimpleScalable
 backend:
   replicas: 1
   persistence:
-    size: 5Gi
+    size: 1Gi
   extraArgs:
     - -config.expand-env=true
   extraEnv:
@@ -72,7 +72,7 @@ read:
 write:
   replicas: 1
   persistence:
-    size: 5Gi
+    size: 3Gi
   extraArgs:
     - -config.expand-env=true
   extraEnv:
