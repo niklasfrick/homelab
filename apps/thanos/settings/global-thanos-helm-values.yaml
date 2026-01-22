@@ -59,15 +59,6 @@ storegateway:
     limits:
       memory: 600Mi
 
-receive:
-  enabled: true
-  resources:
-    requests:
-      cpu: 10m
-      memory: 100Mi
-    limits:
-      memory: 100Mi
-
 metrics:
   enabled: true
   serviceMonitor:
