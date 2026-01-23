@@ -9,7 +9,7 @@ grafana:
       isDefault: true
       jsonData:
         prometheusType: Prometheus
-        prometheusVersion: 3.7.2
+        prometheusVersion: 3.9.1
         incrementalQuerying: true
     - loki:
       name: loki
