@@ -1,7 +1,7 @@
 prometheus:
   prometheusSpec:
     replicas: 2
-    retention: 2d
+    retention: 6h
     retentionSize: "1GiB"
     storageSpec:
       volumeClaimTemplate:
