@@ -1,15 +1,17 @@
 prometheus:
   prometheusSpec:
     replicas: 2
+    # Increased from 6h to 12h to provide overlap between sidecar and StoreGateway
+    # This ensures blocks are available via sidecar long enough for StoreGateway to sync them
     retention: 6h
-    retentionSize: "1GiB"
+    retentionSize: "3GiB"
     storageSpec:
       volumeClaimTemplate:
         spec:
           storageClassName: ceph-block
           resources:
             requests:
-              storage: 2Gi
+              storage: 5Gi
     thanos:
       objectStorageConfig:
         existingSecret:
