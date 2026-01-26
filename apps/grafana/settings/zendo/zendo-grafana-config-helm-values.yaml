@@ -17,6 +17,10 @@ grafana:
       url: http://loki-gateway.loki.svc.cluster.local
       jsonData:
         manageAlerts: true # Disables/uncheck 'Manage alerts via Alerting UI'
+    - tempo:
+      name: tempo
+      type: tempo
+      url: http://tempo.tempo.svc.cluster.local:3200
   hostname: grafana.apps.949x.net
   route:
     enabled: true

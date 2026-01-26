@@ -70,6 +70,8 @@ spec:
       server: https://kubernetes.default.svc
     - namespace: 'gpu-operator'
       server: https://kubernetes.default.svc
+    - namespace: 'tempo'
+      server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ''
     kind: Namespace

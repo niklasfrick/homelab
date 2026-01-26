@@ -1,0 +1,13 @@
+tempo:
+  storage:
+    trace:
+      backend: s3
+      s3:
+        bucket: "zendo-tempo-traces"
+        endpoint: "s3.bal.949x.net:9000"
+        region: "bal"
+        insecure: false
+
+  extraEnvFrom:
+    - secretRef:
+        name: minio-aistor-s3-bal-keys

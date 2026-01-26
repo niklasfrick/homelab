@@ -1,0 +1,40 @@
+{{- $applicationName := "tempo" }}
+{{- if hasKey .Values.apps $applicationName }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $applicationName }}
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ $applicationName }}
+  sources:
+  - chart: tempo
+    repoURL: https://grafana.github.io/helm-charts
+    path: grafana
+    targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
+    helm:
+      releaseName: tempo
+      valueFiles:
+      - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
+      - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
+  {{- if index .Values.apps $applicationName "configHelmChart" "enabled" }}
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
+    helm:
+      releaseName: {{ $applicationName }}-config
+      # valueFiles:
+      #   - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-config-helm-values.yaml
+  {{- end }}
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    ref: values
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
+{{- end }}

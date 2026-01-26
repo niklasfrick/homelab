@@ -65,6 +65,10 @@ apps:
     targetRevision: 4.2.0 # renovate:helm depName=snapshot-controller registryUrl=https://piraeus.io/helm-charts
     configHelmChart:
       enabled: false
+  tempo:
+    targetRevision: 1.24.3 # renovate:helm depName=tempo registryUrl=https://grafana.github.io/helm-charts
+    configHelmChart:
+      enabled: true
   thanos:
     targetRevision: 17.3.1 # renovate:helm depName=thanos registryUrl=oci://registry-1.docker.io/bitnamicharts
     configHelmChart:

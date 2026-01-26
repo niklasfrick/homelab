@@ -1,10 +1,11 @@
 alloy:
+  enableReporting: false
   resources:
     limits:
-      memory: 220Mi
+      memory: 260Mi
     requests:
       cpu: 13m
-      memory: 190Mi
+      memory: 200Mi
 
   mounts:
     dockercontainers: true

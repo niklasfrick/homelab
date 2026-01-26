@@ -1,0 +1,5 @@
+apiVersion: v2
+name: tempo-config
+description: A Helm chart for extra resources for Tempo additional resources
+version: 1.0.0
+appVersion: 1.0.0
