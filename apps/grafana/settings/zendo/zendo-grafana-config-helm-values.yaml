@@ -5,6 +5,7 @@ grafana:
     - prometheus:
       name: prometheus
       type: prometheus
+      uid: prometheus
       url: http://thanos-query-frontend.thanos.svc.cluster.local:9090
       isDefault: true
       jsonData:
@@ -14,13 +15,21 @@ grafana:
     - loki:
       name: loki
       type: loki
+      uid: loki
       url: http://loki-gateway.loki.svc.cluster.local
       jsonData:
         manageAlerts: true # Disables/uncheck 'Manage alerts via Alerting UI'
     - tempo:
       name: tempo
       type: tempo
+      uid: tempo
       url: http://tempo.tempo.svc.cluster.local:3200
+      jsonData:
+        tracesToLogsV2:
+          customQuery: false
+          datasourceUid: loki
+        tracesToMetrics:
+          datasourceUid: prometheus
   hostname: grafana.apps.949x.net
   route:
     enabled: true
