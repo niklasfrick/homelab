@@ -6,6 +6,7 @@ spec:
   description: Infrastructure App Project
   sourceRepos:
   - 'git@github.com:niklasfrick/homelab.git'
+  - 'git@github.com:niklasfrick/app-settings.git'
   - 'https://charts.external-secrets.io'
   - 'https://charts.jetstack.io'
   - 'https://twingate.github.io/helm-charts'
