@@ -10,8 +10,8 @@ loki:
     type: s3
     bucketNames:
       chunks: zendo-loki-chunk
-      ruler: zendo-loki-ruler
-      admin: zendo-loki-admin
+      # ruler: zendo-loki-ruler
+      # admin: zendo-loki-admin
     s3:
       endpoint: s3.bal.949x.net:9001
       region: bal
