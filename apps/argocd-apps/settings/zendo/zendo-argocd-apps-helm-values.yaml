@@ -66,7 +66,7 @@ apps:
     configHelmChart:
       enabled: false
   tempo:
-    targetRevision: 1.24.3 # renovate:helm depName=tempo registryUrl=https://grafana.github.io/helm-charts
+    targetRevision: 1.24.4 # renovate:helm depName=tempo registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:
       enabled: true
   thanos:
