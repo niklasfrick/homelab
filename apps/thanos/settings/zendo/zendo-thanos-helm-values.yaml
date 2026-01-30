@@ -19,14 +19,14 @@ extraDeploy:
               type: s3
               config:
                 bucket: zendo-thanos-store
-                endpoint: s3.bal.949x.net:9001
+                endpoint: s3.bal.949x.net:9000
                 region: bal
                 access_key: "{{ `{{ .accesskey }}` }}"
                 secret_key: "{{ `{{ .secretkey }}` }}"
       data:
         - secretKey: accesskey
           remoteRef:
-            key: /minio-s3-bal/GLOBAL_S3_RW_ACCESS_KEY
+            key: /minio-aistor-s3-bal/GLOBAL_RW_ACCESS_KEY
         - secretKey: secretkey
           remoteRef:
-            key: /minio-s3-bal/GLOBAL_S3_RW_SECRET_KEY
+            key: /minio-aistor-s3-bal/GLOBAL_RW_SECRET_KEY
