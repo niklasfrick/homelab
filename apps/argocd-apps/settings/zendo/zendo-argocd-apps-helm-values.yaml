@@ -62,7 +62,7 @@ apps:
     configHelmChart:
       enabled: true
   snapshot-controller:
-    targetRevision: 4.2.0 # renovate:helm depName=snapshot-controller registryUrl=https://piraeus.io/helm-charts
+    targetRevision: 5.0.2 # renovate:helm depName=snapshot-controller registryUrl=https://piraeus.io/helm-charts
     configHelmChart:
       enabled: false
   tempo:
