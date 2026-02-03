@@ -1,13 +1,13 @@
 configuration:
   features: EnableCSI
   backupStorageLocation:
-    - name: nas-bal
+    - name: minio-aistor-s3-bal
       provider: aws
       default: true
       bucket: zendo-velero-backup
       config:
-        s3Url: https://s3.bal.949x.net:9001
-        publicUrl: https://s3.bal.949x.net:9001
+        s3Url: https://s3.bal.949x.net:9000
+        publicUrl: https://s3.bal.949x.net:9000
         insecureSkipTLSVerify: false
         region: bal
         s3ForcePathStyle: true

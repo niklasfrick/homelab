@@ -17,7 +17,7 @@ spec:
     excludedResources:
     - "secrets"
     snapshotVolumes: true
-    storageLocation: nas-bal
+    storageLocation: minio-aistor-s3-bal
     volumeSnapshotLocations:
       - rook-ceph
     ttl: 336h0m0s #14 Days retention
