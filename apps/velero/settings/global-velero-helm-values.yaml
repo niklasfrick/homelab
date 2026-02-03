@@ -58,7 +58,7 @@ deployNodeAgent: true
 
 initContainers:
   - name: velero-plugin-for-aws
-    image: velero/velero-plugin-for-aws:v1.13.2
+    image: velero/velero-plugin-for-aws:v1.13.2 # renovate:docker depName=velero/velero-plugin-for-aws registryUrl=registry-1.docker.io
     imagePullPolicy: IfNotPresent
     volumeMounts:
       - mountPath: /target
