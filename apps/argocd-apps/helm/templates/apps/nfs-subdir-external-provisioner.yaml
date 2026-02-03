@@ -22,12 +22,12 @@ spec:
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
   syncPolicy:
-    managedNamespaceMetadata:
-      labels:
-        pod-security.kubernetes.io/enforce: privileged
-        pod-security.kubernetes.io/enforce-version: latest
-        pod-security.kubernetes.io/warn: privileged
-        pod-security.kubernetes.io/warn-version: latest
+    # managedNamespaceMetadata:
+    #   labels:
+    #     pod-security.kubernetes.io/enforce: privileged
+    #     pod-security.kubernetes.io/enforce-version: latest
+    #     pod-security.kubernetes.io/warn: privileged
+    #     pod-security.kubernetes.io/warn-version: latest
     syncOptions:
     - CreateNamespace=true
     automated:
