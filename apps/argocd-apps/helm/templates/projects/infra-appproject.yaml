@@ -24,6 +24,7 @@ spec:
   - 'https://kubernetes-sigs.github.io/external-dns/'
   - 'https://pkgs.tailscale.com/helmcharts'
   - 'https://helm.ngc.nvidia.com/nvidia'
+  - 'https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner'
   destinations:
     - namespace: 'alloy'
       server: https://kubernetes.default.svc
@@ -74,6 +75,8 @@ spec:
     - namespace: 'tempo'
       server: https://kubernetes.default.svc
     - namespace: 'beyla'
+      server: https://kubernetes.default.svc
+    - namespace: 'nfs-subdir-external-provisioner'
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ''

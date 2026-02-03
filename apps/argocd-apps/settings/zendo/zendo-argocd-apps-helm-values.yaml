@@ -53,6 +53,10 @@ apps:
     targetRevision: 6.49.0 # renovate:helm depName=loki registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:
       enabled: false
+  nfs-subdir-external-provisioner:
+    targetRevision: 4.0.18 # renovate:helm depName=nfs-subdir-external-provisioner registryUrl=https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+    configHelmChart:
+      enabled: false
   rook-ceph:
     targetRevision: 1.18.6 # renovate:helm depName=rook-ceph registryUrl=https://charts.rook.io/release
     configHelmChart:
