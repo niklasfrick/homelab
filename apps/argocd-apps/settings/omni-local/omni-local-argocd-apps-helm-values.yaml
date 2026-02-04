@@ -45,6 +45,10 @@ apps:
     targetRevision: 6.49.0 # renovate:helm depName=loki registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:
       enabled: false
+  nfs-subdir-external-provisioner:
+    targetRevision: 4.0.18 # renovate:helm depName=nfs-subdir-external-provisioner registryUrl=https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+    configHelmChart:
+      enabled: false
   omni-bmip:
     targetRevision: HEAD
     configHelmChart:
