@@ -51,8 +51,8 @@ resources:
 persistence:
   enabled: true
   persistentVolumeClaim:
-    storageClass: "nfs-client"
-    size: 30Gi
+    storageClass: "nfs-csi-retain"
+    size: 5Gi
 
 volumes:
   gpg:
