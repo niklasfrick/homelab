@@ -20,12 +20,6 @@ spec:
       valueFiles:
       - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
       - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
-  - chart: snapshot-controller
-    repoURL: https://piraeus.io/helm-charts
-    path: snapshot-controller
-    targetRevision: {{ index .Values.apps "snapshot-controller" "targetRevision" }}
-    helm:
-      releaseName: snapshot-controller
   {{- if index .Values.apps $applicationName "configHelmChart" "enabled" }}
   - repoURL: git@github.com:niklasfrick/homelab.git
     path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config

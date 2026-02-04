@@ -65,10 +65,6 @@ apps:
     targetRevision: 1.18.6 # renovate:helm depName=rook-ceph-cluster registryUrl=https://charts.rook.io/release
     configHelmChart:
       enabled: true
-  snapshot-controller:
-    targetRevision: 4.2.0 # renovate:helm depName=snapshot-controller registryUrl=https://piraeus.io/helm-charts
-    configHelmChart:
-      enabled: false
   tempo:
     targetRevision: 1.24.3 # renovate:helm depName=tempo registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:
@@ -81,7 +77,7 @@ apps:
     targetRevision: 1.92.5 # renovate:helm depName=tailscale-operator registryUrl=https://pkgs.tailscale.com/helmcharts
     configHelmChart:
       enabled: true
-  velero:
-    targetRevision: 11.3.2 # renovate:helm depName=velero registryUrl=https://vmware-tanzu.github.io/helm-charts/
-    configHelmChart:
-      enabled: true
+  # velero:
+  #   targetRevision: 11.3.2 # renovate:helm depName=velero registryUrl=https://vmware-tanzu.github.io/helm-charts/
+  #   configHelmChart:
+  #     enabled: true
