@@ -7,8 +7,5 @@ driver:
 externalSnapshotter:
   enabled: true
 
-storageClass:
-  create: true
-
 volumeSnapshotClass:
   create: true
