@@ -29,6 +29,10 @@ apps:
     targetRevision: 0.27.0 # renovate:helm depName=cloudnative-pg registryUrl=https://cloudnative-pg.io/charts
     configHelmChart:
       enabled: false
+  csi-driver-nfs:
+    targetRevision: 4.13.0 # renovate:helm depName=csi-driver-nfs registryUrl=https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+    configHelmChart:
+      enabled: false
   external-dns:
     targetRevision: 1.20.0 # renovate:helm depName=external-dns registryUrl=https://kubernetes-sigs.github.io/external-dns/
     configHelmChart:

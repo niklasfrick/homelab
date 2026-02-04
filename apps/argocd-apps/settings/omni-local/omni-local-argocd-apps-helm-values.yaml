@@ -21,6 +21,10 @@ apps:
     targetRevision: 1.18.5 # renovate:helm depName=cilium registryUrl=https://helm.cilium.io
     configHelmChart:
       enabled: true
+  csi-driver-nfs:
+    targetRevision: 4.13.0 # renovate:helm depName=csi-driver-nfs registryUrl=https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+    configHelmChart:
+      enabled: false
   external-secrets:
     targetRevision: 1.2.1 # renovate:helm depName=external-secrets registryUrl=https://charts.external-secrets.io
     configHelmChart:

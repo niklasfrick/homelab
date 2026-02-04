@@ -1,0 +1,27 @@
+storageClasses:
+  - name: nfs-csi-delete
+    parameters:
+      server: nas.bal.949x.net
+      share: /mnt/nas-b01-pool1/k8s-csi-driver-nfs/omni-local
+      subdir: ${pvc.metadata.namespace}/${pvc.metadata.name}/${pv.metadata.name}
+    reclaimPolicy: Delete
+    volumeBindingMode: Immediate
+    mountOptions:
+      - noatime
+      - nodiratime
+      - rsize=262144
+      - wsize=262144
+      - nfsvers=4.2
+  - name: nfs-csi-retain
+    parameters:
+      server: nas.bal.949x.net
+      share: /mnt/nas-b01-pool1/k8s-csi-driver-nfs/omni-local
+      subdir: ${pvc.metadata.namespace}/${pvc.metadata.name}/${pv.metadata.name}
+    reclaimPolicy: Retain
+    volumeBindingMode: Immediate
+    mountOptions:
+      - noatime
+      - nodiratime
+      - rsize=262144
+      - wsize=262144
+      - nfsvers=4.2

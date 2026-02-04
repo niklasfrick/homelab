@@ -1,0 +1,14 @@
+controller:
+  runOnControlPlane: true
+
+driver:
+  mountPermissions: "0777"
+
+externalSnapshotter:
+  enabled: true
+
+storageClass:
+  create: true
+
+volumeSnapshotClass:
+  create: true
