@@ -16,6 +16,7 @@ spec:
   - 'https://grafana.github.io/helm-charts'
   - 'https://cloudnative-pg.io/charts'
   - 'https://vmware-tanzu.github.io/helm-charts'
+  - 'https://piraeus.io/helm-charts'
   - 'registry-1.docker.io/bitnamicharts'
   - 'https://kubernetes.github.io/ingress-nginx'
   - 'https://charts.rook.io/release'
