@@ -34,4 +34,4 @@ grafana:
   route:
     enabled: true
   storage:
-    storageClassName: ceph-block
+    storageClassName: nfs-client
