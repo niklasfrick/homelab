@@ -78,6 +78,8 @@ spec:
       server: https://kubernetes.default.svc
     - namespace: 'nfs-subdir-external-provisioner'
       server: https://kubernetes.default.svc
+    - namespace: 'csi-driver-nfs'
+      server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ''
     kind: Namespace
