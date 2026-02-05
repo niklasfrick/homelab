@@ -3,7 +3,8 @@
 GitOps-managed Kubernetes homelab built on **Talos Linux**, **Sidero Omni**, and **ArgoCD**.
 
 <p align="center">
-  <img src="https://avatars.githubusercontent.com/u/44036562?s=80" alt="Sidero Labs" height="60"/>
+  <img src="https://docs.siderolabs.com/images/favicon.svg" alt="Talos Linux" height="60"/>
+  <img src="https://mintlify.s3.us-west-1.amazonaws.com/siderolabs-fe86397c/images/omni.svg" alt="Sidero Omni" height="60"/>
   &nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/argo/icon/color/argo-icon-color.png" alt="ArgoCD" height="60"/>
   &nbsp;&nbsp;
@@ -22,8 +23,8 @@ GitOps-managed Kubernetes homelab built on **Talos Linux**, **Sidero Omni**, and
 
 | Component                                   | Description                     |                                                                                                                           |
 | ------------------------------------------- | ------------------------------- | :-----------------------------------------------------------------------------------------------------------------------: |
-| [Talos Linux](https://www.talos.dev/)       | Secure, immutable Kubernetes OS |                      <img src="https://avatars.githubusercontent.com/u/44036562?s=40" height="25"/>                       |
-| [Sidero Omni](https://omni.siderolabs.com/) | Kubernetes cluster management   |                      <img src="https://avatars.githubusercontent.com/u/44036562?s=40" height="25"/>                       |
+| [Talos Linux](https://www.talos.dev/)       | Secure, immutable Kubernetes OS |                          <img src="https://docs.siderolabs.com/images/favicon.svg" height="25"/>                          |
+| [Sidero Omni](https://omni.siderolabs.com/) | Kubernetes cluster management   |         <img src="https://mintlify.s3.us-west-1.amazonaws.com/siderolabs-fe86397c/images/omni.svg" height="25"/>          |
 | [ArgoCD](https://argo-cd.readthedocs.io/)   | GitOps continuous delivery      | <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/argo/icon/color/argo-icon-color.png" height="25"/> |
 
 ### Networking
@@ -32,15 +33,15 @@ GitOps-managed Kubernetes homelab built on **Talos Linux**, **Sidero Omni**, and
 | --------------------------------------------------------------- | ------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------: |
 | [Cilium](https://cilium.io/)                                    | eBPF CNI with BGP & Gateway API |       <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/cilium/icon/color/cilium_icon-color.png" height="25"/>       |
 | [cert-manager](https://cert-manager.io/)                        | TLS certificate automation      | <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/cert-manager/icon/color/cert-manager-icon-color.png" height="25"/> |
-| [External DNS](https://github.com/kubernetes-sigs/external-dns) | DNS record management           |         <img src="https://raw.githubusercontent.com/kubernetes-sigs/external-dns/master/docs/img/external-dns.png" height="25"/>          |
-| [Tailscale](https://tailscale.com/)                             | VPN mesh networking             |                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tailscale.svg" height="25"/>                         |
+| [External DNS](https://github.com/kubernetes-sigs/external-dns) | DNS record management           |                 <img src="https://kubernetes-sigs.github.io/external-dns/latest/docs/img/external-dns.png" height="25"/>                  |
+| [Tailscale](https://tailscale.com/)                             | VPN mesh networking             |                <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/tailscale-light.webp" height="25"/>                 |
 
 ### Storage
 
 | Component                                                                   | Description              |                                                                                                                           |
 | --------------------------------------------------------------------------- | ------------------------ | :-----------------------------------------------------------------------------------------------------------------------: |
 | [Rook Ceph](https://rook.io/)                                               | Distributed storage      | <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/rook/icon/color/rook-icon-color.png" height="25"/> |
-| [Local Path Provisioner](https://github.com/rancher/local-path-provisioner) | Node-local storage       |                      <img src="https://avatars.githubusercontent.com/u/21171362?s=40" height="25"/>                       |
+| [Local Path Provisioner](https://github.com/rancher/local-path-provisioner) | Node-local storage       |                       <img src="https://static.thenounproject.com/png/585904-200.png" height="25"/>                       |
 | [CSI Driver NFS](https://github.com/kubernetes-csi/csi-driver-nfs)          | NFS storage provisioning |                                                                                                                           |
 
 ### Observability
@@ -57,16 +58,16 @@ GitOps-managed Kubernetes homelab built on **Talos Linux**, **Sidero Omni**, and
 | Component                                        | Description                |                                                                                                                             |
 | ------------------------------------------------ | -------------------------- | :-------------------------------------------------------------------------------------------------------------------------: |
 | [External Secrets](https://external-secrets.io/) | Secret sync from Infisical | <img src="https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png" height="25"/> |
-| [Velero](https://velero.io/)                     | Backup & disaster recovery |                       <img src="https://avatars.githubusercontent.com/u/47602533?s=40" height="25"/>                        |
+| [Velero](https://velero.io/)                     | Backup & disaster recovery |                     <img src="https://grafana.com/media/solutions/Velero/velero-icon.jpg" height="25"/>                     |
 
 ### Data & Compute
 
-| Component                                                                     | Description          |                                                                                 |
-| ----------------------------------------------------------------------------- | -------------------- | :-----------------------------------------------------------------------------: |
-| [CloudNative PG](https://cloudnative-pg.io/)                                  | PostgreSQL operator  | <img src="https://avatars.githubusercontent.com/u/56562556?s=40" height="25"/>  |
-| [ClickHouse](https://clickhouse.com/)                                         | Analytics database   |  <img src="https://avatars.githubusercontent.com/u/1412239?s=40" height="25"/>  |
-| [GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/) | NVIDIA GPU support   | <img src="https://avatars.githubusercontent.com/u/30179644?s=40" height="25"/>  |
-| [vLLM](https://vllm.ai/)                                                      | LLM inference server | <img src="https://avatars.githubusercontent.com/u/131470832?s=40" height="25"/> |
+| Component                                                                     | Description          |                                                                                                                                         |
+| ----------------------------------------------------------------------------- | -------------------- | :-------------------------------------------------------------------------------------------------------------------------------------: |
+| [CloudNative PG](https://cloudnative-pg.io/)                                  | PostgreSQL operator  |                                <img src="https://cloudnative-pg.io/images/hero_image.png" height="25"/>                                 |
+| [ClickHouse](https://clickhouse.com/)                                         | Analytics database   |                       <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Clickhouse.png" height="25"/>                       |
+| [GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/) | NVIDIA GPU support   |    <img src="https://www.citypng.com/public/uploads/preview/hd-nvidia-eye-logo-icon-png-701751694965655t2lbe7yugk.png" height="25"/>    |
+| [vLLM](https://vllm.ai/)                                                      | LLM inference server | <img src="https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/vllm-color.png" height="25"/> |
 
 ---
 
