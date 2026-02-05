@@ -34,4 +34,4 @@ grafana:
   route:
     enabled: true
   storage:
-    storageClassName: nfs-client
+    storageClassName: nfs-csi-delete
