@@ -3,7 +3,7 @@
 GitOps-managed Kubernetes homelab built on **Talos Linux**, **Sidero Omni**, and **ArgoCD**.
 
 <p align="center">
-  <img src="https://docs.siderolabs.com/images/favicon.svg" alt="Talos Linux" height="60"/>
+  <img src="https://avatars.githubusercontent.com/u/13804887?v=4" alt="Talos Linux" height="60"/>
   <img src="https://mintlify.s3.us-west-1.amazonaws.com/siderolabs-fe86397c/images/omni.svg" alt="Sidero Omni" height="60"/>
   &nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/argo/icon/color/argo-icon-color.png" alt="ArgoCD" height="60"/>
@@ -23,7 +23,7 @@ GitOps-managed Kubernetes homelab built on **Talos Linux**, **Sidero Omni**, and
 
 | Component                                   | Description                     |                                                                                                                           |
 | ------------------------------------------- | ------------------------------- | :-----------------------------------------------------------------------------------------------------------------------: |
-| [Talos Linux](https://www.talos.dev/)       | Secure, immutable Kubernetes OS |                          <img src="https://docs.siderolabs.com/images/favicon.svg" height="25"/>                          |
+| [Talos Linux](https://www.talos.dev/)       | Secure, immutable Kubernetes OS |                       <img src="https://avatars.githubusercontent.com/u/13804887?v=4" height="25"/>                       |
 | [Sidero Omni](https://omni.siderolabs.com/) | Kubernetes cluster management   |         <img src="https://mintlify.s3.us-west-1.amazonaws.com/siderolabs-fe86397c/images/omni.svg" height="25"/>          |
 | [ArgoCD](https://argo-cd.readthedocs.io/)   | GitOps continuous delivery      | <img src="https://raw.githubusercontent.com/cncf/artwork/main/projects/argo/icon/color/argo-icon-color.png" height="25"/> |
 
