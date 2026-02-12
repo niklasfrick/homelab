@@ -1,6 +1,6 @@
 instance: omni-local
 grafana:
-  version: 12.3.1 # renovate:docker depName=grafana registryUrl=registry-1.docker.io/grafana
+  version: 12.3.3 # renovate:docker depName=grafana registryUrl=registry-1.docker.io/grafana
   datasource:
     - prometheus:
       name: prometheus
