@@ -22,7 +22,7 @@ apps:
     configHelmChart:
       enabled: true
   csi-driver-nfs:
-    targetRevision: 4.13.0 # renovate:helm depName=csi-driver-nfs registryUrl=https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+    targetRevision: 4.13.1 # renovate:helm depName=csi-driver-nfs registryUrl=https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
     configHelmChart:
       enabled: false
   external-secrets:
