@@ -26,7 +26,7 @@ apps:
     configHelmChart:
       enabled: false
   cloudnative-pg:
-    targetRevision: 0.27.0 # renovate:helm depName=cloudnative-pg registryUrl=https://cloudnative-pg.io/charts
+    targetRevision: 0.27.1 # renovate:helm depName=cloudnative-pg registryUrl=https://cloudnative-pg.io/charts
     configHelmChart:
       enabled: false
   csi-driver-nfs:
