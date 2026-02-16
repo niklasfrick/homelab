@@ -157,7 +157,7 @@ servingEngineSpec:
       effect: NoSchedule
 
   # Comment out these values once model is cached on PVC
-  startupProbe:
-    initialDelaySeconds: 180 # 10 min before first probe
-    failureThreshold: 400 # 400 × 10s = +1h of retries
-    periodSeconds: 10
+  # startupProbe:
+  #   initialDelaySeconds: 180 # 10 min before first probe
+  #   failureThreshold: 400 # 400 × 10s = +1h of retries
+  #   periodSeconds: 10
