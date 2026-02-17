@@ -50,7 +50,6 @@ alertmanager:
 
       <a href="https://grafana.apps.949x.net/alerting/list?view=state">Go to Grafana</a>
       {{- end -}}
-
       {{- define "telegram.alert" -}}
       {{$severity := .Labels.severity -}}
       {{- if eq $severity "warning" }}
