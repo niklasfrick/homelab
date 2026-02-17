@@ -26,41 +26,34 @@ alertmanager:
       {{- end -}}
       {{- define "telegram.alert" -}}
       {{$severity := .Labels.severity -}}
-      {{- if eq $severity "warning" -}}
+      {{- if eq $severity "warning" }}
       <b>Severity: </b> WARNING ⚠️
-      {{- else if eq $severity "critical" -}}
+      {{- else if eq $severity "critical" }}
       <b>Severity: </b> CRITICAL 🚨
-      {{- else -}}
+      {{- else }}
       <b>Severity: </b> {{$severity | toUpper }} 😱
       {{- end }}
-      {{ "\n" }}
       {{- $status := .Status -}}
-      {{- if eq $status "firing" -}}
+      {{- if eq $status "firing" }}
       <b>Date/Time: </b> {{ .StartsAt.Format "Mon 02 Jan 15:04:05 MST 2006" }}
-      {{ "\n" }}
-      {{- else if eq $status "resolved" -}}
+      {{- else if eq $status "resolved" }}
       <b>Date/Time: </b> {{ .EndsAt.Format "Mon 02 Jan 15:04:05 MST 2006" }}
-      {{ "\n" }}
-      {{- end -}}
+      {{- end }}
       <b>Alert: </b> {{ .Labels.alertname }}
-      {{ "\n" }}
       <b>Description: </b> {{ printf "%.240s" .Annotations.description }}
-      {{ "\n\n" }}
+
       <b>Details: </b>
       {{- if .Labels.instance }}
-      {{ "\n" }}
         - <i>Instance</i>: <code>{{ .Labels.instance }}</code>
       {{- end }}
       {{- if .Labels.job }}
-      {{ "\n" }}
         - <i>Job</i>: <code>{{ .Labels.job }}</code>
       {{- end }}
       {{- if .Labels.namespace }}
-      {{ "\n" }}
         - <i>Namespace</i>: <code>{{ .Labels.namespace }}</code>
       {{- end }}
       {{- if .Annotations.runbook_url }}
-      {{ "\n\n" }}
+
       Runbook: {{ .Annotations.runbook_url }}
       {{- end }}
       {{- end -}}
