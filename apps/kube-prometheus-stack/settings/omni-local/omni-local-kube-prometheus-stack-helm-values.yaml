@@ -5,54 +5,62 @@ alertmanager:
       {{- $maxAlerts := 3 -}}
       {{- $totalAlerts := len .Alerts -}}
       {{- if eq .Status "firing" -}}🔥 {{- end -}}{{- if eq .Status "resolved" -}}✅ {{- end -}}<b>[{{ .Status | toUpper }}] [omni-local] {{ .CommonLabels.alertname }}{{ if .CommonLabels.instance }} on {{ .CommonLabels.instance }}{{ end }}</b>
-
-      {{ if gt $totalAlerts $maxAlerts }}
+      {{ "\n" }}
+      {{- if gt $totalAlerts $maxAlerts }}
       <i>Showing first {{ $maxAlerts }} of {{ $totalAlerts }} alerts to stay within Telegram message size limits.</i>
-
+      {{ "\n" }}
       {{- end }}
       {{- if gt $totalAlerts $maxAlerts -}}
-      {{- range (slice .Alerts 0 $maxAlerts) -}}
-      {{- template "telegram.alert" . -}}
-
+      {{- range $i, $alert := (slice .Alerts 0 $maxAlerts) -}}
+      {{- if gt $i 0 }}{{ "\n\n" }}{{- end -}}
+      {{ template "telegram.alert" $alert }}
       {{- end -}}
       {{- else -}}
-      {{- range .Alerts -}}
-      {{- template "telegram.alert" . -}}
-
+      {{- range $i, $alert := .Alerts -}}
+      {{- if gt $i 0 }}{{ "\n\n" }}{{- end -}}
+      {{ template "telegram.alert" $alert }}
       {{- end -}}
       {{- end }}
-
+      {{ "\n\n" }}
       <a href="https://grafana.apps-omni.949x.net/alerting/list?view=state">Go to Grafana</a>
       {{- end -}}
       {{- define "telegram.alert" -}}
       {{$severity := .Labels.severity -}}
-      {{- if eq $severity "warning" }}
+      {{- if eq $severity "warning" -}}
       <b>Severity: </b> WARNING ⚠️
-      {{- else if eq $severity "critical" }}
+      {{- else if eq $severity "critical" -}}
       <b>Severity: </b> CRITICAL 🚨
-      {{- else }}
+      {{- else -}}
       <b>Severity: </b> {{$severity | toUpper }} 😱
       {{- end }}
+      {{ "\n" }}
       {{- $status := .Status -}}
-      {{- if eq $status "firing" }}
+      {{- if eq $status "firing" -}}
       <b>Date/Time: </b> {{ .StartsAt.Format "Mon 02 Jan 15:04:05 MST 2006" }}
-      {{- else if eq $status "resolved" }}
+      {{ "\n" }}
+      {{- else if eq $status "resolved" -}}
       <b>Date/Time: </b> {{ .EndsAt.Format "Mon 02 Jan 15:04:05 MST 2006" }}
-      {{- end }}
+      {{ "\n" }}
+      {{- end -}}
       <b>Alert: </b> {{ .Labels.alertname }}
+      {{ "\n" }}
       <b>Description: </b> {{ printf "%.240s" .Annotations.description }}
-
+      {{ "\n\n" }}
       <b>Details: </b>
       {{- if .Labels.instance }}
+      {{ "\n" }}
         - <i>Instance</i>: <code>{{ .Labels.instance }}</code>
       {{- end }}
       {{- if .Labels.job }}
+      {{ "\n" }}
         - <i>Job</i>: <code>{{ .Labels.job }}</code>
       {{- end }}
       {{- if .Labels.namespace }}
+      {{ "\n" }}
         - <i>Namespace</i>: <code>{{ .Labels.namespace }}</code>
       {{- end }}
       {{- if .Annotations.runbook_url }}
+      {{ "\n\n" }}
       Runbook: {{ .Annotations.runbook_url }}
       {{- end }}
       {{- end -}}
