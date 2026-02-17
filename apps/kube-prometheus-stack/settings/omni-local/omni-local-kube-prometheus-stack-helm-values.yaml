@@ -57,5 +57,5 @@ alertmanager:
       {{- end }}
       {{- end -}}
 
-alertmanagerSpec:
-  externalUrl: "https://grafana.apps-omni.949x.net/alerting/list?view=state"
+  alertmanagerSpec:
+    externalUrl: "https://grafana.apps-omni.949x.net/alerting/list?view=state"
