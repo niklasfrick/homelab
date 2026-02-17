@@ -1,3 +1,0 @@
-nfs:
-  server: nas.bal.949x.net
-  path: /mnt/nas-b01-pool1/k8s-nfs-subdir-external-provisioner/zendo
