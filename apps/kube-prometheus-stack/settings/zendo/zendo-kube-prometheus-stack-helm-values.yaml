@@ -39,12 +39,12 @@ alertmanager:
       {{- if gt $totalAlerts $maxAlerts -}}
       {{- range $i, $alert := (slice .Alerts 0 $maxAlerts) -}}
       {{- if gt $i 0 }}{{ "\n\n" }}{{- end -}}
-      {{ template "telegram.alert" $alert }}
+      {{- template "telegram.alert" $alert -}}
       {{- end -}}
       {{- else -}}
       {{- range $i, $alert := .Alerts -}}
       {{- if gt $i 0 }}{{ "\n\n" }}{{- end -}}
-      {{ template "telegram.alert" $alert }}
+      {{- template "telegram.alert" $alert -}}
       {{- end -}}
       {{- end }}
       {{ "\n\n" }}
