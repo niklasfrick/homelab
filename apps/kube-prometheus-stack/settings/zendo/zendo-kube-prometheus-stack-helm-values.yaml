@@ -34,8 +34,8 @@ alertmanager:
 
       {{ if gt $totalAlerts $maxAlerts }}
       <i>Showing first {{ $maxAlerts }} of {{ $totalAlerts }} alerts to stay within Telegram message size limits.</i>
-      {{- end }}
 
+      {{- end }}
       {{- if gt $totalAlerts $maxAlerts -}}
       {{- range (slice .Alerts 0 $maxAlerts) -}}
       {{- template "telegram.alert" . -}}
@@ -47,6 +47,7 @@ alertmanager:
 
       {{- end -}}
       {{- end }}
+
       <a href="https://grafana.apps.949x.net/alerting/list?view=state">Go to Grafana</a>
       {{- end -}}
 
@@ -67,6 +68,7 @@ alertmanager:
       {{- end }}
       <b>Alert: </b> {{ .Labels.alertname }}
       <b>Description: </b> {{ printf "%.240s" .Annotations.description }}
+
       <b>Details: </b>
       {{- if .Labels.instance }}
         - <i>Instance</i>: <code>{{ .Labels.instance }}</code>
