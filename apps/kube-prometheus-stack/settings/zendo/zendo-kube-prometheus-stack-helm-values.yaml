@@ -28,9 +28,25 @@ alertmanager:
   templateFiles:
     telegram.tmpl: |-
       {{ define "telegram.message" }}
-
+      {{ $maxAlerts := 3 }}
+      {{ $totalAlerts := len .Alerts }}
       {{ if eq .Status "firing" }}🔥 {{ end }}{{ if eq .Status "resolved" }}✅ {{ end }}<b>[{{ .Status | toUpper }}] [zendo] {{ .CommonLabels.alertname }} on {{ .CommonLabels.instance }}</b>
+      {{ if gt $totalAlerts $maxAlerts }}
+      <i>Showing first {{ $maxAlerts }} of {{ $totalAlerts }} alerts to stay within Telegram message size limits.</i>
+      {{ end }}
+      {{ if gt $totalAlerts $maxAlerts }}
+      {{ range (slice .Alerts 0 $maxAlerts) }}
+      {{ template "telegram.alert" . }}
+      {{ end }}
+      {{ else }}
       {{ range .Alerts }}
+      {{ template "telegram.alert" . }}
+      {{ end }}
+      {{ end }}
+      <a href="https://grafana.apps.949x.net/alerting/list?view=state">Go to Grafana</a>
+      {{ end }}
+
+      {{ define "telegram.alert" }}
       {{$severity := .Labels.severity -}}
       {{if eq $severity "warning" -}}
       <b>Severity: </b> WARNING ⚠️
@@ -46,15 +62,14 @@ alertmanager:
       <b>Date/Time: </b> {{ .EndsAt.Format "Mon 02 Jan 15:04:05 MST 2006" }}
       {{ end -}}
       <b>Alert: </b> {{ .Labels.alertname }}
-      <b>Description: </b> {{ .Annotations.description }}
+      <b>Description: </b> {{ printf "%.240s" .Annotations.description }}
       <b>Details: </b>
-        {{ range .Labels.SortedPairs }} - <i>{{ .Name | title }}</i>: <code>{{ .Value }}</code>
-        {{ end }}
+        - <i>Instance</i>: <code>{{ .Labels.instance }}</code>
+        - <i>Job</i>: <code>{{ .Labels.job }}</code>
+        - <i>Namespace</i>: <code>{{ .Labels.namespace }}</code>
       {{ if .Annotations.runbook_url }}
       Runbook: {{ .Annotations.runbook_url }}
       {{ end }}
-      {{ end }}
-      <a href="https://grafana.apps.949x.net/alerting/list?view=state">Go to Grafana</a>
       {{ end }}
 
   alertmanagerSpec:
