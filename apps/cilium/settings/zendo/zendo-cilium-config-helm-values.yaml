@@ -22,13 +22,12 @@ internalGateway:
   ipV4: 10.96.211.100
   domain: "*.apps.949x.net"
   tlsSecretName: "apps-949x-net-tls"
-
-externalGateway:
-  enabled: true
-  name: external-gateway
-  namespace: external-gateway
-  ipV4: 10.96.211.200
-  domain: "*.949x.net"
-  tlsSecretName: "949x-net-tls"
-  extraAnnotations:
-    external-dns.alpha.kubernetes.io/target: "external-gateway.949x.net"
+# externalGateway:
+#   enabled: true
+#   name: external-gateway
+#   namespace: external-gateway
+#   ipV4: 10.96.211.200
+#   domain: "*.949x.net"
+#   tlsSecretName: "949x-net-tls"
+#   extraAnnotations:
+#     external-dns.alpha.kubernetes.io/target: "external-gateway.949x.net"
