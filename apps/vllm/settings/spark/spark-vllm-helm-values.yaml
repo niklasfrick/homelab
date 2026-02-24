@@ -129,6 +129,9 @@ servingEngineSpec:
 
       # Persistent storage for model weights cache
       pvcStorage: "82Gi"
+      storageClass: ""
+      pvcMatchLabels:
+        model: "qwen3-coder-next-fp8"
       enableTool: true
       toolCallParser: "qwen3_coder"
 
@@ -150,6 +153,66 @@ servingEngineSpec:
 
       envFromSecret:
         name: hf-token
+
+    # - name: "minimax-m2-5-gguf-q3"
+    #   repository: "nvcr.io/nvidia/vllm"
+    #   tag: "26.01-py3"
+    #   modelURL: "/data/models/UD-Q3_K_XL/MiniMax-M2.5-UD-Q3_K_XL-00001-of-00004.gguf"
+    #   replicaCount: 1
+
+    #   vllmApiKey:
+    #     secretName: "vllm-apikey"
+    #     secretKey: "VLLM_API_KEY"
+
+    #   # DGX Spark: 10x ARM Cortex-X925 cores, 128GB unified memory, GB10 Blackwell GPU
+    #   requestCPU: 8
+    #   requestMemory: "110Gi"
+    #   requestGPU: 1
+
+    #   # Persistent storage for model weights cache (~101GB for UD-Q3_K_XL shards + tokenizer)
+    #   pvcStorage: "120Gi"
+    #   enableTool: true
+    #   toolCallParser: "minimax_m2"
+
+    #   initContainer:
+    #     name: download-gguf
+    #     image: python:3.12-slim
+    #     command: ["python", "-c"]
+    #     args:
+    #       - |
+    #         import os, subprocess, sys
+    #         marker = "/data/models/UD-Q3_K_XL/MiniMax-M2.5-UD-Q3_K_XL-00001-of-00004.gguf"
+    #         if os.path.exists(marker):
+    #             print("GGUF shards already present, skipping download")
+    #             sys.exit(0)
+    #         subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "huggingface-hub[hf_transfer]"])
+    #         os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
+    #         from huggingface_hub import snapshot_download
+    #         snapshot_download("unsloth/MiniMax-M2.5-GGUF", allow_patterns=["UD-Q3_K_XL/*"], local_dir="/data/models")
+    #         print("Download complete")
+    #     mountPvcStorage: true
+
+    #   vllmConfig:
+    #     gpuMemoryUtilization: 0.8
+    #     enablePrefixCaching: true
+    #     extraArgs:
+    #       - "--tokenizer"
+    #       - "MiniMaxAI/MiniMax-M2.5"
+    #       - "--hf-config-path"
+    #       - "MiniMaxAI/MiniMax-M2.5"
+    #       - "--trust-remote-code"
+    #       - "--reasoning-parser"
+    #       - "minimax_m2_append_think"
+
+    #   nodeSelectorTerms:
+    #     - matchExpressions:
+    #         - key: nvidia.com/gpu.product
+    #           operator: "In"
+    #           values:
+    #             - "NVIDIA-GB10"
+
+    #   envFromSecret:
+    #     name: hf-token
 
   tolerations:
     - key: nvidia.com/gpu
