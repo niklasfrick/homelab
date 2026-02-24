@@ -13,7 +13,7 @@ txtOwnerId: external-dns-external-gateway
 
 annotationFilter: "external-dns.alpha.kubernetes.io/enabled=true"
 
-gatewayNamespace: external-gateway
+gatewayNamespace: gateway-system
 
 sources:
   - gateway-httproute
