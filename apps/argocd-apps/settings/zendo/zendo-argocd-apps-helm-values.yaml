@@ -14,7 +14,7 @@ apps:
     configHelmChart:
       enabled: false
   cert-manager:
-    targetRevision: v1.19.3 # renovate:helm depName=cert-manager registryUrl=https://charts.jetstack.io
+    targetRevision: v1.19.4 # renovate:helm depName=cert-manager registryUrl=https://charts.jetstack.io
     configHelmChart:
       enabled: false
   cilium:
