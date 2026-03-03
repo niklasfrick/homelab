@@ -14,6 +14,7 @@ spec:
   - 'ghcr.io/grafana/helm-charts'
   - 'https://helm.cilium.io/'
   - 'https://grafana.github.io/helm-charts'
+  - 'https://open-telemetry.github.io/opentelemetry-helm-charts'
   - 'https://cloudnative-pg.io/charts'
   - 'https://vmware-tanzu.github.io/helm-charts'
   - 'registry-1.docker.io/bitnamicharts'
@@ -73,7 +74,7 @@ spec:
       server: https://kubernetes.default.svc
     - namespace: 'tempo'
       server: https://kubernetes.default.svc
-    - namespace: 'beyla'
+    - namespace: 'otel-ebpf'
       server: https://kubernetes.default.svc
     - namespace: 'csi-driver-nfs'
       server: https://kubernetes.default.svc
