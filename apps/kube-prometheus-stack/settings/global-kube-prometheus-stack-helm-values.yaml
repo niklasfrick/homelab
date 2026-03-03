@@ -5,6 +5,7 @@ prometheus:
     evaluationInterval: 30s
     retention: 30d
     retentionSize: 25GiB
+    enableRemoteWriteReceiver: true
     storageSpec:
       volumeClaimTemplate:
         spec:
