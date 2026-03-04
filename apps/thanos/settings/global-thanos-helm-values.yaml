@@ -55,7 +55,7 @@ compactor:
 storegateway:
   enabled: true
   persistence:
-    size: 600Mi
+    size: 1Gi
   resources:
     requests:
       cpu: 100m
