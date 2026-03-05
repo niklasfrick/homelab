@@ -21,9 +21,9 @@ nodes:
     controlPlane: true
     ipAddress: 10.96.10.101
     installDisk: /dev/sda
-    talosImageURL: factory.talos.dev/metal-installer-secureboot/80469ef645425bc7cb27830a7143999e422fd7b206c9d9726c47de47800e956d
+    talosImageURL: factory.talos.dev/metal-installer-secureboot/4c3b4fe5da2928e68c833b4634398ce5898ca5283c9e752207c4bbd0172b71dd
     networkInterfaces:
-      - interface: eth0
+      - interface: enp2s0
         addresses:
           - 10.96.10.101/24
         dhcp: false
