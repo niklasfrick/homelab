@@ -58,6 +58,9 @@ volumes:
   gpg:
     secretName: etcd-gpg-asc-key
 
+extraArgs:
+  - --enable-break-glass-configs
+
 extraObjects:
   - |
     apiVersion: external-secrets.io/v1
