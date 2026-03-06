@@ -56,7 +56,7 @@ notifications:
 dex:
   resources:
     limits:
-      memory: 150Mi
+      memory: 200Mi
     requests:
       cpu: 10m
       memory: 100Mi
