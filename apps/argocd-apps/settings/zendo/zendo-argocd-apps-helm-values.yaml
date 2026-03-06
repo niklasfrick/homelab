@@ -22,7 +22,7 @@ apps:
     configHelmChart:
       enabled: true
   clickhouse-operator:
-    targetRevision: 0.25.5 # renovate:helm depName=altinity-clickhouse-operator registryUrl=https://helm.altinity.com
+    targetRevision: 0.26.0 # renovate:helm depName=altinity-clickhouse-operator registryUrl=https://helm.altinity.com
     configHelmChart:
       enabled: false
   cloudnative-pg:
