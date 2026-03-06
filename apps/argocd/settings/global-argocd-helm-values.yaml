@@ -73,7 +73,9 @@ server:
   httproute:
     enabled: true
     parentRefs:
-      - name: internal-gateway
+      - group: gateway.networking.k8s.io
+        kind: Gateway
+        name: internal-gateway
         namespace: kube-system
         sectionName: https
   resources:
