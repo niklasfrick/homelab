@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 ---
-talosVersion: v1.12.1 # renovate:github-releases depName=siderolabs/talos
+talosVersion: v1.12.4 # renovate:github-releases depName=siderolabs/talos
 kubernetesVersion: v1.34.3 # renovate:github-releases depName=kubernetes/kubernetes
 
 clusterName: omni-local
