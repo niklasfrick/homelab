@@ -44,7 +44,7 @@ bucketweb:
 compactor:
   enabled: true
   persistence:
-    size: 10Gi
+    size: 15Gi
   resources:
     requests:
       cpu: 10m
