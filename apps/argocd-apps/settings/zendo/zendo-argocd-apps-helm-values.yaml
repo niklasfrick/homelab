@@ -42,7 +42,7 @@ apps:
     configHelmChart:
       enabled: false
   # gpu-operator:
-  #   targetRevision: 25.10.1 # renovate:helm depName=gpu-operator registryUrl=https://helm.ngc.nvidia.com/nvidia
+  #   targetRevision: v26.3.0 # renovate:helm depName=gpu-operator registryUrl=https://helm.ngc.nvidia.com/nvidia
   #   configHelmChart:
   #     enabled: false
   grafana:
