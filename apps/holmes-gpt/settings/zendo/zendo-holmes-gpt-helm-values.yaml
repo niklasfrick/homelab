@@ -1,0 +1,22 @@
+additionalEnvVars:
+  - name: ANTHROPIC_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: holmes-gpt-secrets
+        key: anthropic-api-key
+
+modelList:
+  claude-sonnet:
+    api_key: "{{ env.ANTHROPIC_API_KEY }}"
+    model: anthropic/claude-sonnet-4-6
+    temperature: 0
+
+mcpAddons:
+  github:
+    enabled: true
+    auth:
+      secretName: holmes-gpt-secrets
+      secretKey: github-pat
+    config:
+      # Only enable specific toolsets
+      toolsets: "pull_requests,actions"

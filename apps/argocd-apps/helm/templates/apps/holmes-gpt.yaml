@@ -1,0 +1,36 @@
+{{- $applicationName := "holmes-gpt" }}
+{{- if hasKey .Values.apps $applicationName }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $applicationName }}
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: {{ $applicationName }}
+  sources:
+  - chart: holmes
+    repoURL: https://robusta-charts.storage.googleapis.com
+    targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
+    helm:
+      releaseName: holmes-gpt
+      valueFiles:
+      - $values/apps/{{ $applicationName }}/settings/global-holmes-gpt-helm-values.yaml
+  {{- if index .Values.apps $applicationName "configHelmChart" "enabled" }}
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
+    helm:
+      releaseName: {{ $applicationName }}-config
+  {{- end }}
+  - repoURL: git@github.com:niklasfrick/homelab.git
+    ref: values
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      selfHeal: true
+      prune: true
+{{- end }}
