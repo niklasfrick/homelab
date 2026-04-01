@@ -136,7 +136,18 @@ alloy:
         }
 
         output {
-          traces = [otelcol.exporter.otlp.tempo.input]
+          traces  = [otelcol.processor.batch.default.input]
+          metrics = [otelcol.processor.batch.default.input]
+        }
+      }
+
+      otelcol.processor.batch "default" {
+        timeout          = "5s"
+        send_batch_size  = 8192
+
+        output {
+          traces  = [otelcol.exporter.otlp.tempo.input]
+          metrics = [otelcol.exporter.prometheusremotewrite.prom.input]
         }
       }
 
@@ -147,6 +158,13 @@ alloy:
           tls {
             insecure = true
           }
+        }
+      }
+
+      // Prometheus remote write exporter for OBI metrics
+      otelcol.exporter.prometheusremotewrite "prom" {
+        endpoint {
+          url = "http://kube-prometheus-stack-prometheus.kube-prometheus-stack.svc.cluster.local:9090/api/v1/write"
         }
       }
 
