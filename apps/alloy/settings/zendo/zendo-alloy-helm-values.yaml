@@ -147,7 +147,7 @@ alloy:
 
         output {
           traces  = [otelcol.exporter.otlp.tempo.input]
-          metrics = [otelcol.exporter.prometheusremotewrite.prom.input]
+          metrics = [otelcol.exporter.prometheus.obi.input]
         }
       }
 
@@ -161,8 +161,12 @@ alloy:
         }
       }
 
-      // Prometheus remote write exporter for OBI metrics
-      otelcol.exporter.prometheusremotewrite "prom" {
+      // Convert OTLP metrics to Prometheus format and forward to remote write
+      otelcol.exporter.prometheus "obi" {
+        forward_to = [prometheus.remote_write.obi.receiver]
+      }
+
+      prometheus.remote_write "obi" {
         endpoint {
           url = "http://kube-prometheus-stack-prometheus.kube-prometheus-stack.svc.cluster.local:9090/api/v1/write"
         }
