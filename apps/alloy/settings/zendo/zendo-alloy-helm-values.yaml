@@ -142,8 +142,7 @@ alloy:
       }
 
       otelcol.processor.batch "default" {
-        timeout          = "5s"
-        send_batch_size  = 8192
+        timeout = "5s"
 
         output {
           traces  = [otelcol.exporter.otlp.tempo.input]
