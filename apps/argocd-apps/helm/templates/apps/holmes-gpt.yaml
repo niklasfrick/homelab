@@ -19,6 +19,7 @@ spec:
       releaseName: holmes-gpt
       valueFiles:
       - $values/apps/{{ $applicationName }}/settings/global-holmes-gpt-helm-values.yaml
+      - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-holmes-gpt-helm-values.yaml
   {{- if index .Values.apps $applicationName "configHelmChart" "enabled" }}
   - repoURL: git@github.com:niklasfrick/homelab.git
     path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
