@@ -1,3 +1,20 @@
 instance: zendo
 thanos:
   enabled: true
+
+extraObjects:
+  - apiVersion: monitoring.coreos.com/v1alpha1
+    kind: AlertmanagerConfig
+    metadata:
+      name: silenced-alerts
+      namespace: "{{ .Release.Namespace }}"
+    spec:
+      route:
+        receiver: "null"
+        groupBy: ["alertname"]
+        matchers:
+          - name: alertname
+            value: CephPGImbalance
+            matchType: "="
+      receivers:
+        - name: "null"
