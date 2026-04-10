@@ -1,8 +1,3 @@
-# WORKAROUND FOR BITNAMI LEGACY REGISTRY: REMOVE IF NEW IMAGE TAG FOR K8s 1.34 IS AVAILABLE
-kubectl:
-  image:
-    repository: public.ecr.aws/bitnami/kubectl
-
 metrics:
   serviceMonitor:
     enabled: true
