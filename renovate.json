@@ -9,6 +9,14 @@
   "prConcurrentLimit": 0,
   "prHourlyLimit": 0,
   "additionalBranchPrefix": "{{packageFileDir}}-",
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true
+    }
+  ],
   "kubernetes": {
     "managerFilePatterns": [
       "\\.yaml$"
