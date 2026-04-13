@@ -129,7 +129,9 @@ spec:
   - group: 'nvidia.com'
     kind: ClusterPolicy
   - group: 'nfd.k8s-sigs.io'
-    kind: 'NodeFeatureRule'
+    kind: NodeFeatureRule
+  - group: 'resource.k8s.io'
+    kind: DeviceClass
   namespaceResourceBlacklist:
   - group: ''
     kind: ResourceQuota
