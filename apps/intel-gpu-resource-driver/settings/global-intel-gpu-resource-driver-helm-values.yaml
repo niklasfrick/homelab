@@ -1,3 +1,9 @@
 kubeletPlugin:
   nodeSelector:
     feature.node.kubernetes.io/pci-0300_8086.present: "true"
+
+# Talos specific configuration for CDI
+# https://docs.siderolabs.com/talos/v1.12/configure-your-talos-cluster/images-container-runtime/containerd#set-cdi-plugin-spec-dirs-to-writable-directories
+cdi:
+  staticPath: /var/cdi/static
+  dynamicPath: /var/cdi/dynamic
