@@ -1,0 +1,26 @@
+machine:
+  network:
+    hostname: t3s-zendo-gpu1
+    interfaces:
+      - deviceSelector:
+          busPath: "0*"
+        addresses:
+          - 10.96.10.160/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.96.10.1
+        dhcp: false
+  kernel:
+    modules:
+      - name: nvidia
+      - name: nvidia_uvm
+      - name: nvidia_drm
+      - name: nvidia_modeset
+  sysctls:
+    net.core.bpf_jit_harden: 1
+  files:
+    - path: /etc/cri/conf.d/20-customization.part
+      op: create
+      content: |
+        [plugins."io.containerd.cri.v1.runtime"]
+          cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
