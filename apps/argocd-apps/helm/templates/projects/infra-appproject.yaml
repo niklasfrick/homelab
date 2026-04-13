@@ -26,6 +26,7 @@ spec:
   - 'https://helm.ngc.nvidia.com/nvidia'
   - 'https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts'
   - 'https://robusta-charts.storage.googleapis.com'
+  - 'https://kubernetes-sigs.github.io/node-feature-discovery/charts'
   destinations:
     - namespace: 'alloy'
       server: https://kubernetes.default.svc
@@ -80,6 +81,8 @@ spec:
     - namespace: 'csi-driver-nfs'
       server: https://kubernetes.default.svc
     - namespace: 'holmes-gpt'
+      server: https://kubernetes.default.svc
+    - namespace: 'node-feature-discovery'
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ''
