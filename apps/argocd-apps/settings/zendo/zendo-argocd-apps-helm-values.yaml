@@ -53,6 +53,10 @@ apps:
     targetRevision: "5.22.2" # renovate:helm depName=grafana-operator registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:
       enabled: true
+  intel-gpu-resource-driver:
+    targetRevision: 0.7.0 # renovate:helm depName=intel-gpu-resource-driver registryUrl=https://intel.github.io/helm-charts
+    configHelmChart:
+      enabled: false
   kube-prometheus-stack:
     targetRevision: 82.9.0 # renovate:helm depName=kube-prometheus-stack registryUrl=https://prometheus-community.github.io/helm-charts
     configHelmChart:
