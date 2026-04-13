@@ -1,6 +1,13 @@
 kubeletPlugin:
   nodeSelector:
-    feature.node.kubernetes.io/pci-0300_8086.present: "true"
+    intel.feature.node.kubernetes.io/gpu: "true"
+
+# Install the chart's NodeFeatureRule so NFD labels nodes with
+# intel.feature.node.kubernetes.io/gpu=true when an Intel display device
+# (vendor 8086, class 0300 or 0380) is present AND the i915 kernel module
+# is loaded. Requires NFD to already be running in the cluster.
+nodeFeatureRules:
+  enabled: true
 
 # Talos specific configuration for CDI
 # https://docs.siderolabs.com/talos/v1.12/configure-your-talos-cluster/images-container-runtime/containerd#set-cdi-plugin-spec-dirs-to-writable-directories
