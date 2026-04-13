@@ -12,8 +12,8 @@ spec:
     server: https://kubernetes.default.svc
     namespace: {{ $applicationName }}
   sources:
-  - chart: intel-gpu-resource-driver
-    repoURL: https://intel.github.io/helm-charts
+  - chart: intel-gpu-resource-driver-chart
+    repoURL: ghcr.io/intel/intel-resource-drivers-for-kubernetes
     targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
     helm:
       releaseName: intel-gpu-resource-driver

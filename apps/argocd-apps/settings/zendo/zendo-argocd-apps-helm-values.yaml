@@ -54,7 +54,7 @@ apps:
     configHelmChart:
       enabled: true
   intel-gpu-resource-driver:
-    targetRevision: 0.7.0 # renovate:helm depName=intel-gpu-resource-driver registryUrl=https://intel.github.io/helm-charts
+    targetRevision: 0.9.1 # renovate:helm depName=intel-gpu-resource-driver-chart registryUrl=oci://ghcr.io/intel/intel-resource-drivers-for-kubernetes
     configHelmChart:
       enabled: false
   kube-prometheus-stack:
