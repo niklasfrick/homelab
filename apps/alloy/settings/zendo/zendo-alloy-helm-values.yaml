@@ -120,28 +120,45 @@ alloy:
       }
 
       // OTLP receiver configuration
-      otelcol.receiver.otlp "otlp_receiver" {
+      otelcol.receiver.otlp "default" {
         grpc {
           endpoint = "0.0.0.0:4317"
         }
 
         http {
           endpoint = "0.0.0.0:4318"
-
-          cors {
-            allowed_origins = ["*"]
-            allowed_headers = ["*"]
-            max_age         = 600
-          }
         }
 
         output {
-          traces = [otelcol.exporter.otlp.tempo.input]
+          traces = [otelcol.processor.k8sattributes.default.input]
+        }
+      }
+
+      otelcol.processor.k8sattributes "default" {
+        extract {
+          metadata = [
+            "k8s.namespace.name",
+            "k8s.pod.name",
+            "k8s.container.name",
+            "k8s.deployment.name",
+          ]
+        }
+
+        output {
+          traces = [otelcol.processor.batch.default.input]
+        }
+      }
+
+      otelcol.processor.batch "default" {
+        send_batch_size     = 1024
+        timeout             = "5s"
+        output {
+          traces = [otelcol.exporter.otlp.default.input]
         }
       }
 
       // OTLP exporter to Tempo
-      otelcol.exporter.otlp "tempo" {
+      otelcol.exporter.otlp "default" {
         client {
           endpoint = "tempo.tempo.svc.cluster.local:4317"
           tls {
