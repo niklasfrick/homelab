@@ -8,6 +8,14 @@ tempo:
 
   reportingEnabled: false
 
+  overrides:
+    defaults:
+      metrics_generator:
+        processors:
+          - service-graphs
+          - span-metrics
+          - local-blocks
+
 serviceMonitor:
   enabled: true
   interval: 15s
