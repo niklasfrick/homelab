@@ -131,7 +131,6 @@ alloy:
 
         output {
           traces = [otelcol.processor.k8sattributes.default.input]
-          metrics = [otelcol.exporter.prometheus.default.input]
         }
       }
 
@@ -167,16 +166,6 @@ alloy:
           tls {
             insecure = true
           }
-        }
-      }
-
-      otelcol.exporter.prometheus "default" {
-        forward_to = [prometheus.remote_write.prometheus.receiver]
-      }
-
-      prometheus.remote_write "prometheus" {
-        endpoint {
-          url = "http://prometheus-operated.kube-prometheus-stack.svc.cluster.local:9090/api/v1/write"
         }
       }
 
