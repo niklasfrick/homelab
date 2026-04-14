@@ -13,8 +13,7 @@ spec:
     namespace: {{ $applicationName }}
   sources:
   - chart: tempo
-    repoURL: https://grafana.github.io/helm-charts
-    path: grafana
+    repoURL: https://grafana-community.github.io/helm-charts/
     targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
     helm:
       releaseName: tempo
