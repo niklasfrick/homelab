@@ -131,7 +131,7 @@ alloy:
 
         output {
           traces = [otelcol.processor.k8sattributes.default.input]
-          metrics = [otelcol.processor.k8sattributes.default.input]
+          metrics = [otelcol.exporter.prometheus.default.input]
         }
       }
 
@@ -149,7 +149,6 @@ alloy:
 
         output {
           traces = [otelcol.processor.batch.default.input]
-          metrics = [otelcol.processor.batch.default.input]
         }
       }
 
@@ -158,7 +157,6 @@ alloy:
         timeout             = "5s"
         output {
           traces = [otelcol.exporter.otlp.default.input]
-          metrics = [otelcol.exporter.prometheus.ebpf.input]
         }
       }
 
@@ -172,8 +170,14 @@ alloy:
         }
       }
 
-      otelcol.exporter.prometheus "ebpf" {
-        add_metric_suffixes = true
+      otelcol.exporter.prometheus "default" {
+        forward_to = [prometheus.remote_write.prometheus.receiver]
+      }
+
+      prometheus.remote_write "prometheus" {
+        endpoint {
+          url = "http://kube-prometheus-stack-prometheus.kube-prometheus-stack.svc.cluster.local:9090/api/v1/write"
+        }
       }
 
   extraPorts:
