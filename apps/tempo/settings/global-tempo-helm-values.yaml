@@ -8,12 +8,14 @@ tempo:
 
   reportingEnabled: false
 
+  metricsGenerator:
+    enabled: true
+    remoteWriteUrl: "http://prometheus-operated.kube-prometheus-stack.svc.cluster.local:9090/api/v1/write"
+
   overrides:
     defaults:
       metrics_generator:
         processors:
-          - service-graphs
-          - span-metrics
           - local-blocks
 
 serviceMonitor:
