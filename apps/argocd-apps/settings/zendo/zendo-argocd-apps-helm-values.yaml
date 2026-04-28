@@ -46,7 +46,7 @@ apps:
   #   configHelmChart:
   #     enabled: false
   holmes-gpt:
-    targetRevision: 0.23.0 # renovate:helm depName=holmes registryUrl=https://robusta-charts.storage.googleapis.com
+    targetRevision: 0.26.0 # renovate:helm depName=holmes registryUrl=https://robusta-charts.storage.googleapis.com
     configHelmChart:
       enabled: true
   grafana:
