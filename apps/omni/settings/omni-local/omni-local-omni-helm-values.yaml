@@ -19,6 +19,7 @@ config:
     machineAPI:
       advertisedURL: https://siderolink.omni.apps-omni.949x.net
     siderolink:
+      joinTokensMode: legacyAllowed
       wireGuard:
         advertisedEndpoint: "10.96.10.101:30180"
     workloadProxy:
