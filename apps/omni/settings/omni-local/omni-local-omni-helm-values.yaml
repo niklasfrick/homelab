@@ -116,7 +116,9 @@ extraObjects:
       namespace: omni
     spec:
       parentRefs:
-        - name: internal-gateway
+        - group: ""
+          kind: Gateway
+          name: internal-gateway
           namespace: kube-system
           sectionName: https-workload-proxy
       hostnames:
@@ -129,3 +131,4 @@ extraObjects:
           backendRefs:
             - name: omni
               port: 8080
+              weight: 1
