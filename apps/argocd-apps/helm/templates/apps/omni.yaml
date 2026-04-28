@@ -42,9 +42,10 @@ spec:
         pod-security.kubernetes.io/enforce-version: latest
         pod-security.kubernetes.io/warn: privileged
         pod-security.kubernetes.io/warn-version: latest
-    # Automated sync is intentionally disabled for the OCI chart cutover.
-    # Manually sync and prune after the Omni PVC backup/storage validation.
     syncOptions:
     - CreateNamespace=true
     - ServerSideApply=true
+    automated:
+      selfHeal: true
+      prune: true
 {{- end }}
