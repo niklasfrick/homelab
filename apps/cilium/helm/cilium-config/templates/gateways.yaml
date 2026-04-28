@@ -34,6 +34,37 @@ spec:
         certificateRefs:
           - kind: Secret
             name: {{ .Values.internalGateway.tlsSecretName }}
+    {{- if .Values.internalGateway.omniSubdomain.enabled }}
+    - name: https-omni-subdomain
+      protocol: HTTPS
+      port: 443
+      hostname: "{{ .Values.internalGateway.omniSubdomain.domain }}"
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: HTTPRoute
+          - group: gateway.networking.k8s.io
+            kind: GRPCRoute
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: {{ .Values.internalGateway.omniSubdomain.tlsSecretName }}
+    {{- end }}
+    {{- if .Values.internalGateway.workloadProxy.enabled }}
+    - name: https-workload-proxy
+      protocol: HTTPS
+      port: 443
+      hostname: "{{ .Values.internalGateway.workloadProxy.domain }}"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: {{ .Values.internalGateway.workloadProxy.tlsSecretName }}
+    {{- end }}
 {{- end }}
 {{- if .Values.externalGateway.enabled }}
 ---

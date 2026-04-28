@@ -22,6 +22,22 @@ internalGateway:
   ipV4: 10.96.210.100
   domain: "*.apps-omni.949x.net"
   tlsSecretName: "apps-omni-949x-net-tls"
+  omniSubdomain:
+    enabled: false
+    domain: "*.omni.apps-omni.949x.net"
+    tlsSecretName: "omni-subdomain-apps-omni-949x-net-tls"
+    issuerRef:
+      group: cert-manager.io
+      kind: ClusterIssuer
+      name: letsencrypt-prod
+  workloadProxy:
+    enabled: false
+    domain: "*.proxy.apps-omni.949x.net"
+    tlsSecretName: "proxy-apps-omni-949x-net-tls"
+    issuerRef:
+      group: cert-manager.io
+      kind: ClusterIssuer
+      name: letsencrypt-prod
 
 externalGateway:
   enabled: false

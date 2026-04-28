@@ -29,6 +29,7 @@ spec:
   - 'https://robusta-charts.storage.googleapis.com'
   - 'https://kubernetes-sigs.github.io/node-feature-discovery/charts'
   - 'ghcr.io/intel/intel-resource-drivers-for-kubernetes'
+  - 'ghcr.io/siderolabs/charts'
   destinations:
     - namespace: 'alloy'
       server: https://kubernetes.default.svc

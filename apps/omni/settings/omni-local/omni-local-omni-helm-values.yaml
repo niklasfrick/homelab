@@ -1,45 +1,58 @@
-domainName: omni.apps-omni.949x.net
-accountUuid: 8b965a24-0dce-4481-840f-b5548ea1c139
-name: "Omni"
-auth:
-  auth0:
-    enabled: true
-    clientId: "2fx0Rm2WxCDy4N4QCRuGssy0o2sXpsZi"
-    domain: "949x.eu.auth0.com"
-initialUsers:
-  - "niklas.frick@pm.me"
-service:
-  ingress:
-    enabled: true
-    ingressClassName: internal-ingress-nginx
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-  siderolink:
-    domainName: siderolink.omni.apps-omni.949x.net
-    wireguard:
-      address: "10.96.10.101"
-    ingress:
+config:
+  account:
+    id: 8b965a24-0dce-4481-840f-b5548ea1c139
+    name: "Omni"
+  auth:
+    auth0:
       enabled: true
-      ingressClassName: internal-ingress-nginx
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-  k8sProxy:
-    domainName: kubernetes.omni.apps-omni.949x.net
-    ingress:
+      clientID: "2fx0Rm2WxCDy4N4QCRuGssy0o2sXpsZi"
+      domain: "949x.eu.auth0.com"
+    initialUsers:
+      - "niklas.frick@pm.me"
+  features:
+    enableBreakGlassConfigs: true
+  services:
+    api:
+      advertisedURL: https://omni.apps-omni.949x.net
+    kubernetesProxy:
+      advertisedURL: https://kubernetes.omni.apps-omni.949x.net
+    machineAPI:
+      advertisedURL: https://siderolink.omni.apps-omni.949x.net
+    siderolink:
+      wireGuard:
+        advertisedEndpoint: "10.96.10.101:30180"
+    workloadProxy:
       enabled: true
-      ingressClassName: internal-ingress-nginx
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
+      subdomain: proxy
 
-workloadServiceProxying:
-  enabled: true
-  subdomain: "proxy"
-  domainName: apps-omni.949x.net
-  ingress:
+etcdEncryptionKey:
+  existingSecret: etcd-gpg-asc-key
+
+gatewayApi:
+  ui:
     enabled: true
-    ingressClassName: internal-ingress-nginx
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+    parentRefs:
+      - name: internal-gateway
+        namespace: kube-system
+        sectionName: https
+    hostnames:
+      - omni.apps-omni.949x.net
+  kubernetesProxy:
+    enabled: true
+    parentRefs:
+      - name: internal-gateway
+        namespace: kube-system
+        sectionName: https-omni-subdomain
+    hostnames:
+      - kubernetes.omni.apps-omni.949x.net
+  siderolinkApi:
+    enabled: true
+    parentRefs:
+      - name: internal-gateway
+        namespace: kube-system
+        sectionName: https-omni-subdomain
+    hostnames:
+      - siderolink.omni.apps-omni.949x.net
 
 resources:
   requests:
@@ -48,22 +61,44 @@ resources:
   limits:
     memory: 400Mi
 
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+  rules:
+    enabled: true
+
 persistence:
   enabled: true
-  persistentVolumeClaim:
-    storageClass: "nfs-csi-retain"
-    size: 5Gi
+  # Keep the retained NFS class, but let the upstream chart create its default
+  # PVC and use its default /data storage layout.
+  storageClassName: "nfs-csi-retain"
 
-volumes:
-  gpg:
-    secretName: etcd-gpg-asc-key
-
-extraArgs:
-  - --enable-break-glass-configs
+initContainers:
+  - name: verify-existing-omni-data
+    image: busybox:1.37
+    command:
+      - sh
+      - -ec
+      - |
+        test -d /data/etcd || {
+          echo "Missing /data/etcd on the new Omni PVC; copy the old etcd database before starting Omni.";
+          exit 1;
+        }
+        test -n "$(find /data/etcd -mindepth 1 -maxdepth 2 -print -quit)" || {
+          echo "Empty /data/etcd on the new Omni PVC; copy the old etcd database before starting Omni.";
+          exit 1;
+        }
+        test -f /data/secondary-storage/sqlite.db || {
+          echo "Missing /data/secondary-storage/sqlite.db on the new Omni PVC; copy the old SQLite database before starting Omni.";
+          exit 1;
+        }
+    volumeMounts:
+      - name: data
+        mountPath: /data
 
 extraObjects:
-  - |
-    apiVersion: external-secrets.io/v1
+  - apiVersion: external-secrets.io/v1
     kind: ExternalSecret
     metadata:
       name: etcd-gpg-asc-key
@@ -80,3 +115,23 @@ extraObjects:
         - secretKey: omni.asc
           remoteRef:
             key: /omni/etcd/OMNI_GPG_ASC_KEY
+  - apiVersion: gateway.networking.k8s.io/v1
+    kind: HTTPRoute
+    metadata:
+      name: omni-workload-proxy
+      namespace: omni
+    spec:
+      parentRefs:
+        - name: internal-gateway
+          namespace: kube-system
+          sectionName: https-workload-proxy
+      hostnames:
+        - "*.proxy.apps-omni.949x.net"
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: omni
+              port: 8080
