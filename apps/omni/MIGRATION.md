@@ -48,6 +48,61 @@ The init container is idempotent:
   - `/legacy/secondary-storage/sqlite.db`
   - `/legacy/sqlite/omni-sqlite.db`
 
+Use this Helm values block during the migration:
+
+```yaml
+persistence:
+  enabled: true
+  # Omni's embedded etcd and SQLite storage are sensitive to NFS semantics.
+  storageClassName: "local-path"
+
+initContainers:
+  - name: migrate-legacy-storage
+    image: busybox:1.36
+    command:
+      - sh
+      - -ec
+      - |
+        mkdir -p /data/secondary-storage
+
+        if [ ! -d /data/etcd/member ] && [ -d /legacy/etcd ]; then
+          echo "Copying legacy etcd data into /data/etcd"
+          rm -rf /data/etcd.migrating
+          mkdir -p /data/etcd.migrating
+          cp -a /legacy/etcd/. /data/etcd.migrating/
+          rm -rf /data/etcd
+          mv /data/etcd.migrating /data/etcd
+        else
+          echo "Skipping etcd copy; target already exists or legacy source is missing"
+        fi
+
+        sqlite_source=""
+        if [ -f /legacy/secondary-storage/sqlite.db ]; then
+          sqlite_source="/legacy/secondary-storage/sqlite.db"
+        elif [ -f /legacy/sqlite/omni-sqlite.db ]; then
+          sqlite_source="/legacy/sqlite/omni-sqlite.db"
+        fi
+
+        if [ ! -f /data/secondary-storage/sqlite.db ] && [ -n "$sqlite_source" ]; then
+          echo "Copying legacy SQLite database from $sqlite_source into /data/secondary-storage/sqlite.db"
+          cp -a "$sqlite_source" /data/secondary-storage/sqlite.db.migrating
+          mv /data/secondary-storage/sqlite.db.migrating /data/secondary-storage/sqlite.db
+        else
+          echo "Skipping SQLite copy; target already exists or legacy source is missing"
+        fi
+    volumeMounts:
+      - name: data
+        mountPath: /data
+      - name: legacy-storage
+        mountPath: /legacy
+        readOnly: true
+
+extraVolumes:
+  - name: legacy-storage
+    persistentVolumeClaim:
+      claimName: omni-pvc
+```
+
 ## Pre-Flight Inventory
 
 Before syncing the new `omni` Argo CD Application, capture the current state:
