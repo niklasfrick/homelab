@@ -11,6 +11,12 @@ config:
       - "niklas.frick@pm.me"
   features:
     enableBreakGlassConfigs: true
+  logs:
+    audit:
+      sqliteTimeout: 2m
+    machine:
+      storage:
+        sqliteTimeout: 2m
   services:
     api:
       advertisedURL: https://omni.apps-omni.949x.net
@@ -25,6 +31,13 @@ config:
     workloadProxy:
       enabled: true
       subdomain: proxy
+  storage:
+    sqlite:
+      # The retained PVC is NFS-backed. Keep SQLite conservative: avoid WAL's
+      # shared-memory file on NFS and serialize writes through one connection.
+      experimentalBaseParams: "_txlock=immediate&_pragma=busy_timeout(120000)&_pragma=journal_mode(DELETE)&_pragma=synchronous(FULL)"
+      poolSize: 1
+      cachedPoolSize: 1
 
 etcdEncryptionKey:
   existingSecret: etcd-gpg-asc-key
