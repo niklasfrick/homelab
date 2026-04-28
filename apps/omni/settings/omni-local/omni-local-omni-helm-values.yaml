@@ -65,8 +65,6 @@ metrics:
   enabled: true
   serviceMonitor:
     enabled: true
-  rules:
-    enabled: true
 
 persistence:
   enabled: true
