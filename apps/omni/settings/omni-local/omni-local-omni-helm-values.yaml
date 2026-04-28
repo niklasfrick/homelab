@@ -11,12 +11,6 @@ config:
       - "niklas.frick@pm.me"
   features:
     enableBreakGlassConfigs: true
-  logs:
-    audit:
-      sqliteTimeout: 2m
-    machine:
-      storage:
-        sqliteTimeout: 2m
   services:
     api:
       advertisedURL: https://omni.apps-omni.949x.net
@@ -31,13 +25,6 @@ config:
     workloadProxy:
       enabled: true
       subdomain: proxy
-  storage:
-    sqlite:
-      # The retained PVC is NFS-backed. Keep SQLite conservative: avoid WAL's
-      # shared-memory file on NFS and serialize writes through one connection.
-      experimentalBaseParams: "_txlock=immediate&_pragma=busy_timeout(120000)&_pragma=journal_mode(DELETE)&_pragma=synchronous(FULL)"
-      poolSize: 1
-      cachedPoolSize: 1
 
 etcdEncryptionKey:
   existingSecret: etcd-gpg-asc-key
@@ -93,9 +80,47 @@ metrics:
 
 persistence:
   enabled: true
-  # Keep the retained NFS class, but let the upstream chart create its default
-  # PVC and use its default /data storage layout.
-  storageClassName: "nfs-csi-retain"
+  # Omni's embedded etcd and SQLite storage are sensitive to NFS semantics.
+  storageClassName: "local-path"
+
+initContainers:
+  - name: migrate-legacy-storage
+    image: busybox:1.36
+    command:
+      - sh
+      - -ec
+      - |
+        mkdir -p /data/secondary-storage
+
+        if [ ! -d /data/etcd/member ] && [ -d /legacy/etcd ]; then
+          echo "Copying legacy etcd data into /data/etcd"
+          rm -rf /data/etcd.migrating
+          mkdir -p /data/etcd.migrating
+          cp -a /legacy/etcd/. /data/etcd.migrating/
+          rm -rf /data/etcd
+          mv /data/etcd.migrating /data/etcd
+        else
+          echo "Skipping etcd copy; target already exists or legacy source is missing"
+        fi
+
+        if [ ! -f /data/secondary-storage/sqlite.db ] && [ -f /legacy/secondary-storage/sqlite.db ]; then
+          echo "Copying legacy SQLite database into /data/secondary-storage/sqlite.db"
+          cp -a /legacy/secondary-storage/sqlite.db /data/secondary-storage/sqlite.db.migrating
+          mv /data/secondary-storage/sqlite.db.migrating /data/secondary-storage/sqlite.db
+        else
+          echo "Skipping SQLite copy; target already exists or legacy source is missing"
+        fi
+    volumeMounts:
+      - name: data
+        mountPath: /data
+      - name: legacy-storage
+        mountPath: /legacy
+        readOnly: true
+
+extraVolumes:
+  - name: legacy-storage
+    persistentVolumeClaim:
+      claimName: omni-pvc
 
 extraObjects:
   - apiVersion: external-secrets.io/v1
