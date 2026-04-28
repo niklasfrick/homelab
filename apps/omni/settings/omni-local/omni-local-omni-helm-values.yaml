@@ -32,7 +32,9 @@ gatewayApi:
   ui:
     enabled: true
     parentRefs:
-      - name: internal-gateway
+      - group: gateway.networking.k8s.io
+        kind: Gateway
+        name: internal-gateway
         namespace: kube-system
         sectionName: https
     hostnames:
@@ -40,7 +42,9 @@ gatewayApi:
   kubernetesProxy:
     enabled: true
     parentRefs:
-      - name: internal-gateway
+      - group: gateway.networking.k8s.io
+        kind: Gateway
+        name: internal-gateway
         namespace: kube-system
         sectionName: https-omni-subdomain
     hostnames:
@@ -48,7 +52,9 @@ gatewayApi:
   siderolinkApi:
     enabled: true
     parentRefs:
-      - name: internal-gateway
+      - group: gateway.networking.k8s.io
+        kind: Gateway
+        name: internal-gateway
         namespace: kube-system
         sectionName: https-omni-subdomain
     hostnames:
@@ -72,29 +78,6 @@ persistence:
   # PVC and use its default /data storage layout.
   storageClassName: "nfs-csi-retain"
 
-initContainers:
-  - name: verify-existing-omni-data
-    image: busybox:1.37
-    command:
-      - sh
-      - -ec
-      - |
-        test -d /data/etcd || {
-          echo "Missing /data/etcd on the new Omni PVC; copy the old etcd database before starting Omni.";
-          exit 1;
-        }
-        test -n "$(find /data/etcd -mindepth 1 -maxdepth 2 -print -quit)" || {
-          echo "Empty /data/etcd on the new Omni PVC; copy the old etcd database before starting Omni.";
-          exit 1;
-        }
-        test -f /data/secondary-storage/sqlite.db || {
-          echo "Missing /data/secondary-storage/sqlite.db on the new Omni PVC; copy the old SQLite database before starting Omni.";
-          exit 1;
-        }
-    volumeMounts:
-      - name: data
-        mountPath: /data
-
 extraObjects:
   - apiVersion: external-secrets.io/v1
     kind: ExternalSecret
@@ -112,6 +95,9 @@ extraObjects:
       data:
         - secretKey: omni.asc
           remoteRef:
+            conversionStrategy: Default
+            decodingStrategy: None
+            metadataPolicy: None
             key: /omni/etcd/OMNI_GPG_ASC_KEY
   - apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute

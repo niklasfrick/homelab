@@ -29,6 +29,11 @@ spec:
   {{- end }}
   - repoURL: git@github.com:niklasfrick/homelab.git
     ref: values
+  ignoreDifferences:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      jqPathExpressions:
+        - '.spec.rules[]?.backendRefs[]?.group'
   syncPolicy:
     managedNamespaceMetadata:
       labels:
