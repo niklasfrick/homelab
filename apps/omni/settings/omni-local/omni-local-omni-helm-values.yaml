@@ -10,6 +10,9 @@ config:
     initialUsers:
       - "niklas.frick@pm.me"
   etcdBackup:
+    # The chart defaults localPath to /data/etcd-backup; Omni rejects localPath
+    # when S3 backups are enabled, so explicitly unset it in the merged config.
+    localPath: null
     s3Enabled: true
   features:
     enableBreakGlassConfigs: true
