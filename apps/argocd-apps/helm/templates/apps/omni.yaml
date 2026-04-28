@@ -34,6 +34,7 @@ spec:
       kind: HTTPRoute
       jqPathExpressions:
         - '.spec.rules[]?.backendRefs[]?.group'
+        - '.spec.rules[]?.backendRefs[]?.kind'
   syncPolicy:
     managedNamespaceMetadata:
       labels:
