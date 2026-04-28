@@ -1,0 +1,258 @@
+kind: Cluster
+name: zendo
+kubernetes:
+  version: v1.34.5
+talos:
+  version: v1.12.5
+features:
+  enableWorkloadProxy: true
+  backupConfiguration:
+    interval: 3h0m0s
+patches:
+  - idOverride: 200-zendo
+    inline:
+      cluster:
+        controllerManager:
+          extraArgs:
+            bind-address: 0.0.0.0
+        extraManifests:
+          - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
+          - https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+        network:
+          cni:
+            name: none
+          podSubnets:
+            - 10.111.0.0/16
+          serviceSubnets:
+            - 10.112.0.0/12
+        proxy:
+          disabled: true
+        scheduler:
+          extraArgs:
+            bind-address: 0.0.0.0
+      machine:
+        install:
+          extraKernelArgs:
+            - net.ifnames=0
+            - talos.platform=metal
+        kubelet:
+          extraArgs:
+            rotate-server-certificates: "true"
+        network:
+          nameservers:
+            - 10.96.10.1
+            - 9.9.9.9
+        nodeLabels:
+          bgp: "65020"
+        time:
+          disabled: false
+          servers:
+            - 0.ch.pool.ntp.org
+            - 1.ch.pool.ntp.org
+            - 2.ch.pool.ntp.org
+            - 3.ch.pool.ntp.org
+---
+kind: ControlPlane
+machines:
+  - 2bb8ab00-c6a4-1208-a291-517f9b4efc01
+  - 7fc10300-a30e-11ef-8ec4-c16573c56800
+  - b2244b80-4cb5-11f0-93e1-18e2d2913000
+patches:
+  - idOverride: 400-zendo-control-planes
+    inline:
+      cluster:
+        etcd:
+          extraArgs:
+            listen-metrics-urls: http://0.0.0.0:2381
+---
+kind: Workers
+machines:
+  - 3c8e9000-4c61-11f0-a466-bb5d9eae2602
+  - 47f1d737-09cd-8a02-effd-48210b6fe79f
+  - 4c4c4544-0036-4c10-8042-c8c04f4a5932
+  - 9d5a9180-4ba9-11f0-ae2f-a906eaff7b01
+patches:
+  - idOverride: 400-zendo-workers
+    inline:
+      apiVersion: v1alpha1
+      kind: VolumeConfig
+      name: EPHEMERAL
+      provisioning:
+        diskSelector:
+          match: system_disk
+        grow: false
+        maxSize: 40GiB
+        minSize: 2GiB
+---
+kind: Machine
+name: 2bb8ab00-c6a4-1208-a291-517f9b4efc01
+patches:
+  - idOverride: 400-cm-2bb8ab00-c6a4-1208-a291-517f9b4efc01
+    inline:
+      machine:
+        network:
+          hostname: t3s-zendo-cp3
+          interfaces:
+            - addresses:
+                - 10.96.10.153/24
+              deviceSelector:
+                busPath: 0*
+              dhcp: false
+              routes:
+                - gateway: 10.96.10.1
+                  network: 0.0.0.0/0
+              vip:
+                ip: 10.96.10.150
+---
+kind: Machine
+name: 3c8e9000-4c61-11f0-a466-bb5d9eae2602
+patches:
+  - idOverride: 400-cm-3c8e9000-4c61-11f0-a466-bb5d9eae2602
+    inline:
+      machine:
+        files:
+          - content: |-
+              [plugins."io.containerd.cri.v1.runtime"]
+                cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
+            op: create
+            path: /etc/cri/conf.d/20-customization.part
+        network:
+          hostname: t3s-zendo-w2
+          interfaces:
+            - addresses:
+                - 10.96.10.157/24
+              deviceSelector:
+                busPath: 0*
+              dhcp: false
+              routes:
+                - gateway: 10.96.10.1
+                  network: 0.0.0.0/0
+---
+kind: Machine
+name: 47f1d737-09cd-8a02-effd-48210b6fe79f
+install:
+  disk: /dev/nvme0n1
+patches:
+  - idOverride: 400-cm-47f1d737-09cd-8a02-effd-48210b6fe79f
+    inline:
+      machine:
+        files:
+          - content: |-
+              [plugins."io.containerd.cri.v1.runtime"]
+                cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
+            op: create
+            path: /etc/cri/conf.d/20-customization.part
+        network:
+          hostname: t3s-zendo-w3
+          interfaces:
+            - addresses:
+                - 10.96.10.158/24
+              deviceSelector:
+                busPath: 0*
+              dhcp: false
+              routes:
+                - gateway: 10.96.10.1
+                  network: 0.0.0.0/0
+---
+kind: Machine
+systemExtensions:
+  - siderolabs/i915
+  - siderolabs/intel-ucode
+  - siderolabs/mei
+  - siderolabs/nonfree-kmod-nvidia-production
+  - siderolabs/nvidia-container-toolkit-production
+  - siderolabs/xe
+name: 4c4c4544-0036-4c10-8042-c8c04f4a5932
+patches:
+  - idOverride: 400-cm-4c4c4544-0036-4c10-8042-c8c04f4a5932
+    inline:
+      machine:
+        files:
+          - content: |-
+              [plugins."io.containerd.cri.v1.runtime"]
+                cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
+            op: create
+            path: /etc/cri/conf.d/20-customization.part
+        kernel:
+          modules:
+            - name: nvidia
+            - name: nvidia_uvm
+            - name: nvidia_drm
+            - name: nvidia_modeset
+        network:
+          hostname: t3s-zendo-w4
+          interfaces:
+            - addresses:
+                - 10.96.10.159/24
+              deviceSelector:
+                busPath: 0*
+              dhcp: false
+              routes:
+                - gateway: 10.96.10.1
+                  network: 0.0.0.0/0
+        sysctls:
+          net.core.bpf_jit_harden: 1
+---
+kind: Machine
+name: 7fc10300-a30e-11ef-8ec4-c16573c56800
+patches:
+  - idOverride: 400-cm-7fc10300-a30e-11ef-8ec4-c16573c56800
+    inline:
+      machine:
+        network:
+          hostname: t3s-zendo-cp2
+          interfaces:
+            - addresses:
+                - 10.96.10.152/24
+              deviceSelector:
+                busPath: 0*
+              dhcp: false
+              routes:
+                - gateway: 10.96.10.1
+                  network: 0.0.0.0/0
+              vip:
+                ip: 10.96.10.150
+---
+kind: Machine
+name: 9d5a9180-4ba9-11f0-ae2f-a906eaff7b01
+patches:
+  - idOverride: 400-cm-9d5a9180-4ba9-11f0-ae2f-a906eaff7b01
+    inline:
+      machine:
+        files:
+          - content: |
+              [plugins."io.containerd.cri.v1.runtime"]
+                cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
+            op: create
+            path: /etc/cri/conf.d/20-customization.part
+        network:
+          hostname: t3s-zendo-w1
+          interfaces:
+            - addresses:
+                - 10.96.10.156/24
+              deviceSelector:
+                busPath: 0*
+              dhcp: false
+              routes:
+                - gateway: 10.96.10.1
+                  network: 0.0.0.0/0
+---
+kind: Machine
+name: b2244b80-4cb5-11f0-93e1-18e2d2913000
+patches:
+  - idOverride: 400-cm-b2244b80-4cb5-11f0-93e1-18e2d2913000
+    inline:
+      machine:
+        network:
+          hostname: t3s-zendo-cp1
+          interfaces:
+            - addresses:
+                - 10.96.10.151/24
+              deviceSelector:
+                busPath: 0*
+              dhcp: false
+              routes:
+                - gateway: 10.96.10.1
+                  network: 0.0.0.0/0
+              vip:
+                ip: 10.96.10.150
