@@ -29,6 +29,11 @@ config:
 etcdEncryptionKey:
   existingSecret: etcd-gpg-asc-key
 
+# The legacy chart passed --account-id="{{ uuid }}" as a Kubernetes arg,
+# so Omni persisted resources under the literal quoted account ID.
+args:
+  - --account-id="8b965a24-0dce-4481-840f-b5548ea1c139"
+
 gatewayApi:
   ui:
     enabled: true
