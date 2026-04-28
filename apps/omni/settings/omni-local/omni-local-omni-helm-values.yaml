@@ -103,9 +103,16 @@ initContainers:
           echo "Skipping etcd copy; target already exists or legacy source is missing"
         fi
 
-        if [ ! -f /data/secondary-storage/sqlite.db ] && [ -f /legacy/secondary-storage/sqlite.db ]; then
-          echo "Copying legacy SQLite database into /data/secondary-storage/sqlite.db"
-          cp -a /legacy/secondary-storage/sqlite.db /data/secondary-storage/sqlite.db.migrating
+        sqlite_source=""
+        if [ -f /legacy/secondary-storage/sqlite.db ]; then
+          sqlite_source="/legacy/secondary-storage/sqlite.db"
+        elif [ -f /legacy/sqlite/omni-sqlite.db ]; then
+          sqlite_source="/legacy/sqlite/omni-sqlite.db"
+        fi
+
+        if [ ! -f /data/secondary-storage/sqlite.db ] && [ -n "$sqlite_source" ]; then
+          echo "Copying legacy SQLite database from $sqlite_source into /data/secondary-storage/sqlite.db"
+          cp -a "$sqlite_source" /data/secondary-storage/sqlite.db.migrating
           mv /data/secondary-storage/sqlite.db.migrating /data/secondary-storage/sqlite.db
         else
           echo "Skipping SQLite copy; target already exists or legacy source is missing"
