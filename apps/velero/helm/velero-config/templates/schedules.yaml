@@ -1,0 +1,53 @@
+{{- range $schedule := .Values.schedules }}
+{{- $ns := default $.Values.backupNamespaces $schedule.includedNamespaces }}
+{{- if $ns }}
+---
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: {{ $schedule.name }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  schedule: {{ $schedule.schedule | quote }}  # IMPORTANT: Velero Pod has UTC time so CH-Time -2h
+  useOwnerReferencesInBackup: true
+  template:
+    includedNamespaces:
+      {{- toYaml $ns | nindent 4 }}
+    {{- with $schedule.excludedNamespaces }}
+    excludedNamespaces:
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+    includedResources:
+    {{- with $schedule.includedResources }}
+      {{- toYaml . | nindent 4 }}
+    {{- else }}
+    - "*"
+    {{- end }}
+    {{- with $schedule.excludedResources }}
+    excludedResources:
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with $schedule.labelSelector }}
+    labelSelector:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    {{- with $schedule.orLabelSelectors }}
+    orLabelSelectors:
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+    snapshotVolumes: {{ default true $schedule.snapshotVolumes }}
+    {{- if hasKey $schedule "snapshotMoveData" }}
+    snapshotMoveData: {{ $schedule.snapshotMoveData }}
+    {{- end }}
+    {{- if hasKey $schedule "defaultVolumesToFsBackup" }}
+    defaultVolumesToFsBackup: {{ $schedule.defaultVolumesToFsBackup }}
+    {{- end }}
+    storageLocation: {{ $schedule.storageLocation }}
+    {{- with $schedule.volumeSnapshotLocations }}
+    volumeSnapshotLocations:
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+    ttl: {{ $schedule.ttl }}
+    includeClusterResources: {{ default false $schedule.includeClusterResources }}
+{{- end }}
+{{- end }}

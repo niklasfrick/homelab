@@ -1,0 +1,35 @@
+ceph:
+  enabled: true
+
+# Namespace-level opt-in:
+#   - Add a namespace below to back up EVERYTHING inside it (resources + PVCs),
+#     except resources listed in `excludedResources` (secrets).
+#   - PVCs in opted-in namespaces are CSI-snapshotted and the snapshot data is
+#     moved to MinIO via `snapshotMoveData: true`.
+#   - No labels or annotations on Kubernetes objects required.
+backupNamespaces:
+  - plex
+
+schedules:
+  - name: pvc-manifests-monday-0300
+    schedule: "0 1 * * 1" # 03:00 CH summer (UTC+2)
+    ttl: 336h0m0s # 14d
+    storageLocation: minio-aistor-s3-bal
+    volumeSnapshotLocations:
+      - rook-ceph
+    snapshotVolumes: true
+    snapshotMoveData: true # offload Ceph CSI snapshots to MinIO
+    excludedResources:
+      - secrets
+    includeClusterResources: false
+  - name: pvc-manifests-tue-sun-0300
+    schedule: "0 1 * * 2-6,0"
+    ttl: 24h0m0s
+    storageLocation: minio-aistor-s3-bal
+    volumeSnapshotLocations:
+      - rook-ceph
+    snapshotVolumes: true
+    snapshotMoveData: true
+    excludedResources:
+      - secrets
+    includeClusterResources: false

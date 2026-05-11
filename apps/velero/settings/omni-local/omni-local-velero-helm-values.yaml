@@ -1,0 +1,12 @@
+configuration:
+  backupStorageLocation:
+    - name: minio-aistor-s3-bal-omni-local
+      provider: aws
+      default: true
+      bucket: omni-local-velero-backup
+      config:
+        s3Url: https://s3.bal.949x.net:9000
+        publicUrl: https://s3.bal.949x.net:9000
+        insecureSkipTLSVerify: false
+        region: bal
+        s3ForcePathStyle: true

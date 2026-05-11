@@ -1,0 +1,23 @@
+ceph:
+  enabled: false
+
+# Namespace-level opt-in:
+#   - Add a namespace below to back up EVERYTHING inside it (resources + PVCs),
+#     except resources listed in `excludedResources` (secrets).
+#   - PV file-system backup (kopia) is automatic for every pod volume in the
+#     opted-in namespaces (`defaultVolumesToFsBackup: true`). No per-pod
+#     `backup.velero.io/backup-volumes` annotation required.
+#   - No labels or annotations on Kubernetes objects required.
+backupNamespaces:
+  - omni
+
+schedules:
+  - name: pvc-manifests-daily-0200
+    schedule: "0 0 * * *" # 02:00 CH summer (UTC+2); 7-day retention
+    ttl: 168h0m0s
+    storageLocation: minio-aistor-s3-bal-omni-local
+    snapshotVolumes: true
+    defaultVolumesToFsBackup: true
+    excludedResources:
+      - secrets
+    includeClusterResources: false
