@@ -10,3 +10,7 @@ configuration:
         insecureSkipTLSVerify: false
         region: bal
         s3ForcePathStyle: true
+  # omni-local uses kopia file-system backup only — no CSI/volume snapshots.
+  # Override the upstream chart's default `name: default` VSL (which has no
+  # provider and renders as an invalid resource).
+  volumeSnapshotLocation: []
