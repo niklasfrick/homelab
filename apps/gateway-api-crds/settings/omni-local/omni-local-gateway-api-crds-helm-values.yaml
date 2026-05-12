@@ -1,0 +1,6 @@
+channel: standard
+experimentalResources:
+  tcpRoute: false
+  udpRoute: false
+  xBackendTrafficPolicy: false
+  xMesh: false

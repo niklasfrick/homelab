@@ -41,6 +41,10 @@ apps:
     targetRevision: 2.4.1 # renovate:helm depName=external-secrets registryUrl=https://charts.external-secrets.io
     configHelmChart:
       enabled: false
+  gateway-api-crds:
+    targetRevision: HEAD
+    configHelmChart:
+      enabled: false
   # gpu-operator:
   #   targetRevision: v26.3.1 # renovate:helm depName=gpu-operator registryUrl=https://helm.ngc.nvidia.com/nvidia
   #   configHelmChart:

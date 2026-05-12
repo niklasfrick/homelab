@@ -1,1 +1,18 @@
-enableExperimental: true
+# Gateway API channel for the dual-channel CRDs (Gateway, GatewayClass, HTTPRoute,
+# GRPCRoute, ReferenceGrant, TLSRoute, BackendTLSPolicy, ListenerSet).
+#
+# - "standard" (default, recommended): stable APIs only.
+# - "experimental": superset schema with alpha fields enabled on the same CRDs,
+#   plus all experimental-only CRDs (TCPRoute, UDPRoute, XBackendTrafficPolicy,
+#   XMesh).
+channel: standard
+
+# Experimental-only resources — CRDs that ONLY exist in the experimental channel.
+# These toggles are only meaningful when `channel: standard`. When `channel:
+# experimental` is selected, all of these are already included via the
+# experimental bundle and these flags are ignored.
+experimentalResources:
+  tcpRoute: false
+  udpRoute: false
+  xBackendTrafficPolicy: false
+  xMesh: false

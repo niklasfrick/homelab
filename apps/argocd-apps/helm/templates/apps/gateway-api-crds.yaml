@@ -1,0 +1,38 @@
+{{- $applicationName := "gateway-api-crds" }}
+{{- if hasKey .Values.apps $applicationName }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $applicationName }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "-10"
+spec:
+  project: infra
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  sources:
+    - repoURL: git@github.com:niklasfrick/homelab.git
+      path: apps/{{ $applicationName }}/helm
+      targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
+      helm:
+        releaseName: {{ $applicationName }}
+        valueFiles:
+          - $values/apps/{{ $applicationName }}/settings/{{ .Values.instance }}/{{ .Values.instance }}-{{ $applicationName }}-helm-values.yaml
+    {{- if index .Values.apps $applicationName "configHelmChart" "enabled" }}
+    - repoURL: git@github.com:niklasfrick/homelab.git
+      path: apps/{{ $applicationName }}/helm/{{ $applicationName }}-config
+      helm:
+        releaseName: {{ $applicationName }}-config
+    {{- end }}
+    - repoURL: git@github.com:niklasfrick/homelab.git
+      ref: values
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
+    automated:
+      selfHeal: true
+      prune: true
+{{- end }}
