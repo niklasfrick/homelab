@@ -2,6 +2,16 @@ kubeletPlugin:
   nodeSelector:
     intel.feature.node.kubernetes.io/gpu: "true"
 
+  # Drop the xpumd hard-dependency introduced in chart v0.10.0. xpumd v2
+  # cannot init Level Zero Sysman on Coffee Lake (Gen9.5) iGPUs like the
+  # UHD 630 on t3s-zendo-w4, which crashloops xpumd there and in turn
+  # panics the kubelet-plugin (`xpumdListen: failed to connect to xpumd`).
+  # With healthMonitoring disabled the driver queries hardware details
+  # directly from /dev/dri, which requires privileged mode.
+  privileged: true
+  healthMonitoring:
+    enabled: false
+
 # Install the chart's NodeFeatureRule so NFD labels nodes with
 # intel.feature.node.kubernetes.io/gpu=true when an Intel display device
 # (vendor 8086, class 0300 or 0380) is present AND the i915 kernel module

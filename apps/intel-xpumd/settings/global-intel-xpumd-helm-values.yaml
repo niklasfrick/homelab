@@ -1,10 +1,24 @@
 # Use DRA-managed GPU access; pairs with intel-gpu-resource-driver.
 gpuAccess: dra
 
-# NFD already labels Intel GPU nodes via the NodeFeatureRule installed
-# by intel-gpu-resource-driver. Reuse that label to scope the DaemonSet.
-nodeSelector:
-  intel.feature.node.kubernetes.io/gpu: "true"
+# Require the NFD Intel-GPU label (set by the rule that ships with
+# intel-gpu-resource-driver) AND exclude t3s-zendo-w4. That node carries
+# a Coffee Lake-S UHD 630 (PCI 8086:3e92, class 0380, Gen9.5) which the
+# xpumd v2 Level Zero Sysman backend does not support; init fails with
+# ERROR_UNINITIALIZED and the pod crashloops. xpumd v2 targets Arc /
+# Flex / newer iGPUs (Alder Lake-N and up). Revisit if Intel reinstates
+# Gen9.5 Sysman support upstream.
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: intel.feature.node.kubernetes.io/gpu
+              operator: In
+              values: ["true"]
+            - key: kubernetes.io/hostname
+              operator: NotIn
+              values: ["t3s-zendo-w4"]
 
 # Add the prometheus exporter to the metrics pipeline. The chart
 # defaults to exporters=[intelxpuinfo] (unix socket only); the
