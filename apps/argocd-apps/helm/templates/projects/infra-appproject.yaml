@@ -30,6 +30,7 @@ spec:
   - 'https://kubernetes-sigs.github.io/node-feature-discovery/charts'
   - 'ghcr.io/intel/intel-resource-drivers-for-kubernetes'
   - 'ghcr.io/siderolabs/charts'
+  - 'oci://ghcr.io/intel/xpumanager/charts'
   destinations:
     - namespace: 'alloy'
       server: https://kubernetes.default.svc
@@ -88,6 +89,8 @@ spec:
     - namespace: 'node-feature-discovery'
       server: https://kubernetes.default.svc
     - namespace: 'intel-gpu-resource-driver'
+      server: https://kubernetes.default.svc
+    - namespace: 'intel-xpumd'
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
   - group: ''
