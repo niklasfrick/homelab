@@ -1,0 +1,15 @@
+# Use DRA-managed GPU access; pairs with intel-gpu-resource-driver.
+gpuAccess: dra
+
+# NFD already labels Intel GPU nodes via the NodeFeatureRule installed
+# by intel-gpu-resource-driver. Reuse that label to scope the DaemonSet.
+nodeSelector:
+  intel.feature.node.kubernetes.io/gpu: "true"
+
+# Wire metrics into kube-prometheus-stack. serviceMonitorSelector on
+# zendo is {} with selectorNilUsesHelmValues=false, so the release label
+# below is informational only; Prometheus will still pick up the
+# ServiceMonitor regardless of label.
+prometheus:
+  monitor: true
+  release: kube-prometheus-stack
