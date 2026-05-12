@@ -68,7 +68,7 @@ apps:
     # which produces an invalid app.kubernetes.io/version label and
     # blocks apply. Note: 0.0.0-main is a mutable branch snapshot;
     # bump manually when Intel publishes a fixed tagged release.
-    targetRevision: "0.0.0-v2.x"
+    targetRevision: "0.0.0-main"
     configHelmChart:
       enabled: false
   kube-prometheus-stack:
