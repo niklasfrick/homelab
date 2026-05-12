@@ -108,6 +108,7 @@ extraObjects:
             conversionStrategy: Default
             decodingStrategy: None
             metadataPolicy: None
+            nullBytePolicy: Ignore
             key: /omni/etcd/OMNI_GPG_ASC_KEY
   - apiVersion: gateway.networking.k8s.io/v1
     kind: HTTPRoute
