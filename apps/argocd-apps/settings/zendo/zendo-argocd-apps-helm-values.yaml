@@ -61,6 +61,10 @@ apps:
     targetRevision: 0.10.1 # renovate:helm depName=intel-gpu-resource-driver-chart registryUrl=oci://ghcr.io/intel/intel-resource-drivers-for-kubernetes
     configHelmChart:
       enabled: false
+  intel-xpumd:
+    targetRevision: 2.0.0-rc.0 # renovate:helm depName=xpumd registryUrl=oci://ghcr.io/intel/xpumanager/charts
+    configHelmChart:
+      enabled: false
   kube-prometheus-stack:
     targetRevision: 82.18.0 # renovate:helm depName=kube-prometheus-stack registryUrl=https://prometheus-community.github.io/helm-charts
     configHelmChart:
