@@ -62,7 +62,13 @@ apps:
     configHelmChart:
       enabled: false
   intel-xpumd:
-    targetRevision: "2.0.0-rc.0" # renovate:helm depName=xpumd registryUrl=oci://ghcr.io/intel/xpumanager/charts
+    # Intel's chart README documents `--version 0.0.0-main` as the
+    # install path. The tagged `2.0.0-rc.0` OCI release was packaged
+    # with a broken appVersion (`xpumd/v2.0.0-rc.0`, contains `/`)
+    # which produces an invalid app.kubernetes.io/version label and
+    # blocks apply. Note: 0.0.0-main is a mutable branch snapshot;
+    # bump manually when Intel publishes a fixed tagged release.
+    targetRevision: "0.0.0-main"
     configHelmChart:
       enabled: false
   kube-prometheus-stack:

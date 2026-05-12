@@ -6,6 +6,18 @@ gpuAccess: dra
 nodeSelector:
   intel.feature.node.kubernetes.io/gpu: "true"
 
+# Add the prometheus exporter to the metrics pipeline. The chart
+# defaults to exporters=[intelxpuinfo] (unix socket only); the
+# Prometheus HTTP endpoint is not served unless `prometheus` is added
+# here. See chart README "Optional functionality" section.
+config:
+  service:
+    pipelines:
+      metrics:
+        exporters:
+          - intelxpuinfo
+          - prometheus
+
 # Wire metrics into kube-prometheus-stack. serviceMonitorSelector on
 # zendo is {} with selectorNilUsesHelmValues=false, so the release label
 # below is informational only; Prometheus will still pick up the
