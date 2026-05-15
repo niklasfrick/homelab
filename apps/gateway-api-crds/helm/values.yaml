@@ -1,18 +1,26 @@
-# Gateway API channel for the dual-channel CRDs (Gateway, GatewayClass, HTTPRoute,
-# GRPCRoute, ReferenceGrant, TLSRoute, BackendTLSPolicy, ListenerSet).
+# Gateway API channel for the dual-channel CRDs.
+#
+# Pinned to v1.4.1 so we stay compatible with Cilium 1.19. In v1.4.1 the
+# standard channel ships only the GA resources: GatewayClass, Gateway,
+# HTTPRoute, GRPCRoute, ReferenceGrant, BackendTLSPolicy. TLSRoute and
+# XListenerSet are still experimental at this version (they only graduate
+# to standard in v1.5+, which requires Cilium 1.20+).
 #
 # - "standard" (default, recommended): stable APIs only.
-# - "experimental": superset schema with alpha fields enabled on the same CRDs,
-#   plus all experimental-only CRDs (TCPRoute, UDPRoute, XBackendTrafficPolicy,
-#   XMesh).
+# - "experimental": superset schema with alpha fields enabled on the same
+#   CRDs, plus all experimental-only CRDs (TLSRoute, TCPRoute, UDPRoute,
+#   XBackendTrafficPolicy, XListenerSet, XMesh).
 channel: standard
 
-# Experimental-only resources — CRDs that ONLY exist in the experimental channel.
-# These toggles are only meaningful when `channel: standard`. When `channel:
-# experimental` is selected, all of these are already included via the
-# experimental bundle and these flags are ignored.
+# Experimental-only resources — CRDs that ONLY exist in the experimental
+# channel at v1.4.1. These toggles are only meaningful when
+# `channel: standard`. When `channel: experimental` is selected, all of
+# these are already included via the experimental bundle and these flags
+# are ignored.
 experimentalResources:
+  tlsRoute: false
   tcpRoute: false
   udpRoute: false
   xBackendTrafficPolicy: false
+  xListenerSet: false
   xMesh: false

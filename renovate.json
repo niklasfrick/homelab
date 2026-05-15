@@ -15,6 +15,12 @@
       "automerge": true,
       "automergeType": "pr",
       "platformAutomerge": true
+    },
+    {
+      "description": "Pin Gateway API CRDs to v1.4.x — v1.5+ requires Cilium 1.20 (not yet released). Cilium 1.19 needs TLSRoute from the experimental channel of v1.4.x. Re-evaluate when bumping Cilium past 1.19.",
+      "matchDatasources": ["github-releases"],
+      "matchPackageNames": ["kubernetes-sigs/gateway-api"],
+      "allowedVersions": "<1.5.0"
     }
   ],
   "kubernetes": {
