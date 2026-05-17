@@ -85,6 +85,8 @@ metrics:
 
 persistence:
   enabled: true
+  annotations:
+    volumeType: local
   # Omni's embedded etcd and SQLite storage are sensitive to NFS semantics.
   storageClassName: "local-path"
 
