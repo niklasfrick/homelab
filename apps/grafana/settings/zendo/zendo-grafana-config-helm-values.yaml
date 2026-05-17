@@ -34,4 +34,5 @@ grafana:
   route:
     enabled: true
   storage:
-    storageClassName: nfs-csi-delete
+    size: 100Mi
+    storageClassName: ceph-block
