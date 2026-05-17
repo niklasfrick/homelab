@@ -12,8 +12,17 @@ backupNamespaces:
   - omni
 
 schedules:
-  - name: pvc-manifests-daily-0200
-    schedule: "0 0 * * *" # 02:00 CH summer (UTC+2); 7-day retention
+  - name: pvc-manifests-monday-0200
+    schedule: "0 0 * * 1" # 02:00 CH summer (UTC+2)
+    ttl: 336h0m0s # 14d
+    storageLocation: minio-aistor-s3-bal-omni-local
+    snapshotVolumes: true
+    defaultVolumesToFsBackup: true
+    excludedResources:
+      - secrets
+    includeClusterResources: false
+  - name: pvc-manifests-tue-sun-0200
+    schedule: "0 0 * * 2-6,0" # 02:00 CH summer (UTC+2); 7-day retention
     ttl: 168h0m0s
     storageLocation: minio-aistor-s3-bal-omni-local
     snapshotVolumes: true

@@ -9,6 +9,13 @@ ceph:
 #   - No labels or annotations on Kubernetes objects required.
 backupNamespaces:
   - plex
+  - seerr
+  - immo-crawler
+  - grafana
+  - tautulli
+  - sonarr
+  - radarr
+  - kubecon-guestpods
 
 schedules:
   - name: pvc-manifests-monday-0300
@@ -23,8 +30,8 @@ schedules:
       - secrets
     includeClusterResources: false
   - name: pvc-manifests-tue-sun-0300
-    schedule: "0 1 * * 2-6,0"
-    ttl: 24h0m0s
+    schedule: "0 1 * * 2-6,0" # 03:00 CH summer (UTC+2); 7-day retention
+    ttl: 168h0m0s
     storageLocation: minio-aistor-s3-bal
     volumeSnapshotLocations:
       - rook-ceph
