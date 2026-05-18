@@ -31,6 +31,7 @@ spec:
   - 'ghcr.io/intel/intel-resource-drivers-for-kubernetes'
   - 'ghcr.io/siderolabs/charts'
   - 'oci://ghcr.io/intel/xpumanager/charts'
+  - 'https://piraeus.io/helm-charts/'
   destinations:
     - namespace: 'alloy'
       server: https://kubernetes.default.svc
