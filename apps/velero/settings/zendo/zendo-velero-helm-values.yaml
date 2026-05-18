@@ -11,8 +11,3 @@ configuration:
         insecureSkipTLSVerify: false
         region: bal
         s3ForcePathStyle: true
-  volumeSnapshotLocation:
-    - name: rook-ceph
-      provider: csi
-      default: true
-  defaultVolumeSnapshotLocations: csi:rook-ceph

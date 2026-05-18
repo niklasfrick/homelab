@@ -1,6 +1,3 @@
-ceph:
-  enabled: false
-
 # Cluster-wide opt-in: namespaces listed here are included in EVERY schedule below
 # (unless a schedule overrides with its own .includedNamespaces).
 # Add a namespace -> everything inside it is backed up, minus excludedResources.

@@ -188,3 +188,15 @@ cephFileSystems:
         csi.storage.k8s.io/fstype: ext4
 
 cephObjectStores: []
+
+cephFileSystemVolumeSnapshotClass:
+  enabled: true
+  isDefault: true
+  labels:
+    velero.io/csi-volumesnapshot-class: "true"
+
+cephBlockPoolsVolumeSnapshotClass:
+  enabled: true
+  isDefault: true
+  labels:
+    velero.io/csi-volumesnapshot-class: "true"

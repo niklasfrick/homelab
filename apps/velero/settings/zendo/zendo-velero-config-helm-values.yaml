@@ -1,6 +1,3 @@
-ceph:
-  enabled: true
-
 # Namespace-level opt-in:
 #   - Add a namespace below to back up EVERYTHING inside it (resources + PVCs),
 #     except resources listed in `excludedResources` (secrets).
@@ -22,8 +19,6 @@ schedules:
     schedule: "0 1 * * 1" # 03:00 CH summer (UTC+2)
     ttl: 336h0m0s # 14d
     storageLocation: minio-aistor-s3-bal
-    volumeSnapshotLocations:
-      - rook-ceph
     snapshotVolumes: true
     snapshotMoveData: true # offload Ceph CSI snapshots to MinIO
     excludedResources:
@@ -33,8 +28,6 @@ schedules:
     schedule: "0 1 * * 2-6,0" # 03:00 CH summer (UTC+2); 7-day retention
     ttl: 168h0m0s
     storageLocation: minio-aistor-s3-bal
-    volumeSnapshotLocations:
-      - rook-ceph
     snapshotVolumes: true
     snapshotMoveData: true
     excludedResources:
