@@ -39,6 +39,9 @@ spec:
     {{- if hasKey $schedule "snapshotMoveData" }}
     snapshotMoveData: {{ $schedule.snapshotMoveData }}
     {{- end }}
+    {{- if hasKey $schedule "csiSnapshotTimeout" }}
+    csiSnapshotTimeout: {{ $schedule.csiSnapshotTimeout }}
+    {{- end }}
     {{- if hasKey $schedule "defaultVolumesToFsBackup" }}
     defaultVolumesToFsBackup: {{ $schedule.defaultVolumesToFsBackup }}
     {{- end }}

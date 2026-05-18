@@ -26,6 +26,7 @@ schedules:
       - rook-ceph
     snapshotVolumes: true
     snapshotMoveData: true # offload Ceph CSI snapshots to MinIO
+    csiSnapshotTimeout: 30m
     excludedResources:
       - secrets
     includeClusterResources: false
@@ -37,6 +38,7 @@ schedules:
       - rook-ceph
     snapshotVolumes: true
     snapshotMoveData: true
+    csiSnapshotTimeout: 30m
     excludedResources:
       - secrets
     includeClusterResources: false
