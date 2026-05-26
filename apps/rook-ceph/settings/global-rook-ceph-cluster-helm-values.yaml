@@ -16,10 +16,7 @@ configOverride: |
   bdev_enable_discard = true
   bdev_async_discard = true
   bdev_async_discard_threads = 1
-  [osd.0]
-  bluestore_slow_ops_warn_lifetime = 60
-  bluestore_slow_ops_warn_threshold = 10
-  [osd.1]
+  [class:ssd]
   bluestore_slow_ops_warn_lifetime = 60
   bluestore_slow_ops_warn_threshold = 10
 
