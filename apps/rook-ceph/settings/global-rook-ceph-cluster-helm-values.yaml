@@ -13,10 +13,10 @@ monitoring:
 
 configOverride: |
   [global]
-  bdev_enable_discard: "true"
-  bdev_async_discard: "true"
-  bdev_async_discard_threads: "1"
-  mon_data_avail_warn: "15"
+  bdev_enable_discard = true
+  bdev_async_discard = true
+  bdev_async_discard_threads = 1
+  mon_data_avail_warn = 15
 
 cephClusterSpec:
   crashCollector:
