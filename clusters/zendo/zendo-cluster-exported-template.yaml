@@ -3,7 +3,7 @@ name: zendo
 kubernetes:
   version: v1.35.4
 talos:
-  version: v1.12.5
+  version: v1.13.3
 features:
   enableWorkloadProxy: true
   backupConfiguration:
@@ -159,8 +159,6 @@ systemExtensions:
   - siderolabs/i915
   - siderolabs/intel-ucode
   - siderolabs/mei
-  - siderolabs/nonfree-kmod-nvidia-production
-  - siderolabs/nvidia-container-toolkit-production
   - siderolabs/xe
 name: 4c4c4544-0036-4c10-8042-c8c04f4a5932
 patches:
@@ -173,12 +171,6 @@ patches:
                 cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
             op: create
             path: /etc/cri/conf.d/20-customization.part
-        kernel:
-          modules:
-            - name: nvidia
-            - name: nvidia_uvm
-            - name: nvidia_drm
-            - name: nvidia_modeset
         network:
           hostname: t3s-zendo-w4
           interfaces:
@@ -190,8 +182,6 @@ patches:
               routes:
                 - gateway: 10.96.10.1
                   network: 0.0.0.0/0
-        sysctls:
-          net.core.bpf_jit_harden: 1
 ---
 kind: Machine
 name: 7fc10300-a30e-11ef-8ec4-c16573c56800
