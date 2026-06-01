@@ -10,14 +10,6 @@ machine:
           - network: 0.0.0.0/0
             gateway: 10.96.10.1
         dhcp: false
-  kernel:
-    modules:
-      - name: nvidia
-      - name: nvidia_uvm
-      - name: nvidia_drm
-      - name: nvidia_modeset
-  sysctls:
-    net.core.bpf_jit_harden: 1
   files:
     - path: /etc/cri/conf.d/20-customization.part
       op: create
