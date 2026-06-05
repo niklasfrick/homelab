@@ -19,11 +19,11 @@ configOverride: |
   [osd.0]
   bluestore_slow_ops_warn_lifetime = 60
   bluestore_slow_ops_warn_threshold = 10
-  bluestore_cache_size_ssd = 6442450944
+  bluestore_cache_size = 6442450944
   [osd.1]
   bluestore_slow_ops_warn_lifetime = 60
   bluestore_slow_ops_warn_threshold = 10
-  bluestore_cache_size_ssd = 6442450944
+  bluestore_cache_size = 6442450944
 
 cephClusterSpec:
   crashCollector:
