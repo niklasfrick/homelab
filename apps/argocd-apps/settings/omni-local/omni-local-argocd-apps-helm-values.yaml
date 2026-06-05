@@ -58,7 +58,7 @@ apps:
   #   configHelmChart:
   #     enabled: false
   omni:
-    targetRevision: 2.7.3 # renovate:helm depName=omni registryUrl=oci://ghcr.io/siderolabs/charts
+    targetRevision: 2.8.2 # renovate:helm depName=omni registryUrl=oci://ghcr.io/siderolabs/charts
     configHelmChart:
       enabled: false
   tailscale-operator:
