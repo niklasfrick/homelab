@@ -54,7 +54,7 @@ apps:
     configHelmChart:
       enabled: true
   grafana:
-    targetRevision: "5.22.2" # renovate:helm depName=grafana-operator registryUrl=https://grafana.github.io/helm-charts
+    targetRevision: "5.24.0" # renovate:helm depName=grafana-operator registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:
       enabled: true
   intel-gpu-resource-driver:
