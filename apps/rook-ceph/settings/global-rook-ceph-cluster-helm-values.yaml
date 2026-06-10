@@ -19,11 +19,13 @@ configOverride: |
   [osd.0]
   bluestore_slow_ops_warn_lifetime = 60
   bluestore_slow_ops_warn_threshold = 10
-  bluestore_cache_size = 6442450944
+  bdev_stalled_read_warn_lifetime = 60
+  bdev_stalled_read_warn_threshold = 10
   [osd.1]
   bluestore_slow_ops_warn_lifetime = 60
   bluestore_slow_ops_warn_threshold = 10
-  bluestore_cache_size = 6442450944
+  bdev_stalled_read_warn_lifetime = 60
+  bdev_stalled_read_warn_threshold = 10
 
 cephClusterSpec:
   crashCollector:
@@ -50,10 +52,10 @@ cephClusterSpec:
         memory: "512Mi"
     osd:
       limits:
-        memory: "1520Mi"
+        memory: "2560Mi"
       requests:
         cpu: "30m"
-        memory: "1322Mi"
+        memory: "2048Mi"
     prepareosd:
       requests:
         cpu: "200m"
