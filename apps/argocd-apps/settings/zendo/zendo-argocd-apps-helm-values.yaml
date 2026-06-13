@@ -84,7 +84,7 @@ apps:
     configHelmChart:
       enabled: false
   rook-ceph:
-    targetRevision: v1.19.6 # renovate:helm depName=rook-ceph registryUrl=https://charts.rook.io/release
+    targetRevision: v1.20.0 # renovate:helm depName=rook-ceph registryUrl=https://charts.rook.io/release
     configHelmChart:
       enabled: false
   snapshot-controller:
