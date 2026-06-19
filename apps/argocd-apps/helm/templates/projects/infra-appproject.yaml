@@ -12,6 +12,7 @@ spec:
   - 'https://twingate.github.io/helm-charts'
   - 'https://prometheus-community.github.io/helm-charts'
   - 'ghcr.io/grafana/helm-charts'
+  - 'ghcr.io/grafana-community/helm-charts'
   - 'https://grafana-community.github.io/helm-charts/'
   - 'https://helm.cilium.io/'
   - 'https://grafana.github.io/helm-charts'

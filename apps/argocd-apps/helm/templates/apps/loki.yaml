@@ -13,7 +13,7 @@ spec:
     namespace: {{ $applicationName }}
   sources:
   - chart: loki
-    repoURL: https://grafana.github.io/helm-charts
+    repoURL: ghcr.io/grafana-community/helm-charts
     path: grafana
     targetRevision: {{ index .Values.apps $applicationName "targetRevision" }}
     helm:
