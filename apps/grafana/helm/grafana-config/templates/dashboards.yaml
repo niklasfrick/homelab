@@ -22,24 +22,6 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard 
 metadata:
-  name: nginx-monitoring
-  labels:
-    app: grafana
-spec:
-  instanceSelector:
-    matchLabels:
-      grafanaInstance: main
-  allowCrossNamespaceImport: true
-  datasources:
-    - inputName: datasource
-      datasourceName: ${datasource}
-  contentCacheDuration: 1h
-  folder: "Kubernetes"
-  url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/grafana/dashboards/nginx.json
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard 
-metadata:
   name: standard-namespace-monitoring
   labels:
     app: grafana
