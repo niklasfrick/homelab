@@ -76,7 +76,7 @@ apps:
     configHelmChart:
       enabled: true
   loki:
-    targetRevision: 17.4.11 # renovate:helm depName=loki registryUrl=oci://ghcr.io/grafana-community/helm-charts
+    targetRevision: 18.1.1 # renovate:helm depName=loki registryUrl=oci://ghcr.io/grafana-community/helm-charts
     configHelmChart:
       enabled: false
   node-feature-discovery:
