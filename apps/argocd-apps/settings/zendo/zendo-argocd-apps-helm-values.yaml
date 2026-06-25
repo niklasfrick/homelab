@@ -46,7 +46,7 @@ apps:
     configHelmChart:
       enabled: false
   # gpu-operator:
-  #   targetRevision: v26.3.2 # renovate:helm depName=gpu-operator registryUrl=https://helm.ngc.nvidia.com/nvidia
+  #   targetRevision: v26.3.3 # renovate:helm depName=gpu-operator registryUrl=https://helm.ngc.nvidia.com/nvidia
   #   configHelmChart:
   #     enabled: false
   holmes-gpt:
