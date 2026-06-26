@@ -10,7 +10,7 @@ apps:
     configHelmChart:
       enabled: false
   argocd:
-    targetRevision: 9.6.0 # renovate:helm depName=argo-cd registryUrl=https://argoproj.github.io/argo-helm
+    targetRevision: 10.0.0 # renovate:helm depName=argo-cd registryUrl=https://argoproj.github.io/argo-helm
     configHelmChart:
       enabled: false
   cert-manager:
