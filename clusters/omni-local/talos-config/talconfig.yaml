@@ -46,14 +46,6 @@ nodes:
           minSize: 200GiB
 
 patches:
-  # Disable predictable network interface names
-  - |-
-    machine:
-      install:
-        extraKernelArgs:
-          - net.ifnames=0
-          - talos.platform=metal
-
   # Force nameserver
   - |-
     machine:
