@@ -21,7 +21,7 @@ affinity:
               values: ["t3s-zendo-w4"]
 
 # Add the prometheus exporter to the metrics pipeline. The chart
-# defaults to exporters=[intelxpuinfo] (unix socket only); the
+# defaults to exporters=[intel_xpu_info] (unix socket only); the
 # Prometheus HTTP endpoint is not served unless `prometheus` is added
 # here. See chart README "Optional functionality" section.
 config:
@@ -29,7 +29,7 @@ config:
     pipelines:
       metrics:
         exporters:
-          - intelxpuinfo
+          - intel_xpu_info
           - prometheus
 
 # Wire metrics into kube-prometheus-stack. serviceMonitorSelector on
