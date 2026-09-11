@@ -1,0 +1,28 @@
+[Unit]
+Description=Headless Chromium for the Hermes browser tool (CDP on 127.0.0.1:9222)
+Documentation=https://hermes-agent.nousresearch.com/docs
+After=network-online.target
+
+[Service]
+Type=simple
+# hermes-chromium resolves the newest Playwright Chromium build, so a
+# playwright version bump does not break this unit.
+ExecStart=/home/niklas/.local/bin/hermes-chromium \
+  --headless=new \
+  --no-sandbox \
+  --disable-dev-shm-usage \
+  --disable-gpu \
+  --user-data-dir=/home/niklas/.config/chromium \
+  --remote-debugging-port=9222 \
+  --remote-allow-origins=* \
+  --noerrdialogs \
+  --no-first-run \
+  about:blank
+Restart=always
+RestartSec=5
+KillMode=control-group
+# Chromium is chatty on stderr; keep the journal usable.
+StandardOutput=null
+
+[Install]
+WantedBy=default.target
