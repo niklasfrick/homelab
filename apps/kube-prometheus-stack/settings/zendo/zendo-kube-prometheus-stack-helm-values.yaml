@@ -1,9 +1,15 @@
 prometheus:
   prometheusSpec:
     replicas: 2
-    # Increased from 6h to 12h to provide overlap between sidecar and StoreGateway
-    # This ensures blocks are available via sidecar long enough for StoreGateway to sync them
-    retention: 6h
+    # 48h, not 6h. The Rook/Ceph rules in rook-ceph/prometheus-ceph-rules predict
+    # host filesystem fill over a 2d window:
+    #   predict_linear(node_filesystem_free_bytes{device=~"/.*"}[2d], 3600*24*5) < 0
+    # Against 6h of local data that window is a 6h regression, so a single write
+    # burst produced CephNodeDiskspaceWarning on t3s-zendo-w4 (/var) and cleared
+    # itself again — a recurring false positive. With a real 48h window the same
+    # query returns +7.8 GB (Thanos, 2026-09-11), i.e. no fire. Thanos still owns
+    # long-term; 2d fits under the 3GiB cap (≈1.2 GB/day) on the 5Gi PVC.
+    retention: 48h
     retentionSize: "3GiB"
     storageSpec:
       volumeClaimTemplate:
