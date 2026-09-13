@@ -18,6 +18,13 @@ prometheus:
           resources:
             requests:
               storage: 5Gi
+    # 1900Mi (global) put the working set at 90-94% and the kubeApiserverBurnrate
+    # group started missing iterations; p1 was then killed by its own liveness
+    # probe (2026-09-13 04:20:51 CEST, `/-/healthy` context deadline exceeded).
+    # Headroom, not disabling the alert.
+    resources:
+      limits:
+        memory: 3Gi
     thanos:
       objectStorageConfig:
         existingSecret:
