@@ -13,6 +13,7 @@ backupNamespaces:
   - sonarr
   - radarr
   - kubecon-guestpods
+  - valheim
 
 schedules:
   - name: pvc-manifests-monday-0300
