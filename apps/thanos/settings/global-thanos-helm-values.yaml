@@ -58,12 +58,13 @@ compactor:
   retentionResolutionRaw: 4d
   retentionResolution5m: 30d
   retentionResolution1h: 10y
-  # --delete-delay=0s: temporary, to purge the 1434 already-marked pre-2026-09-11
-  # blocks that the 48h default keeps in the bucket. Until they are physically
-  # gone the planner still forms the 14d-range raw group from them and re-ENOSPCs.
-  # Revert to the 48h default once the bucket is clean.
+  # --delete-delay=1h instead of the 48h default: blocks that carry a deletion
+  # mark still count in the planner's group formation, so a 48h delay makes the
+  # compactor's effective window retention + 2d and lets it re-form a group bigger
+  # than the PVC again. 1h keeps the window ~= retention while still leaving the
+  # store gateway a sync window (its default sync interval is 15m).
   extraFlags:
-    - --delete-delay=0s
+    - --delete-delay=1h
   resources:
     requests:
       cpu: 10m
