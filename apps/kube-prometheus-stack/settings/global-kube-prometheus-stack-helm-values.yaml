@@ -171,6 +171,15 @@ additionalPrometheusRulesMap:
             annotations:
               summary: 'Process {{ $labels.instance }} is consuming {{ $value | printf "%.2f" }}% of available memory.'
               description: "Process {{ $labels.instance }} is using unusually high memory."
+          - alert: ThanosCompactHalted
+            expr: thanos_compact_halted == 1
+            for: 15m
+            labels:
+              severity: critical
+            annotations:
+              summary: "Thanos compactor compaction is halted on {{ $labels.pod }} ({{ $labels.instance }})."
+              description: |-
+                thanos_compact_halted has been 1 for 15m: compaction, downsampling and retention have stopped and do NOT self-recover. The usual cause is ENOSPC on the compactor /data PVC, and any matching KubePersistentVolumeFillingUp clears at the same time because usage goes flat. Fix: raise compactor.persistence.size in apps/thanos/settings/global-thanos-helm-values.yaml, sync, then restart deploy/thanos-compactor.
 
 grafana:
   enabled: false
