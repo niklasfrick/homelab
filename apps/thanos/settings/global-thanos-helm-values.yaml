@@ -45,6 +45,19 @@ compactor:
   enabled: true
   persistence:
     size: 20Gi
+  # Retention is the only lever that bounds the compactor's LOCAL working set,
+  # and the PVC stays at 20Gi. Measured 2026-09-15: one Prometheus replica
+  # writes ~2.4 GB per 2d raw block (~1.2 GB/day), and a compaction group is
+  # per-replica (prometheus_replica is an external label), so one group needs
+  # sources + a matching compaction output + its 5m/1h downsampled copies:
+  #   raw 30d -> the 14d-range group held 7 blocks = 17.2 GB of sources on a
+  #   19.6 GB volume, so it could never fit -> ENOSPC halt 2026-09-14T18:28Z.
+  # raw 4d -> ~5 GB sources, ~10 GB peak, ~half the volume left as headroom.
+  # Do NOT raise retentionResolutionRaw past 5d without raising
+  # persistence.size in the same commit.
+  retentionResolutionRaw: 4d
+  retentionResolution5m: 30d
+  retentionResolution1h: 10y
   resources:
     requests:
       cpu: 10m
