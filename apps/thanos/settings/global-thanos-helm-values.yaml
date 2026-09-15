@@ -58,6 +58,12 @@ compactor:
   retentionResolutionRaw: 4d
   retentionResolution5m: 30d
   retentionResolution1h: 10y
+  # --delete-delay=0s: temporary, to purge the 1434 already-marked pre-2026-09-11
+  # blocks that the 48h default keeps in the bucket. Until they are physically
+  # gone the planner still forms the 14d-range raw group from them and re-ENOSPCs.
+  # Revert to the 48h default once the bucket is clean.
+  extraFlags:
+    - --delete-delay=0s
   resources:
     requests:
       cpu: 10m
