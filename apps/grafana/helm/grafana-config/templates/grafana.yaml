@@ -24,6 +24,15 @@ spec:
     plugins:
       enable_alpha: "true"
       plugin_admin_enabled: "true"
+      # Grafana 13.2.x ships its datasources (prometheus/loki/tempo) in
+      # /usr/share/grafana/data/plugins-bundled and the runtime preinstaller updates
+      # each one from the grafana.com catalog before checking writability: it stops
+      # the plugin process, then fails on the read-only path and never reloads it
+      # (grafana/grafana#132528, grafana-operator#2946). With readOnlyRootFilesystem
+      # that leaves the datasource unregistered and every dashboard empty while
+      # ArgoCD still reports Synced/Healthy. Disabling the auto-update keeps the
+      # bundled plugin versions the image shipped.
+      preinstall_auto_update: "false"
     analytics:
       enabled: "false"
       check_for_updates: "false"
