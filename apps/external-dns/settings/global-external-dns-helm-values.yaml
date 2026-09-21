@@ -13,6 +13,16 @@ txtOwnerId: external-dns-external-gateway
 
 annotationFilter: "external-dns.alpha.kubernetes.io/enabled=true"
 
+# pin the LEGACY annotation prefix. external-dns v0.22.0 (chart 1.22.0) flips the
+# default to `external-dns.kubernetes.io/` with no fallback, and under `policy: sync`
+# that orphans every record we manage — the upstream release notes spell it out:
+# "This change can _delete_ all your DNS records. You can either migrate your
+# annotations or set --annotation-prefix=external-dns.alpha.kubernetes.io/".
+# Pinning keeps this deployment behaviourally identical to v0.21.0, so all ~12
+# annotation sites in app-settings keep working. Migrating them is a separate,
+# deliberate change; v0.23.0 additionally offers --enable-legacy-annotation-prefix.
+annotationPrefix: "external-dns.alpha.kubernetes.io/"
+
 gatewayNamespace: gateway-system
 
 sources:
