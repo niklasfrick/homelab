@@ -21,6 +21,15 @@ loki:
       insecure: false
 
 gateway:
+  # omni-local is a single-node cluster: the chart default is a *required*
+  # cross-host podAntiAffinity, so any RollingUpdate surges a second gateway
+  # pod that can never schedule ("0/1 nodes are available: 1 node(s) didn't
+  # match pod anti-affinity rules") and the rollout deadlocks permanently
+  # (ProgressDeadlineExceeded, ArgoCD Degraded). Verified 2026-09-22.
+  # Emptying the required term releases the constraint; replicas stays 1.
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution: []
   service:
     type: LoadBalancer
     annotations:
