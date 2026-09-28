@@ -1,3 +1,15 @@
+# Chart-native staged CRD apply. Helm cannot upgrade CRDs itself, and ArgoCD's
+# sync does not carry the chart's crds/ bundle into the live objects (measured
+# 2026-09-28: live prometheus CRDs are controller-gen v0.20.1 / operator
+# 0.91.0 while the chart bundle is v0.22.0 / 0.94.1). upgradeJob renders a
+# pre-install/pre-upgrade hook Job (ArgoCD: PreSync) that applies the bundled
+# CRDs with `kubectl apply --server-side --force-conflicts` before the operator
+# rolls. Required for the 86.3.2 -> 91.8.0 bump (3 operator majors of CRD schema).
+crds:
+  enabled: true
+  upgradeJob:
+    enabled: true
+
 prometheus:
   prometheusSpec:
     replicas: 1
