@@ -3,6 +3,6 @@ experimentalResources:
   tlsRoute: true
   tcpRoute: false
   udpRoute: false
+  xBackend: false
   xBackendTrafficPolicy: false
-  xListenerSet: false
   xMesh: false

@@ -42,7 +42,8 @@ apps:
     configHelmChart:
       enabled: false
   gateway-api-crds:
-    targetRevision: HEAD
+    # Canary hold: zendo stays on the Gateway API v1.4.1 CRDs until omni-local is verified on v1.6.1. Revert to HEAD.
+    targetRevision: 08d2557fd35f750426ab7bb971e61ae21d086c67
     configHelmChart:
       enabled: false
   # gpu-operator:
