@@ -22,6 +22,7 @@ spec:
   - 'registry-1.docker.io/bitnamicharts'
   - 'https://kubernetes.github.io/ingress-nginx'
   - 'https://charts.rook.io/release'
+  - 'https://ceph.github.io/ceph-csi-operator'
   - 'https://helm.altinity.com'
   - 'https://kubernetes-sigs.github.io/external-dns/'
   - 'https://pkgs.tailscale.com/helmcharts'
