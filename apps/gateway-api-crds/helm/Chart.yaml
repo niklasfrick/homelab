@@ -3,4 +3,4 @@ name: gateway-api-crds
 description: "Kubernetes Gateway API CRDs"
 type: application
 version: 1.6.1
-appVersion: "v1.6.1" # renovate:github-releases depName=kubernetes-sigs/gateway-api
+appVersion: "v1.6.3" # renovate:github-releases depName=kubernetes-sigs/gateway-api
