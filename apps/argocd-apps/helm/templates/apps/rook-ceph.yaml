@@ -20,6 +20,13 @@ spec:
       releaseName: rook-ceph
       valueFiles:
       - $values/apps/{{ $applicationName }}/settings/global-{{ $applicationName }}-helm-values.yaml
+  - chart: ceph-csi-drivers
+    repoURL: https://ceph.github.io/ceph-csi-operator
+    targetRevision: {{ index .Values.apps $applicationName "cephCsiDriversTargetRevision" }}
+    helm:
+      releaseName: ceph-csi-drivers
+      valueFiles:
+      - $values/apps/rook-ceph/settings/global-ceph-csi-drivers-helm-values.yaml
   - chart: rook-ceph-cluster
     repoURL: https://charts.rook.io/release
     path: rook

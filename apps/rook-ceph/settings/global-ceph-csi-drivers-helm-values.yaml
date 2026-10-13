@@ -1,0 +1,144 @@
+# Values for the ceph-csi-drivers chart (https://ceph.github.io/ceph-csi-operator), which Rook v1.20+
+# requires: Rook no longer deploys the CSI drivers itself.
+#
+# Base: Rook's recommended values
+#   https://raw.githubusercontent.com/rook/rook/v1.20.8/deploy/charts/ceph-csi-drivers/values.yaml
+# The driver names must keep the operator-namespace prefix ("rook-ceph."), otherwise the existing
+# StorageClasses/VolumeSnapshotClasses/PVs no longer match a driver.
+#
+# On top of that, this file carries our former rook-ceph chart `csi.*` settings (removed in v1.20)
+# and keeps parity with the Driver/OperatorConfig CRs that Rook v1.19.6 generated
+# (saved in ~/upgrades/2026-10-13-rook-ceph-v1.19.6-to-v1.21.0/evidence/preupgrade-csi-crs.yaml).
+# Everything is set per driver: ceph-csi-operator#576/#614 (per-driver chart defaults override
+# operatorConfig.driverSpecDefaults).
+
+operatorConfig:
+  namespace: rook-ceph # namespace:operator
+  driverSpecDefaults:
+    imageSet:
+      name: rook-csi-operator-image-set-configmap
+    clusterName: rook-ceph
+    # Rook v1.19 ran the CSI sidecars with --timeout=150s (CSI_GRPC_TIMEOUT_SECONDS); chart default is 30.
+    grpcTimeout: 150
+    log:
+      verbosity: 0
+      rotation:
+        # The chart enables log rotation by default, which makes the plugins log to files on the
+        # host. Keep logging to stdout as before (and spare the worn w1/w2 SSDs).
+        enabled: false
+    nodePlugin:
+      priorityClassName: system-node-critical
+    controllerPlugin:
+      priorityClassName: system-cluster-critical
+      replicas: 2
+
+drivers:
+  rbd:
+    enabled: true
+    name: rook-ceph.rbd.csi.ceph.com # csi-provisioner-name
+    clusterName: rook-ceph
+    grpcTimeout: 150
+    # Velero takes CSI snapshots through VolumeSnapshotClass ceph-block. The chart default "none"
+    # would drop the csi-snapshotter sidecar.
+    snapshotPolicy: volumeSnapshot
+    fsGroupPolicy: File
+    log:
+      verbosity: 0
+      rotation:
+        enabled: false
+    nodePlugin:
+      priorityClassName: system-node-critical
+      updateStrategy:
+        type: RollingUpdate
+      resources:
+        registrar:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
+        plugin:
+          requests:
+            cpu: 10m
+            memory: 250Mi
+          limits:
+            memory: 300Mi
+    controllerPlugin:
+      priorityClassName: system-cluster-critical
+      replicas: 2
+      deploymentStrategy:
+        type: Recreate
+      resources:
+        provisioner: &sidecar
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
+        attacher: *sidecar
+        resizer: *sidecar
+        snapshotter: *sidecar
+        omapGenerator:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            memory: 1Gi
+        plugin:
+          requests:
+            memory: 512Mi
+          limits:
+            memory: 1Gi
+  cephfs:
+    enabled: true
+    name: rook-ceph.cephfs.csi.ceph.com # csi-provisioner-name
+    clusterName: rook-ceph
+    grpcTimeout: 150
+    # Rook v1.19 used volumeGroupSnapshot here. No VolumeGroupSnapshotClass exists, so plain
+    # volume snapshots are enough and avoid coupling to the group-snapshot API version.
+    snapshotPolicy: volumeSnapshot
+    fsGroupPolicy: File
+    cephFsClientType: kernel
+    log:
+      verbosity: 0
+      rotation:
+        enabled: false
+    nodePlugin:
+      priorityClassName: system-node-critical
+      updateStrategy:
+        type: RollingUpdate
+      resources:
+        registrar:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
+        plugin:
+          requests:
+            cpu: 10m
+            memory: 155Mi
+          limits:
+            memory: 180Mi
+    controllerPlugin:
+      priorityClassName: system-cluster-critical
+      replicas: 2
+      deploymentStrategy:
+        type: Recreate
+      resources:
+        provisioner: *sidecar
+        attacher: *sidecar
+        resizer: *sidecar
+        snapshotter: *sidecar
+        plugin:
+          requests:
+            cpu: 10m
+            memory: 155Mi
+          limits:
+            memory: 180Mi
+  nfs:
+    enabled: false
+    name: rook-ceph.nfs.csi.ceph.com # csi-provisioner-name
+  nvmeof:
+    enabled: false
+    name: rook-ceph.nvmeof.csi.ceph.com # csi-provisioner-name
