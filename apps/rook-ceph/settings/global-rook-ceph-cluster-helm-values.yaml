@@ -33,11 +33,9 @@ cephClusterSpec:
   dashboard:
     ssl: false
   storage:
-    # Explicit node list + scheduleAlways so Rook keeps managing osd.1 while t3s-zendo-w2 is
-    # cordoned (worn SSD, kept cordoned on purpose). With useAllNodes, Rook drops unschedulable
-    # nodes from its valid storage nodes and stops updating their OSDs ("not updating OSD 1"),
-    # which would strand osd.1 on old Ceph / old CephX keys (rook#18537).
-    # Nodes inherit the cluster-level devices below (same resolution as useAllNodes).
+    # Explicit node list + scheduleAlways (kept from #434 so a cordoned storage node stays
+    # managed). Nodes inherit the cluster-level devices below (same resolution as useAllNodes).
+    # Any node added to or removed from the cluster must be added to / removed from this list.
     useAllNodes: false
     scheduleAlways: true
     useAllDevices: false
@@ -46,7 +44,12 @@ cephClusterSpec:
       - name: "nvme0n1p5"
     nodes:
       - name: "t3s-zendo-w1"
-      - name: "t3s-zendo-w2"
+      # t3s-zendo-w2 is intentionally NOT listed: osd.1 (w2 sda5) failed on 2026-10-13
+      # (BlueFS allocator damage on the worn SSD; expand-bluefs asserts) and is down/out, kept
+      # in the cluster for a later decision (purge or disk replacement). With w2 absent, Rook
+      # skips osd-1 ("not updating OSD 1 ... node no longer exists in the storage spec") instead
+      # of waiting on its crashlooping pod; Rook never removes OSDs of nodes dropped from this list.
+      # Re-add t3s-zendo-w2 once its disk is replaced.
       - name: "t3s-zendo-w3"
       - name: "t3s-zendo-w4"
   # Rook only treats a node as valid if the OSD placement tolerates all its taints, and the
