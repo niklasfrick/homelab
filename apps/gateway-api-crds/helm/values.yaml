@@ -1,26 +1,34 @@
 # Gateway API channel for the dual-channel CRDs.
 #
-# Pinned to v1.4.1 so we stay compatible with Cilium 1.19. In v1.4.1 the
-# standard channel ships only the GA resources: GatewayClass, Gateway,
-# HTTPRoute, GRPCRoute, ReferenceGrant, BackendTLSPolicy. TLSRoute and
-# XListenerSet are still experimental at this version (they only graduate
-# to standard in v1.5+, which requires Cilium 1.20+).
+# Vendored from the upstream release bundles with hack/vendor.py — re-run it to
+# bump the version; Renovate only updates the appVersion string.
+#
+# At v1.6.1 the standard channel ships GatewayClass, Gateway, HTTPRoute,
+# GRPCRoute, ReferenceGrant, BackendTLSPolicy, ListenerSet, TLSRoute, TCPRoute
+# and UDPRoute.
 #
 # - "standard" (default, recommended): stable APIs only.
 # - "experimental": superset schema with alpha fields enabled on the same
-#   CRDs, plus all experimental-only CRDs (TLSRoute, TCPRoute, UDPRoute,
-#   XBackendTrafficPolicy, XListenerSet, XMesh).
+#   CRDs, plus the experimental-only x-k8s.io CRDs (XBackend,
+#   XBackendTrafficPolicy, XMesh).
 channel: standard
 
-# Experimental-only resources — CRDs that ONLY exist in the experimental
-# channel at v1.4.1. These toggles are only meaningful when
-# `channel: standard`. When `channel: experimental` is selected, all of
-# these are already included via the experimental bundle and these flags
-# are ignored.
+# Per-resource experimental-channel variants, only meaningful when
+# `channel: standard`. For TLSRoute/TCPRoute/UDPRoute the experimental CRD
+# replaces the standard one (superset schema that also serves the alpha API
+# versions); the x* toggles add experimental-only CRDs. Ignored when
+# `channel: experimental`, which already includes everything.
 experimentalResources:
+  # The experimental TLSRoute serves v1alpha2 (needed by Cilium 1.19, which
+  # crashes on the standard v1-only CRD) and v1 (required by Cilium 1.20).
   tlsRoute: false
   tcpRoute: false
   udpRoute: false
+  xBackend: false
   xBackendTrafficPolicy: false
-  xListenerSet: false
   xMesh: false
+
+# Upstream's safe-upgrades ValidatingAdmissionPolicy. It rejects installing
+# CRD bundles older than v1.5 and standard -> experimental channel swaps, which
+# also blocks rolling the CRDs back. Off until the Cilium 1.20 rollout settles.
+safeUpgradesPolicy: false

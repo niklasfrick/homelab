@@ -17,10 +17,10 @@
       "platformAutomerge": true
     },
     {
-      "description": "Pin Gateway API CRDs to v1.4.x — v1.5+ requires Cilium 1.20 (not yet released). Cilium 1.19 needs TLSRoute from the experimental channel of v1.4.x. Re-evaluate when bumping Cilium past 1.19.",
+      "description": "Keep Gateway API CRDs on v1.6.x — Cilium 1.20 requires >= v1.6.1. Renovate only bumps the Chart.yaml appVersion: run `python3 apps/gateway-api-crds/hack/vendor.py <version>` on the PR branch to re-vendor the CRDs. Re-evaluate the upper bound when bumping Cilium past 1.20.",
       "matchDatasources": ["github-releases"],
       "matchPackageNames": ["kubernetes-sigs/gateway-api"],
-      "allowedVersions": "<1.5.0"
+      "allowedVersions": "<1.7.0"
     }
   ],
   "kubernetes": {
