@@ -33,10 +33,37 @@ cephClusterSpec:
   dashboard:
     ssl: false
   storage:
+    # Explicit node list + scheduleAlways so Rook keeps managing osd.1 while t3s-zendo-w2 is
+    # cordoned (worn SSD, kept cordoned on purpose). With useAllNodes, Rook drops unschedulable
+    # nodes from its valid storage nodes and stops updating their OSDs ("not updating OSD 1"),
+    # which would strand osd.1 on old Ceph / old CephX keys (rook#18537).
+    # Nodes inherit the cluster-level devices below (same resolution as useAllNodes).
+    useAllNodes: false
+    scheduleAlways: true
     useAllDevices: false
     devices:
       - name: "sda5"
       - name: "nvme0n1p5"
+    nodes:
+      - name: "t3s-zendo-w1"
+      - name: "t3s-zendo-w2"
+      - name: "t3s-zendo-w3"
+      - name: "t3s-zendo-w4"
+  # Rook only treats a node as valid if the OSD placement tolerates all its taints, and the
+  # osd-prepare job does not inherit placement.osd (only placement.all + placement.prepareosd),
+  # so both need the cordon taint tolerated. Kept off placement.all on purpose: mons/mgrs/mds
+  # must not move onto a cordoned node.
+  placement:
+    osd:
+      tolerations:
+        - key: node.kubernetes.io/unschedulable
+          operator: Exists
+          effect: NoSchedule
+    prepareosd:
+      tolerations:
+        - key: node.kubernetes.io/unschedulable
+          operator: Exists
+          effect: NoSchedule
   resources:
     mgr:
       limits:
