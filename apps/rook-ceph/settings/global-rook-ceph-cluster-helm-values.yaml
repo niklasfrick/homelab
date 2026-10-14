@@ -115,18 +115,16 @@ cephClusterSpec:
       limits:
         memory: "250Mi"
   healthCheck:
-    # Rook (cluster/version.go) refuses a Ceph image change while `ceph status` is HEALTH_ERR,
-    # and it re-checks on every reconcile while daemon versions are mixed. Ceph >= 19.2.6 mons
-    # raise these two HEALTH_ERR codes (CVE-2025-30156) until the daemon keys are rotated, so an
-    # interrupted Ceph 19.2.6 upgrade could never resume. Muted checks do not count towards the
-    # overall status. Rook mutes them with --sticky, which works before they are raised and
-    # survives mon restarts. TEMPORARY: switch both to `policy: unmute` once the daemon key
-    # rotation is done (rook-ceph upgrade 2026-10-13, step C).
+    # These two HEALTH_ERR codes (CVE-2025-30156) were sticky-muted for the Ceph 19.2.6 upgrade:
+    # Rook refuses a Ceph image change on HEALTH_ERR while daemon versions are mixed. The daemon
+    # keys are rotated (keyGeneration 2), so both are cleared; `unmute` (not removal, which would
+    # leave the sticky mute in the mon store) makes any regression visible as HEALTH_ERR again.
+    # Re-mute both before a future Ceph upgrade only if they are raised again.
     muteHealthWarning:
       AUTH_INSECURE_SERVICE_KEY_TYPE:
-        policy: mute
+        policy: unmute
       AUTH_INSECURE_SERVICE_TICKETS:
-        policy: mute
+        policy: unmute
       # Expected warnings while CSI and legacy client keys stay `aes` (Rook cephx-key-rotation.md
       # "Warnings"). The rotating one clears 2-3 h after the daemon rotation; unmute it then.
       # The other three persist until the Talos kernel is >= 7.0 and the CSI keys move to aes256k.
