@@ -11,11 +11,15 @@ monitoring:
   enabled: true
   createPrometheusRules: true
 
+# Discard stays OFF (Ceph default). With async discard on, a clean OSD shutdown can write
+# an allocator file that collides with BlueFS extents, and the OSD then never starts again
+# ("Uexpected extent" in init_rm_free, https://tracker.ceph.com/issues/81213, unfixed).
+# This killed osd.0 and osd.1 on 2026-10-13. This file beats the mon config DB, so keep it here.
 configOverride: |
   [global]
-  bdev_enable_discard = true
-  bdev_async_discard = true
-  bdev_async_discard_threads = 1
+  bdev_enable_discard = false
+  bdev_async_discard = false
+  bdev_async_discard_threads = 0
   [osd.0]
   bluestore_slow_ops_warn_lifetime = 60
   bluestore_slow_ops_warn_threshold = 10
