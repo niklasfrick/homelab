@@ -107,6 +107,19 @@ cephClusterSpec:
         memory: "100Mi"
       limits:
         memory: "250Mi"
+  healthCheck:
+    # Rook (cluster/version.go) refuses a Ceph image change while `ceph status` is HEALTH_ERR,
+    # and it re-checks on every reconcile while daemon versions are mixed. Ceph >= 19.2.6 mons
+    # raise these two HEALTH_ERR codes (CVE-2025-30156) until the daemon keys are rotated, so an
+    # interrupted Ceph 19.2.6 upgrade could never resume. Muted checks do not count towards the
+    # overall status. Rook mutes them with --sticky, which works before they are raised and
+    # survives mon restarts. TEMPORARY: switch both to `policy: unmute` once the daemon key
+    # rotation is done (rook-ceph upgrade 2026-10-13, step C).
+    muteHealthWarning:
+      AUTH_INSECURE_SERVICE_KEY_TYPE:
+        policy: mute
+      AUTH_INSECURE_SERVICE_TICKETS:
+        policy: mute
   annotations:
     dashboard:
       omni-kube-service-exposer.sidero.dev/port: "51001"
