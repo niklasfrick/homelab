@@ -11,6 +11,13 @@ monitoring:
   enabled: true
   createPrometheusRules: true
 
+# Pin Ceph explicitly: from chart v1.20.0 the default is Tentacle (v20.2.x); stay on Squid.
+# 19.2.6 (dated tag from Rook's CVE-2025-30156 guide) is the first Squid release with AES256K keys.
+# The chart builds cephClusterSpec.cephVersion.image from these values; do not set cephVersion.
+cephImage:
+  repository: quay.io/ceph/ceph
+  tag: v19.2.6-20260818
+
 # Discard stays OFF (Ceph default). With async discard on, a clean OSD shutdown can write
 # an allocator file that collides with BlueFS extents, and the OSD then never starts again
 # ("Uexpected extent" in init_rm_free, https://tracker.ceph.com/issues/81213, unfixed).
