@@ -48,12 +48,10 @@ cephClusterSpec:
       - name: "nvme0n1p5"
     nodes:
       - name: "t3s-zendo-w1"
-      # t3s-zendo-w2 is intentionally NOT listed: osd.1 (w2 sda5) failed on 2026-10-13
-      # (BlueFS allocator damage on the worn SSD; expand-bluefs asserts) and is down/out, kept
-      # in the cluster for a later decision (purge or disk replacement). With w2 absent, Rook
-      # skips osd-1 ("not updating OSD 1 ... node no longer exists in the storage spec") instead
-      # of waiting on its crashlooping pod; Rook never removes OSDs of nodes dropped from this list.
-      # Re-add t3s-zendo-w2 once its disk is replaced.
+      # osd.1 on w2 was recovered on 2026-10-14 after the async-discard allocator bug
+      # (tracker #81213, see configOverride). w2 stays cordoned; scheduleAlways plus the
+      # unschedulable toleration below keep Rook managing osd.1 anyway.
+      - name: "t3s-zendo-w2"
       - name: "t3s-zendo-w3"
       - name: "t3s-zendo-w4"
   # Rook only treats a node as valid if the OSD placement tolerates all its taints, and the
