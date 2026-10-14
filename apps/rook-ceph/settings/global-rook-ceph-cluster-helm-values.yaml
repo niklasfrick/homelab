@@ -127,6 +127,27 @@ cephClusterSpec:
         policy: mute
       AUTH_INSECURE_SERVICE_TICKETS:
         policy: mute
+      # Expected warnings while CSI and legacy client keys stay `aes` (Rook cephx-key-rotation.md
+      # "Warnings"). The rotating one clears 2-3 h after the daemon rotation; unmute it then.
+      # The other three persist until the Talos kernel is >= 7.0 and the CSI keys move to aes256k.
+      AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE:
+        policy: mute
+      AUTH_INSECURE_CLIENT_KEY_TYPE:
+        policy: mute
+      AUTH_INSECURE_KEYS_ALLOWED:
+        policy: mute
+      AUTH_INSECURE_KEYS_CREATABLE:
+        policy: mute
+  # CVE-2025-30156: rotate all daemon keys once (Ceph >= 19.2.6) to the AES256K key type.
+  # Bump keyGeneration only for a deliberate re-rotation. CSI keys keep `aes`: the kernel RBD/CephFS
+  # clients on Talos (kernel 6.18) cannot use AES256K before kernel 7.0. allowedCiphers stays default.
+  security:
+    cephx:
+      daemon:
+        keyRotationPolicy: KeyGeneration
+        keyGeneration: 2
+      csi:
+        keyType: aes
   annotations:
     dashboard:
       omni-kube-service-exposer.sidero.dev/port: "51001"
