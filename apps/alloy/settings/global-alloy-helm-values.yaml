@@ -2,7 +2,7 @@ alloy:
   enableReporting: false
   resources:
     limits:
-      memory: 400Mi
+      memory: 1Gi
     requests:
       cpu: 13m
       memory: 200Mi
