@@ -84,7 +84,7 @@ apps:
     configHelmChart:
       enabled: false
   rook-ceph:
-    targetRevision: v1.21.0 # renovate:helm depName=rook-ceph registryUrl=https://charts.rook.io/release
+    targetRevision: v1.21.1 # renovate:helm depName=rook-ceph registryUrl=https://charts.rook.io/release
     # Rook v1.20+ requires the ceph-csi-drivers chart; keep it on the ceph-csi-operator version the rook-ceph chart bundles.
     cephCsiDriversTargetRevision: 1.1.0 # renovate:helm depName=ceph-csi-drivers registryUrl=https://ceph.github.io/ceph-csi-operator
     configHelmChart:
