@@ -1,6 +1,6 @@
 instance: zendo
 grafana:
-  version: 13.2.4 # renovate:docker depName=grafana registryUrl=registry-1.docker.io/grafana
+  version: 13.3.0 # renovate:docker depName=grafana registryUrl=registry-1.docker.io/grafana
   datasource:
     - prometheus:
       name: prometheus
