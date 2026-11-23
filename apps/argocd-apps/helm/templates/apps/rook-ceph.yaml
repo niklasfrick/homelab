@@ -47,6 +47,11 @@ spec:
     syncOptions:
     - CreateNamespace=true
     - ServerSideApply=true
+    # rook-ceph v1.21.x bundles ceph-csi-operator CRDs whose manifests exceed kubectl's
+    # 256 KiB last-applied annotation limit, so a sync that re-applies them fails with
+    # "metadata.annotations: Too long" and leaves the app in SyncError. They are in sync;
+    # applying only out-of-sync resources keeps the sync succeeding (verified 2026-11-23).
+    - ApplyOutOfSyncOnly=true
     automated:
       selfHeal: true
       prune: true
