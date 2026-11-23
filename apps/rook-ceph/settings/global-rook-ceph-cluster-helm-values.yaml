@@ -2,7 +2,11 @@ toolbox:
   enabled: true
   resources:
     limits:
-      memory: 256Mi
+      # 256Mi (chart default) is too tight: the toolbox is a long-lived shell that the
+      # monitoring jobs exec ceph CLIs into, and it OOMKilled on 2026-11-23 after RSS
+      # climbed 10 -> 252 MiB. Nothing user-facing broke, but the OOM alert then sticks
+      # on kube_pod_container_status_last_terminated_reason until the pod is replaced.
+      memory: 1Gi
     requests:
       cpu: 20m
       memory: 128Mi
