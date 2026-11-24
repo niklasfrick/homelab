@@ -49,10 +49,6 @@ apps:
   #   targetRevision: v26.7.3 # renovate:helm depName=gpu-operator registryUrl=https://helm.ngc.nvidia.com/nvidia
   #   configHelmChart:
   #     enabled: false
-  holmes-gpt:
-    targetRevision: 0.47.0 # renovate:helm depName=holmes registryUrl=https://robusta-charts.storage.googleapis.com
-    configHelmChart:
-      enabled: true
   grafana:
     targetRevision: "5.26.0" # renovate:helm depName=grafana-operator registryUrl=https://grafana.github.io/helm-charts
     configHelmChart:

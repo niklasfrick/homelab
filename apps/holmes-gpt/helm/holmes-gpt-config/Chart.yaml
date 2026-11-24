@@ -1,5 +1,0 @@
-apiVersion: v2
-name: holmes-gpt-config
-description: A Helm chart for extra resources for the holmes-gpt deployment
-version: 1.0.0
-appVersion: 1.0.0
