@@ -68,7 +68,7 @@ apps:
     configHelmChart:
       enabled: false
   kube-prometheus-stack:
-    targetRevision: 93.9.0 # renovate:helm depName=kube-prometheus-stack registryUrl=https://prometheus-community.github.io/helm-charts
+    targetRevision: 94.2.0 # renovate:helm depName=kube-prometheus-stack registryUrl=https://prometheus-community.github.io/helm-charts
     configHelmChart:
       enabled: true
   loki:
